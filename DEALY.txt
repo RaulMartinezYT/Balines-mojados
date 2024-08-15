@@ -1,0 +1,85 @@
+16:38 8/8/2024:
+Estoy averiguando con que librerias de python pueda crear / ejecutar / editar / eliminar archivos SQL o DB
+
+16:45 8/8/2024:
+Encontré esta página ( https://es.py4e.com/html3/15-database ) para la union de Python y SQL / DB (DATABASE)
+https://sqlitebrowser.org/dl/ Apertura de archivos .db
+
+17:18 8/8/2024:
+Estuve chusmeando y leyendo la página, hay un codigo de ejemplo que voy a ir probando a ver si funca todo normalmente, es el siguiente texto:
+
+'''
+import sqlite3
+
+conn = sqlite3.connect('musica.sqlite')
+cur = conn.cursor()
+
+cur.execute('DROP TABLE IF EXISTS Canciones')
+cur.execute('CREATE TABLE Canciones (titulo TEXT, reproducciones INTEGER)')
+
+conn.close()
+
+# Código: https://es.py4e.com/code3/db1.py
+'''
+
+17:24 8/8/2024:
+En la página hay una parte que dice lo siguiente: " La operación connect realiza una conexión con la base de datos almacenada en el archivo musica.sqlite en el directorio actual. Si el archivo no existe, se creará uno nuevo. "
+PERO, veia que no se creaba estaba ejecutando y ejecutando, pero no lo creaba, entonces empecé abriendolo con VSC, no andaba, con el python, tampoco, ya iba a tirar a la mierda todo porque ice que si se podia y al final lo intenté con el IDE de python y ahora si anduvo, creó correctamente el archivo.
+Por ahora va todo bien
+
+17:31 8/8/2024:
+Bueno por ahora tengo la conexion de mi programa a un archivo DB, ahora tengo que ver como mandarle al programa las consultas y creo que ya encontré la forma, fijandome mas de cerca en la documentacion de sqlite3 me fije que hay algo llamado cursor que es como si fuera la " TERMINAL " por la cual podes interactuar con el archivo db como cualquier otro con el lenguaje SQL y hacer las consultas directamente desde ahí, voy a ver mas a fondo como funciona el cursor...
+
+17:37 8/8/2024:
+"Un cursor es como un manejador de archivos, y se puede usar para realizar operaciones en los datos almacenados en la base de datos."
+Ya sabiendo como conectar la base de datos al programa y pasarle datos, pero hay que escribir el codigo...
+
+18:54 8/8/2024:
+Recien termine de desayunar, ahora seguimos...
+Nos qiedamos en que tengo que hacer el codigo, voy a empezar pensando las bases, tengo que formar la estructura que va a ser de la siguiente forma:
+SELECCIONAR LA BASE DE DATOS QUE VAMOS A USAR, 
+
+19:15 8/8/2024:
+Estuve viendo mis apuntes de lo que pedia la empresa entre lo que anoté, el dueño solicitaba un programa / sistema el cual le resuelva el problema con respecto a la reserva de las canchas de paintball y de paso otro prara controlar el horario de ingreso y egreso del personal, por lo que tengo planeado por ahora es simplemente hacer un programa de forma local, aun no se como voy a hacer para que se guarden los datos de forma remota a un servidor, pero eso veré mas adelante, por ahora me encargo de eso.
+
+EMPRESA BALIN MOJADO
+PAINBALL MANEJAR LOS EXCELS 
+SUCURSALES 10-12 PREVIAS A FUNCIONAR
+RIO NEGRO Y MISIONES
+UN SISTEMA QUE PERMITA RESOLVER LA RESERVA DE EVENTOS
+GMAIL DE MARKETING RECUPERAR CORREOS ELECTRONICOS
+ES UTILIZADO EN TODAS LAS SUCURSALES POR GENTE DE LA EMPRESA
+REGISTRO DE PERSONAL ENTRADA SALIDA
+CADA SUCURSAL 1 ENCARGADO
+RESERVAS QUE DIAS QUE CANCHAS OCUPADAS, ETC
+RESERVAS CON UN MINIMO DE BALAS 150/CU APROX
+PROMOCION 10%/15%
+CUANDO ESTÁ OCUPADA O NO ESTÁ OCUPADA
+CADA SUCURSAL TIENE HASTA 3 CANCHAS
+METODOS DE PAGOS TAMBIEN
+VERIFICAR SI ESTA PAGO, SI ESTÁ PAGO REGISTRARLO, SINÓ NO
+CANCHA GRANDE:
+x Persona 100USD Minimo 12 personas (2 HORAS)
+
+CANCHA CHICA:
+x Persona 10USD Minimo 6 personas (1 HORA)
+
+24 Horas para cancelar el turno
+Una vez pago la resreva es completada y se le envia un Gmail al usuario confirmando la fecha, la hora y deve llegarle otro para la confirmacion o 
+
+10:46 12/8/2024:
+Recien se me ocurrio algo, el dueño de la empresa me dijo que estaban cansados de usar excel, por lo que guardan todo en archivos excel, entonces quiere decir que ya tienen archivos excel, por lo que estoy pensando en agregarle un importador de archivos excel a una base de datos automaticamente, pero eso mas para el final del proyecto.
+
+Por ahora tengo pensado hacer una interfaz con tkinter, ya se usar o unir base de datos con el programa, ahora la interfaz con el programa.
+
+15:42 12/8/2024:
+Estaba 100% seguro de usar Tkinter para la UI del programa, ya que la habia usado anteriormente y chusmeado, pero... Hablando con Gusti me recomendo otro freamwork, que es PyQt
+estoy buscando informacion e imagenes para ver como se usa https://www.youtube.com/watch?v=KsxN59pLzlc
+
+20:22 14/8/2024:
+Gracias al visualizador de archivos .db me di cuenta que la base de datos no se guarda, solo se cierra
+
+20:54 14/8/2024:
+Actualizacion del caso, no me fijé que me olvidaba el commit despues de cada peticion, una vez hecho eso y ejecutar el programa con el propio IDLE de python, una vez hecho esto ya funca todo, anda la conexion y de paso lo guarda, pero todo esto gracias a olaso que me dio una mano. y a la hora de usar una database que no existe, la crea por si sola, con esto en mente ya puedo hacer un programa de administracion de archivos SQL, pero para lo que estoy haciendo alcanza y sobra lo que hice.
+
+ 
