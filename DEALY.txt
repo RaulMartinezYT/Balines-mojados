@@ -82,4 +82,11 @@ Gracias al visualizador de archivos .db me di cuenta que la base de datos no se 
 20:54 14/8/2024:
 Actualizacion del caso, no me fijé que me olvidaba el commit despues de cada peticion, una vez hecho eso y ejecutar el programa con el propio IDLE de python, una vez hecho esto ya funca todo, anda la conexion y de paso lo guarda, pero todo esto gracias a olaso que me dio una mano. y a la hora de usar una database que no existe, la crea por si sola, con esto en mente ya puedo hacer un programa de administracion de archivos SQL, pero para lo que estoy haciendo alcanza y sobra lo que hice.
 
- 
+11:12 16/8/2024:
+En casa estoy probando lo que olaso me dijo,probar con un correo de Yahoo para enviar gmails al usuario.
+
+11:56 16/8/2024:
+actualizacion del caso, yahoo no permite la conexion, tengo que crear una clave de aplicacion, pero no se porque aun no puedo, entre al apartado de contraseña de aplicacion y me dice que no está disponible ahora, por lo que no se que hacer, intenté tambien con gmail y aun no se puede, tambien me da error, que no estan bien las credenciales, la contraseña y usuario, asi que nada, ahora me voy a educacion fisica              
+
+20:50 16/8/2024:
+estoy realizando las imagenes principales de como se va a ver el programa mio a cerca de las reservas
