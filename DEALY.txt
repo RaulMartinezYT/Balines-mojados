@@ -104,3 +104,18 @@ hasta aca lo dejo me toca descansar mañana lo sigo
 
 00:24 20/8/2024:
 estoy pensando que tengo 2 semanas para la entrega final del proyecto y aunque parezca mucho, no lo es, por lo que voy a optar dejar de lado la estetica y garantizar lo funcional y para no tomarme el triple de tiempo voy a hacer el programa desde 0 que se pueda "autoprogramar" osea como una pc o un celular que lo unico que se modifica se elimina o edita es la informacion, despues las funciones son siempre las mismas, por lo que voy a ir haciendo el software a partes, por ejemplo el metodo de creacion de base de datos (el mismo sistema que voy a utilizar para la creacion/modificacion/eliminacion de SUCURSALES) despues por otra parte el metodo de inicio de sesion, las funciones de reservar dias / horas a placer y que no se solapen, asi que nada, por ahora voy a hacer eso, por lo mas simple a lo mas complejo
+
+01:10 20/8/2024:
+bueno primer problema, no puedo eliminar una base de datos ya que hay que estar en una base de datos si o si, entonces que pasa, creamos la conexion y al instante se crea la base de datos por mas que no quisieramos o si quisieramos borrarla, ahora voy a buscar una forma de borrar archivos asi borrar la base de datos deseada sin iniciarlo.
+
+01:46 20/8/2024:
+bueno intenté crear una base de datos general y desde ahi borrar la base de datos deseada, pero al parecer no es posible, el programa crashea y no lo soporta asi que volvemos a lo de antes de borrar el archivo con el OS
+
+01:51 20/8/2024:
+estos son de esos errores que buscas lineas y lineas de codigos que son de 7 renglones y no entendes porque necesita la ruta path del archivo si esta en la misma carpeta y al final resulta ser solo 1 linea lo que tenia que escribir, ya tengo el sistema de creacion y eliminacion de databases asi que por hoy creo que es todo, mañana me levanto temprano y a seguir, ya solo lo convertiré a funciones/metodos y listo
+
+01:58 20/8/2024:
+ya están convertidas en funciones pero valla a saber uno porque no se ejecuta en el visual, pero lo hago con el IDLE de python y si funciona, algo tendrá el Visual que no le permite acceder a carpetas  siendo funcion, pero mientras tenga forma de probarlo ya está
+
+02:11 20/8/2024:
+ahora si terminé lo acabo de probar en la consola y todo funciona, hasta mañana será
