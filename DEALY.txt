@@ -101,3 +101,6 @@ recien terminé el tema de el prototipado, asi que ahora me toca meterle mano al
 
 19:39 17/8/2024:
 hasta aca lo dejo me toca descansar mañana lo sigo
+
+00:24 20/8/2024:
+estoy pensando que tengo 2 semanas para la entrega final del proyecto y aunque parezca mucho, no lo es, por lo que voy a optar dejar de lado la estetica y garantizar lo funcional y para no tomarme el triple de tiempo voy a hacer el programa desde 0 que se pueda "autoprogramar" osea como una pc o un celular que lo unico que se modifica se elimina o edita es la informacion, despues las funciones son siempre las mismas, por lo que voy a ir haciendo el software a partes, por ejemplo el metodo de creacion de base de datos (el mismo sistema que voy a utilizar para la creacion/modificacion/eliminacion de SUCURSALES) despues por otra parte el metodo de inicio de sesion, las funciones de reservar dias / horas a placer y que no se solapen, asi que nada, por ahora voy a hacer eso, por lo mas simple a lo mas complejo
