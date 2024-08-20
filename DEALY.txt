@@ -119,3 +119,7 @@ ya están convertidas en funciones pero valla a saber uno porque no se ejecuta e
 
 02:11 20/8/2024:
 ahora si terminé lo acabo de probar en la consola y todo funciona, hasta mañana será
+
+12:56 20/8/2024:
+hace un rato estaba codeando pero me olovide de escribir la dayli, por ahora lo que hice hoy es simplificar mas el codigo haciendo funciones que me van a servir en un futuro, estoy creando la funcion de usar database, pero me di cuenta de algo, la funcion de crear base de datos lo que hace es conectarse a una base de datos que no existe, por lo que sqlite3 la crea por defecto, pero me di cuenta que no es lo que tiene que pasar, sinó que lo que tendria que pasar es que verifique si existe, y si no existe ahí realizar la creacion del archivo .db, asi que eso estoy haciendo, buscando informacion a cerca de la libreria OS, con la cual me ayudé a eliminar archivos, estoy buscando codigo de ejemplo para verificar si existe un archivo y si es asi que lo borre y lo creee de vuelta( a eleccion del usuario si desea remplazar la base de datos ya existente por una nueva )
+
