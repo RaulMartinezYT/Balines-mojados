@@ -146,3 +146,36 @@ sistema de conexion de archivos.db: FALTANTE
 
 17:23 21/8/2024:
 Dejé de lado esa parte del sistema ya que no es muy necesaria, mejor me pongo en busca de algun framework para la aplicacion, asi realizo el boceto inicial del programa e ir corrigiendo errores a lo largo de la programacion.
+
+09:26 27/8/2024:
+Estoy realizando ya el softwere final, tengo que tener en cuenta la UI del programa y los colores que va a tener, como ya tengo la UI previamente hecha lo unico que me falta es la paleta de colores que recien acabo de encontrar, es una paleta de colores llamada "Azul Noche":
+
+Fondo del Frame: #162447 (Azul noche)
+Texto: #D1D1D1 (Gris claro)
+Botón: #1F4068 (Azul oscuro frío)
+Botón activo: #1B1B2F (Azul medianoche)
+
+ya una vez teniendo eso procedo a buscar informacion a cerca de tkinter, el framework que estoy utilizando por falta de tiempo y equipo, voy a tratar de tenerlo lo mas simpe y funcional posible ya que por mas que esté en la parte por asi decirlo mas "facil" ya seria lo ultimo pero como siempre hay errores imprevistos en la programacion asi que manos a la obra
+
+
+10:10 27/8/2024:
+Acabo de terminar una ventana que se ajusta al tamaño de la pantalla osea que sea responsive, se ejecuta en pantalla completa y el menor tamaño que puede tomar la ventana es 1/4 del tamaño de la pantalla, lo cual no es un tamaño fijo, pero mientras mantenga la relacion 16:9 me sirve... Hablando de eso lo podria implementar, voy a buscar...
+
+10:14 27/8/2024:
+Encontré que la relacion 16:9 es lo que ya estaba sospechando, "Para una anchura de 16 unidades, la altura correspondiente es de nueve unidade"
+
+10:49 27/8/2024:
+Ya tengo la ventana que tiene una relacion 16:9 minima...
+
+12:47 27/8/2024:
+Ya tengo lo que seria la UI de bienvenida, con los recuadros de texto y los de label/buttom/etc...
+lo unico que quiero hacer antes de ordenarlo quiero hacer el borde, algo asi para separar lo que es el fondo con lo que es el inicio de sesion, asi que por ahora voy a ir a comer, mientras tanto voy a seguir viendo lo que es las lineas responsive y asi...
+
+14:26 27/8/2024:
+Ya estuve viendo varios videos e implemente una forma para dibujar lineas/ cuadrados o figuras, asi que estoy viendo un problema que es que me mueve de lugar los objetos que ya estan puestos...
+
+14:39 27/8/2024:
+no quiero andar todo el dia o todo el proyecto solo con 2 lineas de codigo para hacerlo mas ESTETICO a fin de cuentas, le voy a pedir una mano a chatgpt para que me ayude con esta implementacion, ya lo demás se verá como ir implementandose, el funcionamiento es mio y unicamente chatgpt en casos como el de recien, un recuadro responsive unicamente como decoracion, asi que sin mas actualizacion sigo con la implementacion...
+
+17:20 27/8/2024:
+Estoy a punto de terminar la primer UI, la de inicio de sesion y tengo que ir a la secu
