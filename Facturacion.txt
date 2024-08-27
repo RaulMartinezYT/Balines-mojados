@@ -1,0 +1,48 @@
+Claro, aquí tienes una plantilla básica para una factura de reserva. Puedes personalizar esta plantilla según tus necesidades específicas.
+
+[Nombre de la Empresa o Centro de Paintball]
+Dirección: [Dirección de la Empresa]
+Teléfono: [Número de Teléfono]
+Correo Electrónico: [Correo Electrónico]
+
+Factura de Reserva
+
+Número de Factura: [Número de Factura]
+Fecha de Emisión: [Fecha]
+Fecha de Reserva: [Fecha de Reserva]
+
+Cliente:
+Nombre: [Nombre del Cliente]
+Dirección: [Dirección del Cliente]
+Teléfono: [Número de Teléfono del Cliente]
+Correo Electrónico: [Correo Electrónico del Cliente]
+
+Detalles de la Reserva:
+
+Descripción	Cantidad	Precio Unitario	Total
+Reserva de Cancha (Tipo)	[Número]	[Precio Unitario]	[Subtotal]
+Equipamiento (Opcional)	        [Número]	[Precio Unitario]	[Subtotal]
+Paquete de Servicios (Opcional)	[Número]	[Precio Unitario]	[Subtotal]
+Otros (Especificar)	        [Número]	[Precio Unitario]	[Subtotal]
+Subtotal:                                                               [Subtotal]
+Descuento (si aplica):                                                 [Descuento]
+Impuesto (si aplica):                                                   [Impuesto]
+Total a Pagar:                                                             [Total]
+
+Forma de Pago: [Método de Pago]
+Estado del Pago: [Pagado/No Pagado]
+
+Notas Adicionales:
+
+Política de Cancelación: [Descripción de la Política de Cancelación]
+Política de Reembolsos: [Descripción de la Política de Reembolsos]
+Observaciones: [Cualquier Observación Adicional]
+Firma del Cliente: ____________________________
+Fecha: [Fecha]
+
+Firma del Representante de la Empresa: ____________________________
+Fecha: [Fecha]
+
+Gracias por su reserva y preferencia.
+
+Este formato te da una idea general de cómo estructurar una factura de reserva. Asegúrate de adaptar los campos y detalles según las políticas y necesidades de tu negocio. ¿Necesitas alguna sección adicional o ajuste en la plantilla?

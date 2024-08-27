@@ -143,3 +143,6 @@ sistema de deteccion archivos.db no existentes: ANDA
 sistema de encuentro de archivos.db: ANDA
 sistema de modificacion de archivos.db: FALTANTE
 sistema de conexion de archivos.db: FALTANTE
+
+17:23 21/8/2024:
+Dejé de lado esa parte del sistema ya que no es muy necesaria, mejor me pongo en busca de algun framework para la aplicacion, asi realizo el boceto inicial del programa e ir corrigiendo errores a lo largo de la programacion.
