@@ -1,0 +1,55 @@
+
+
+    if local_abierto(hora):
+        print("El local va a estar abierto a ese horario")
+    else:
+        print("El local va a estar cerrado a ese horario")
+    
+    if año == Año_actual:
+        print("El año es el actual")
+
+        if mes == Mes_actual:
+            print("El mes es el actual")
+
+            if dia == Dia_actual:
+                print("El dia es el actual")
+
+                if hora == Hora_actual:
+                    print("La hora es la actual")
+
+                    if minuto == Minuto_actual:
+                        print("Los minutos son los actuales")
+                    else:
+                        if minuto < Minuto_actual:
+                            print("Los minutos ya pasaron")
+                        else:
+                            if minuto > Minuto_actual:
+                                print("Todavia no se cumlen los minutos")
+
+                else:
+                    if hora < Hora_actual:
+                        print("La hora ya pasó")
+                    else:
+                        if hora > Hora_actual:
+                            print("La hora aun no pasó")
+
+            else:
+                if dia < Dia_actual:
+                    print("El dia ya pasó")
+                else:
+                    if dia > Dia_actual:
+                        print("El dia aun no pasó")
+
+        else:
+            if mes < Mes_actual:
+                print("El mes ya pasó")
+            else:
+                if mes > Mes_actual:
+                    print("El mes aun no pasó")
+
+    else:
+        if año < Año_actual:
+            print("El año ya pasó")
+        else:
+            if año > Año_actual:
+                print("El año aun no pasó")

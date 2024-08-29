@@ -1,4 +1,4 @@
-import sqlite3, os,time
+import sqlite3, os
 
 # Esta funcion recibe un parametro que va a ser el nombre de la base de datos y devolverá el nombre "limpio" para prevenir errores de tipografia.
 # El parametro es un str al entrar y salir, se lo escribe a minuscula, se le remplazan los "-" con "_" y los espacios en blanco por "_".
