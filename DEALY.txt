@@ -178,4 +178,8 @@ Ya estuve viendo varios videos e implemente una forma para dibujar lineas/ cuadr
 no quiero andar todo el dia o todo el proyecto solo con 2 lineas de codigo para hacerlo mas ESTETICO a fin de cuentas, le voy a pedir una mano a chatgpt para que me ayude con esta implementacion, ya lo demás se verá como ir implementandose, el funcionamiento es mio y unicamente chatgpt en casos como el de recien, un recuadro responsive unicamente como decoracion, asi que sin mas actualizacion sigo con la implementacion...
 
 17:20 27/8/2024:
-Estoy a punto de terminar la primer UI, la de inicio de sesion y tengo que ir a la secu
+Estoy a punto de terminar la primer UI, la de inicio de sesion y tengo que ir a la secu...
+
+18:27 28/8/2024:
+estoy en hora de nahuel en clases, me encuentro con una serie de fallas a la hora de intentar hacer responsive el programa, por ejemplo no determinar el ancho de los elementos o las medidas de los mismos en pixeles, yo quiero conseguir una forma par que sea responsive con porcentajes y no con valores de pixeles, asi que nada, estoy viendo eso pero me encuentro con problemas a la hora de realizarlo, como por ejemplo que no puedo determinar el color de x cosas, que un entry (una entrada de texto, un input de toda la vida) no le puedas determinar el ancho o el limite de caracteres, son limitaciones que nada, te pueden joder un tiempo, pero bueno, por ahora voy tranqui y le voy a encontrar la vuelta, pero para que se hagan una idea de lo que esta pasando, hice un recuadro llamado Label Frame, que es un recuadro / borde de decoracion, el cual no le podes determinar un tamaño en relacion al tamaño actual o a medida que se actualice la ventana, por ese lado es jodido pero nada, a seguir viendo que hacer
+
