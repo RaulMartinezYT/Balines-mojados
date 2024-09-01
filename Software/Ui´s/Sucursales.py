@@ -20,31 +20,19 @@ def ui_sucursales(fondo = "#18141d", letras = "#f0f0f0", marcos = "#f0f0f0"):
     ventana.config(background = f"{fondo}")
     
     Sucursales = tk.Label(ventana, text="SUCURSALES",font=("Family",20),border=4,relief="solid",highlightthickness = 5,highlightcolor = f"{marcos}", highlightbackground = f"{marcos}",background=f"{fondo}",fg=f"{letras}")
-    Sucursales.pack(pady = 5)
+    Sucursales.pack()
 
-    Sucursal1 = tk.Frame(ventana, bg="blue", width=400, height=500)
-    Sucursal1.pack(pady=5)
+    Sucursal_1 = tk.LabelFrame(ventana, bg="blue")
+    Sucursal_1.pack()
 
-    botons1 = tk.Button(Sucursal1, text="Sucursal1", padx=5,pady=5)
-    botons1.pack()
+    boton_1 = tk.Button(Sucursal_1, text="Sucursal 1", padx=5,pady=5)
+    boton_1.pack()
 
-    Sucursal2 = tk.Frame(ventana, bg="blue", width=100, height=50)
-    Sucursal2.pack(pady=5)
+    Sucursal_2 = tk.LabelFrame(ventana, bg="red")
+    Sucursal_2.pack()
 
-    Sucursal3 = tk.Frame(ventana, bg="yellow", width=100, height=50)
-    Sucursal3.pack(pady=5)
-
-    Sucursal4 = tk.Frame(ventana, bg="yellow", width=100, height=50)
-    Sucursal4.pack(pady=5)
-
-    Sucursal5 = tk.Frame(ventana, bg="yellow", width=100, height=50)
-    Sucursal5.pack(pady=5)
-
-    Sucursal6 = tk.Frame(ventana, bg="blue", width=100, height=50)
-    Sucursal6.pack(pady=5)
-
-    Sucursal7 = tk.Frame(ventana, bg="blue", width=100, height=50)
-    Sucursal7.pack(pady=5)
+    botom_2 = tk.Label(Sucursal_2,text="Hola")
+    botom_2.pack()
 
     ventana.mainloop()
 

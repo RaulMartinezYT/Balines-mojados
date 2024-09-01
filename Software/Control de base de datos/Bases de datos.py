@@ -66,7 +66,7 @@ def seleccion():
         print("+===================+\n| Opcion incorrecta |\n+===================+\n")
 
     if seleccion == 1:
-        nombre_db = str(input("+=====================================+\n| Nombre de la base de datos a crear: |\n+=====================================+\n"))-
+        nombre_db = str(input("+=====================================+\n| Nombre de la base de datos a crear: |\n+=====================================+\n"))
         nombre_db = limpiar_str(nombre_db)
         crear_db(nombre_db)
     
