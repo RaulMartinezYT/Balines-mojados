@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import datetime, sqlite3, os
 
 # Esta funcion recibe un parametro que va a ser el nombre de la base de datos y devolverá el nombre "limpio" para prevenir errores de tipografia.
@@ -79,18 +80,26 @@ def seleccion():
         nombre_db = input("Nombre de la base de datos a eliminar:\n")
         nombre_db = limpiar_str(nombre_db)
         eliminar_db(nombre_db)
+=======
+import datetime
+
+reservas = []
+>>>>>>> 1e2ab02f7ad61fb9c3724ebf3a9372a10eace15d
 
 # Chequea si el local está abierto a esa hora
 def local_abierto(hora):
     if (hora >= "08" and hora <= "23") or (hora >= "00" and hora <= "02"):
         return True
 
+<<<<<<< HEAD
 # Año_actual = datetime.datetime.now().strftime("%Y")
 # Mes_actual = datetime.datetime.now().strftime("%m")
 # Dia_actual = datetime.datetime.now().strftime("%d")
 # Hora_actual = datetime.datetime.now().strftime("%H")
 # Minuto_actual = datetime.datetime.now().strftime("%M")
 
+=======
+>>>>>>> 1e2ab02f7ad61fb9c3724ebf3a9372a10eace15d
 # Solicita la fecha de la reserva
 def Obtener_fecha_reserva():
     año = str(input("Año de la reserva: "))
@@ -101,6 +110,16 @@ def Obtener_fecha_reserva():
     Verificar_fecha(año, mes, dia, hora, minuto)
 
 def Verificar_fecha(año, mes, dia, hora, minuto):
+<<<<<<< HEAD
     
+=======
+    Año_actual = datetime.datetime.now().strftime("%Y")
+    Mes_actual = datetime.datetime.now().strftime("%m")
+    Dia_actual = datetime.datetime.now().strftime("%d")
+    Hora_actual = datetime.datetime.now().strftime("%H")
+    Minuto_actual = datetime.datetime.now().strftime("%M")
+
+    print(f"{Año_actual} \n {Mes_actual} \n {Dia_actual} \n {Hora_actual} \n {Minuto_actual}")
+>>>>>>> 1e2ab02f7ad61fb9c3724ebf3a9372a10eace15d
 
 def Verificar_reservas():
