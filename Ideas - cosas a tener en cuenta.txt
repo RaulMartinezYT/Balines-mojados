@@ -1,3 +1,0 @@
-15:50 19/8/2024:
-- el admministrador tendrá otra interfaz diferente con la cual podrias cambiar el codigo de seguridad del personal, accedeer a todos los registros de reservas y a demas cosas
-

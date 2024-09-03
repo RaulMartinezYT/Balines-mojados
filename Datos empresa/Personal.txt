@@ -1,0 +1,9 @@
+Tipo de personal en cada sucursal:
+
+1.Recepcionista: Encargado de manejar reservas, pagos, y el registro de los jugadores.
+
+2. Árbitro: Al menos uno por cada cancha activa para garantizar el cumplimiento de las reglas y la seguridad de los jugadores.
+
+3. Seguridad: Encargado de cuidar tanto la sucursal como al personal del mismo. 
+
+4. Equipo: Encargado de Mantenimiento y Equipamiento de los jugadores, revisa el estado de los equipos (marcadoras, máscaras, chalecos, etc.) y las instalaciones.

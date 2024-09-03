@@ -1,22 +1,27 @@
 1. Medidas de la Cancha:
 Dimensiones: Las dimensiones de una cancha de paintball pueden variar dependiendo del tipo de juego. Sin embargo, las canchas estándar suelen medir entre 30 y 50 metros de ancho por 60 a 100 metros de largo.
 Tipo de Campo: Hay diferentes tipos de campos, como los recball (para jugar en escenarios de estilo libre) y los speedball (para juegos más rápidos y estructurados en campos de tamaño más reducido).
+
 2. Equipamiento:
 Marcadoras: Los jugadores usan marcadoras, que son armas de paintball diseñadas para disparar bolas de pintura.
 Bolas de Pintura: Las bolas son pequeñas esferas llenas de pintura soluble en agua y están hechas de gelatina.
 Máscaras: Se utilizan para proteger el rostro y los ojos de los impactos de las bolas de pintura.
 Ropa y Protecciones: Los jugadores suelen usar ropa de protección, que incluye chaquetas, pantalones, guantes y protectores de pecho y espalda.
+
 3. Zonas de la Cancha:
 Refugios y Obstáculos: En las canchas de paintball suelen haber refugios y obstáculos (como barriles, trincheras, y muros) que los jugadores utilizan para cubrirse durante el juego. Estos elementos pueden ser inflables (en campos de speedball) o de materiales más rígidos y estructurales (en campos de recball).
 Áreas de Respawn: Algunas canchas tienen zonas designadas donde los jugadores pueden regresar después de ser eliminados, especialmente en juegos de tipo captura la bandera o similares.
+
 4. Reglas Básicas:
 Objetivo del Juego: El objetivo varía según el tipo de juego, pero comúnmente incluye eliminar a todos los jugadores del equipo contrario, capturar un objeto o bandera, o completar una misión específica.
 Eliminación: Un jugador queda eliminado cuando una bola de pintura le impacta y se rompe. El jugador debe entonces salir del campo y dirigirse a la zona de respawn o a la salida, dependiendo de las reglas del juego.
 Duración: Los partidos pueden durar desde unos pocos minutos hasta una hora, dependiendo del formato del juego.
+
 5. Tipos de Juegos:
 Eliminación: El objetivo es eliminar a todos los jugadores del equipo contrario.
 Captura la Bandera: Los equipos intentan capturar la bandera del equipo contrario y llevarla a su propia base.
 Dominar el Campo: Controlar ciertas áreas o puntos estratégicos del campo durante un tiempo determinado.
+
 6. Seguridad:
 Reglas de Seguridad: Las reglas de seguridad son estrictas para evitar lesiones. Las máscaras de protección son obligatorias en todo momento mientras se está en el campo de juego.
 Mantenimiento del Equipo: Es importante mantener las marcadoras y otros equipos en buen estado para garantizar un juego seguro y justo.

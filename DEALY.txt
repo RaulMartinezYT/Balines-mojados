@@ -102,6 +102,9 @@ recien terminé el tema de el prototipado, asi que ahora me toca meterle mano al
 19:39 17/8/2024:
 hasta aca lo dejo me toca descansar mañana lo sigo
 
+15:50 19/8/2024:
+el admministrador tendrá otra interfaz diferente con la cual podrias cambiar el codigo de seguridad del personal, accedeer a todos los registros de reservas y a demas cosas
+
 00:24 20/8/2024:
 estoy pensando que tengo 2 semanas para la entrega final del proyecto y aunque parezca mucho, no lo es, por lo que voy a optar dejar de lado la estetica y garantizar lo funcional y para no tomarme el triple de tiempo voy a hacer el programa desde 0 que se pueda "autoprogramar" osea como una pc o un celular que lo unico que se modifica se elimina o edita es la informacion, despues las funciones son siempre las mismas, por lo que voy a ir haciendo el software a partes, por ejemplo el metodo de creacion de base de datos (el mismo sistema que voy a utilizar para la creacion/modificacion/eliminacion de SUCURSALES) despues por otra parte el metodo de inicio de sesion, las funciones de reservar dias / horas a placer y que no se solapen, asi que nada, por ahora voy a hacer eso, por lo mas simple a lo mas complejo
 
@@ -183,3 +186,22 @@ Estoy a punto de terminar la primer UI, la de inicio de sesion y tengo que ir a 
 18:27 28/8/2024:
 estoy en hora de nahuel en clases, me encuentro con una serie de fallas a la hora de intentar hacer responsive el programa, por ejemplo no determinar el ancho de los elementos o las medidas de los mismos en pixeles, yo quiero conseguir una forma par que sea responsive con porcentajes y no con valores de pixeles, asi que nada, estoy viendo eso pero me encuentro con problemas a la hora de realizarlo, como por ejemplo que no puedo determinar el color de x cosas, que un entry (una entrada de texto, un input de toda la vida) no le puedas determinar el ancho o el limite de caracteres, son limitaciones que nada, te pueden joder un tiempo, pero bueno, por ahora voy tranqui y le voy a encontrar la vuelta, pero para que se hagan una idea de lo que esta pasando, hice un recuadro llamado Label Frame, que es un recuadro / borde de decoracion, el cual no le podes determinar un tamaño en relacion al tamaño actual o a medida que se actualice la ventana, por ese lado es jodido pero nada, a seguir viendo que hacer
 
+01:11 1/9/2024:
+Acá estamos en lo ultimo,estoy empezando a realizar lo ultimo que seria codear que ya vengo haciendo, pero me parece que lo mejor va a hacer "BORRAR" lo que tengo para empezar a realizar el codigo definitivo y dejar lo que es el estilo para el final, asi que ahora me voy a encargar de realizar el sistema de reservas a travez de la terminal de python y ya cuando ande despues me voy a poner a realizar las UIs del programa en si, pero nada, por ahora a hacer eso de reescribir lo que tengo hasta ahora...
+
+13:09 1/9/2024:
+Me di cuenta que por mas que invente este escenario de las canchas y asi, el profe no tiene en si un numero especifico asi que nada, voy a inventar las sucursales, los usuarios, los datos de los mismos y asi hasta tener una base...
+
+13:11 1/9/2024:
+Para realizar este sistema voy a inventarme las ubicaciones las canchas y llas tipo de canchas que tiene cada sucursal, los datos del personal crearle un id predeterminado de cada sucursal y asi...
+
+13:32 1/9/2024: antes de tener que inventarme 20 sucursales y asi prefiero que lo haga chatgpt de forma generica y rapido asi en 10 minutos tengo todos los datos de todas las sucursales y bien ordenadito para no perder tiempo de programacion ya que estoy solo
+
+17:44 1/9/2024:
+RECIEN acabé, uno diria que bueno acabé todo pero no, lo que termine fue lo mas jodido y lo que mas me tomó tiempo, ahora solo quedaria los empleados y asi perop ya estaria...
+
+11:48 2/9/2024:
+Recien terminé todo, asi que ahora con una previa visualizacion puedo ver quien donde y en que area trabaja cada empleado,ahora va a ser mas facil teniendo todo documentado, sigue faltando el softhware, pero nada, por ahora va bien todo...
+
+21:20 2/9/2024:
+Recien termine con el sistema de guardado de datos a cerca del usuario, este sistema va a servir a la hora de cargar los datos de los participantes y a la hora de realizar la reserva, de paso que estaba realicé en el mismo sistema una serie de "requisitos" para cada valor... por ejemplo, la edad no puede ser mayor o igual a 100 años, es algo poco comun y que a la hora de jugar no creo que alguien de 100 años se ponga y/o pueda jugar paintball, o tambien que el apellido no tenga mas de 30 caracteres ya que por codigo le puse ese limite a la base de datos, asi que nada, por ahora estoy reforzando eso, sin nada mas que decir voy a proceder a arreglar un poco el proyecto ya que lo veo muy desorganizado con el tema de carpetas...

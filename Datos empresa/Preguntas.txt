@@ -12,7 +12,7 @@ donde cuantas canchas por sucursal hay, cuantas grandes y cuantas chicas
 
 
 tendrian los planos de las canchas para estetica del programa?
-
+no preguntado
 
 estabamos jugando y justo se larga la lluvia, o se lesionó alguien en medio del partiodo, se para el cronometro del arbitro y se repone el tiempo en otra fecha?
 en caso de ser asi, se le reserva la misma cancha? a eleccion de los clientes? o se le devuelve un porcentaje de lo pago?
@@ -20,7 +20,7 @@ dependiendo, tiempo >= 30 min depende
 
 en caso de que llueva para cuando se renueva la reserva? osea:
 se largó la lluvia y a lo largo de 2 dias no paró, paró al 3er dia, recien para cuando se secarian las canchas?
-
+ya respondido arriba
 
 quisiera que se guarden las facturas de las reservas? o sirve el que se encuentra en el gmail?
 si con las de gmail sirve

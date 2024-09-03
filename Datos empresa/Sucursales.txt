@@ -1,0 +1,455 @@
+Hay 20 sucursales a lo largo de CABA:
+
+1. Sucursal Palermo
+
+Dirección: Av. Santa Fe 3200, Palermo, CABA
+Cantidad de Canchas: 2
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Naturales (árboles, matorrales)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 40 x 20 metros 
+
+Cancha 2 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 6
+Terreno: Pasto sintetico
+Medidas: 20 x 15 metros
+Personal: 3 personas
+
+
+
+2. Sucursal Belgrano
+
+Dirección: Av. Cabildo 2200, Belgrano, CABA
+Cantidad de Canchas: 3
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Naturales (troncos, árboles)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 50 x 25 metros
+
+Cancha 2 (Mediana):
+Tipo: Speedball
+Obstáculos: Artificiales (barriles de metal)
+Jugadores mínimos: 8
+Terreno: Polvo de ladrillo
+Medidas: 30 x 15 metros
+
+Cancha 3 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 6
+Terreno: Pasto sintetico
+Medidas: 20 x 10 metros
+Personal: 4 personas
+
+
+
+3. Sucursal Villa Urquiza
+
+Dirección: Av. Triunvirato 4500, Villa Urquiza, CABA
+Cantidad de Canchas: 2
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Naturales (matorrales, árboles)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 45 x 20 metros
+
+Cancha 2 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 6
+Terreno: Polvo de ladrillo
+Medidas: 20 x 15 metros
+Personal: 3 personas
+
+
+
+4. Sucursal Caballito
+
+Dirección: Av. Rivadavia 5200, Caballito, CABA
+Cantidad de Canchas: 1
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 40 x 20 metros
+Personal: 2 personas
+
+
+
+5. Sucursal Flores
+
+Dirección: Av. Nazca 1600, Flores, CABA
+Cantidad de Canchas: 2
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Naturales (arbustos, colinas)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 45 x 25 metros
+
+Cancha 2 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 6
+Terreno: Cemento
+Medidas: 20 x 12 metros
+Personal: 3 personas
+
+
+
+6. Sucursal Villa Devoto
+
+Dirección: Av. Beiró 4500, Villa Devoto, CABA
+Cantidad de Canchas: 2
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Naturales (colinas, árboles)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 50 x 25 metros
+
+Cancha 2 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (neumáticos)
+Jugadores mínimos: 6
+Terreno: Polvo de ladrillo
+Medidas: 20 x 15 metros
+Personal: 3 personas
+
+
+
+7. Sucursal Mataderos
+
+Dirección: Av. Juan B. Alberdi 6000, Mataderos, CABA
+Cantidad de Canchas: 1
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Artificiales (barriles y neumáticos)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 40 x 25 metros
+Personal: 2 personas
+
+
+
+8. Sucursal Parque Patricios
+
+Dirección: Av. Caseros 2600, Parque Patricios, CABA
+Cantidad de Canchas: 2
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Naturales (colinas, arbustos)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 50 x 30 metros
+
+Cancha 2 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 6
+Terreno: Cemento
+Medidas: 25 x 15 metros
+Personal: 3 personas
+
+
+
+9. Sucursal Barracas
+
+Dirección: Av. Montes de Oca 1300, Barracas, CABA
+Cantidad de Canchas: 1
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Artificiales (barriles de metal y neumáticos)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 40 x 20 metros
+Personal: 2 personas
+
+
+
+10. Sucursal Villa Lugano
+
+Dirección: Av. Fernández de la Cruz 6400, Villa Lugano, CABA
+Cantidad de Canchas: 2
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Naturales (rocas, árboles)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 50 x 25 metros
+
+Cancha 2 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 6
+Terreno: Pasto sintetico
+Medidas: 25 x 15 metros
+Personal: 3 personas
+
+
+
+11. Sucursal Flores
+
+Dirección: Av. Rivadavia 1890, Flores, CABA
+Cantidad de Canchas: 2
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Naturales (arbustos y troncos)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 45 x 20 metros
+
+Cancha 2 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (barriles de metal)
+Jugadores mínimos: 6
+Terreno: Cemento
+Medidas: 25 x 15 metros
+Personal: 3 personas
+
+
+
+12. Sucursal Chacarita
+
+Dirección: Av. Elcano 1458, Chacarita, CABA
+Cantidad de Canchas: 1
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Naturales (árboles y rocas)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 40 x 25 metros
+Personal: 2 personas
+
+
+
+13. Sucursal Ezeiza
+
+Dirección: Av. República de Italia 4567, Ezeiza, GBA
+Cantidad de Canchas: 3
+
+Cancha 1 (Grande):
+Tipo: Woodsball
+Obstáculos: Naturales (matorrales y árboles)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 60 x 30 metros
+
+Cancha 2 (Grande):
+Tipo: Recball
+Obstáculos: Artificiales (barriles y paredes inflables)
+Jugadores mínimos: 12
+Terreno: Polvo de ladrillo
+Medidas: 50 x 25 metros
+
+Cancha 3 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 6
+Terreno: Tierra
+Medidas: 30 x 15 metros
+Personal: 4 personas
+
+
+
+14. Sucursal Palermo
+
+Dirección: Av. Dorrego 1987, Palermo, CABA
+Cantidad de Canchas: 2
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Naturales (rocas, árboles)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 50 x 25 metros
+
+Cancha 2 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 6
+Terreno: Cemento
+Medidas: 25 x 15 metros
+Personal: 3 personas
+
+
+
+15. Sucursal Belgrano
+
+Dirección: Av. Cabildo 1642, Belgrano, CABA
+Cantidad de Canchas: 1
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 12
+Terreno: Pasto sintetico
+Medidas: 40 x 20 metros
+Personal: 2 personas
+
+
+
+16. Sucursal Tigre
+
+Dirección: Av. Libertador 3456, Tigre, GBA
+Cantidad de Canchas: 4
+
+Cancha 1 (Grande):
+Tipo: Woodsball
+Obstáculos: Naturales (colinas, árboles)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 60 x 30 metros
+
+Cancha 2 (Grande):
+Tipo: Recball
+Obstáculos: Artificiales (barriles y neumáticos)
+Jugadores mínimos: 12
+Terreno: Polvo de ladrillo
+Medidas: 50 x 25 metros
+
+Cancha 3 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 6
+Terreno: Cemento
+Medidas: 30 x 15 metros
+
+Cancha 4 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 6
+Terreno: Cemento
+Medidas: 30 x 15 metros
+Personal: 5 personas
+
+
+
+17. Sucursal La Matanza
+
+Dirección: Av. General Paz 2345, La Matanza, GBA
+Cantidad de Canchas: 3
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Naturales (árboles y colinas)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 50 x 25 metros
+
+Cancha 2 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 6
+Terreno: Pasto sintetico
+Medidas: 30 x 15 metros
+
+Cancha 3 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 6
+Terreno: cemento
+Medidas: 30 x 15 metros
+Personal: 4 personas
+
+
+
+18. Sucursal San Telmo
+
+Dirección: Av. Paseo Colón 3090, San Telmo, CABA
+Cantidad de Canchas: 1
+
+Cancha 1 (Grande):
+Tipo: Recball
+Obstáculos: Artificiales (barriles de metal)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 45 x 20 metros
+Personal: 2 personas
+
+
+
+19. Sucursal Lobos
+
+Dirección: Ruta 205 1789, Lobos, GBA
+Cantidad de Canchas: 3
+
+Cancha 1 (Grande):
+Tipo: Woodsball
+Obstáculos: Naturales (árboles y rocas)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 60 x 30 metros
+
+Cancha 2 (Grande):
+Tipo: Recball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 12
+Terreno: Polvo de ladrillo
+Medidas: 50 x 25 metros
+
+Cancha 3 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 6
+Terreno: Pasto sintetico
+Medidas: 30 x 15 metros
+Personal: 4 personas
+
+
+
+20. Sucursal San Miguel
+
+Dirección: Av. Murguía 4211, San Miguel, GBA
+Cantidad de Canchas: 3
+
+Cancha 1 (Grande):
+Tipo: Woodsball
+Obstáculos: Naturales (colinas, árboles)
+Jugadores mínimos: 12
+Terreno: Tierra
+Medidas: 50 x 25 metros
+
+Cancha 2 (Chica):
+Tipo: Speedball
+Obstáculos: Artificiales (paredes inflables)
+Jugadores mínimos: 6
+Terreno: Cemento
+Medidas: 30 x 15 metros
+
+Cancha 3 (Chica):
+Tipo: Woodsball
+Obstáculos: Artificiales (barriles de metal)
+Jugadores mínimos: 6
+Terreno: Polvo de ladrillo
+Medidas: 30 x 15 metros
+Personal: 4 personas
+
+
+
+Resumen Total:
+Sucursales en CABA: 13
+Sucursales en GBA: 7
+Canchas Grandes: 23
+Canchas Chicas: 17
+Personal Total Estimado: 64
