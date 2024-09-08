@@ -1,111 +1,139 @@
 import sqlite3
 
-def limpiar_str(a):
-    a = a.lower()
-    a = a.replace(" ", "_")
-    a = a.replace("-", "_")
-    return a
-
-def crear_base_datos():
-    conn = sqlite3.connect('Balines_mojados.db')
-    cursor = conn.cursor()
-
-    cursor.execute("CREATE TABLE IF NOT EXISTS sucursales (id INTEGER PRIMARY KEY AUTOINCREMENT, id_cancha INTEGER(3) NOT NULL, barrio TEXT(30) NOT NULL, calle TEXT(30) NOT NULL,altura INT(4) NOT NULL)")
-    conn.commit()
-
-    cursor.execute("CREATE TABLE IF NOT EXISTS personal (id INTEGER PRIMARY KEY AUTOINCREMENT, id_sucursal INTEGER(3) NOT NULL, clave_acceso TEXT(15) NOT NULL, dni INTEGER(8) NOT NULL, nombre TEXT(30) NOT NULL, apellido TEXT(30) NOT NULL, trabajo TEXT(30) NOT NULL)")
-    conn.commit()
-
-    cursor.execute("CREATE TABLE IF NOT EXISTS canchas (id INTEGER PRIMARY KEY AUTOINCREMENT, id_sucursal INTEGER(3) NOT NULL, año INTEGER(4) NOT NULL, mes INTEGER(2) NOT NULL, dia INTEGER(2) NOT NULL, hora INTEGER(2) NOT NULL, minuto INTEGER(2) NOT NULL)")
-    conn.commit()
-
-    cursor.execute("CREATE TABLE IF NOT EXISTS reservas ( id INTEGER PRIMARY KEY AUTOINCREMENT, id_personal INTEGER(3) NOT NULL, id_cancha INTEGER(3) NOT NULL, id_sucursal INTEGER(3) NOT NULL, dni_cliente INTEGER(8) NOT NULL)")
-    conn.commit()
-
-    cursor.execute("CREATE TABLE IF NOT EXISTS clientes ( dni INTEGER PRIMARY KEY, edad INTEGER(2), nombre TEXT(30), apellido TEXT(30))")
-    conn.commit()
-
-def datos_existentes(dni, edad, nombre, apellido):
+def datos_existentes(dni, edad, nombre, apellido, email, telefono):
     conn = sqlite3.connect('Balines_mojados.db')
     cursor = conn.cursor()
     cursor.execute("SELECT 1 FROM clientes WHERE dni = ?", (dni,))
+    
     if cursor.fetchone():
         print("Persona ya existente")
+        
     else:
-        subir_datos_cliente(dni, edad, nombre, apellido)
+        subir_datos_cliente(dni, edad, nombre, apellido, email, telefono)
         print("Persona guardada con exito")
 
-def subir_datos_cliente(dni, edad, nombre, apellido):
+
+def subir_datos_cliente(dni, edad, nombre, apellido, email, telefono):
     conn = sqlite3.connect("Balines_mojados.db")
     cursor = conn.cursor()
-    consulta = "INSERT INTO clientes (dni, edad, nombre, apellido) VALUES (?, ?, ?, ?)"
-    datos = (dni, edad, nombre, apellido)
+    consulta = "INSERT INTO clientes (dni, edad, nombre, apellido, email, telefono) VALUES (?, ?, ?, ?, ?, ?)"
+    datos = (dni, edad, nombre, apellido, email, telefono)
     cursor.execute(consulta, datos)
     conn.commit()
     conn.close()
 
 def tomar_datos_cliente():
-    Dni = str(input("Dni del reservador: "))
-    print(Dni)
-    
-    if len(Dni) == 8:
-        try:
-            Dni = int(Dni)
 
-        except ValueError:
-            print("Numeros unicamente")
-            return 100 # Letra dentro de los numeros
-    else:
-        if len(Dni) < 8:
-            print("DNI Incompleto")
+    # Dni de la persona que va a realizar la reserva
+    try:
+        dni = abs(int(input("Dni del reservador: ")))
+        dni = str(dni)
+
+        if len(dni) < 8 :
+            print("Dni incompleto")
+            return 100
+        
+        if len(dni) > 8:
+            print("Dni inexistente")
             return 101
+        
+        dni = int(dni)
 
-        if len(Dni) > 8:
-            print("DNI Inexistente")
+    except ValueError:
+        print("Unicamente numeros")
+        return 100
+
+
+    # Edad de la persona que realizará la reserva
+    try:
+        edad = abs(int(input("Edad del reservador: ")))
+        edad = str(edad)
+        
+        if len(edad) < 1 or len(edad) > 2:
+            print("Edad inexistente")
+            return 100
+        
+        if len(edad) == 2 or len(edad) == 1:
+            edad = int(edad)
+
+            if edad >= 16 and edad < 18:
+                print("Necesita un mayor responsable para jugar")
+                return 101
+
+            if edad < 16 or edad >= 80:
+                print("Edad inapropiada para jugar")
+                return 102
+    
+    except ValueError:
+        print("Unicamente numeros")
+        return 103
+
+
+    # Nombre de la persona que realizará la reserva
+    nombre = str(input("Nombre del reservador: "))
+    nombre = nombre.replace(" ", "")
+    
+    if nombre.isalpha():
+        print("Es solo letras")
+        print(nombre)
+
+        if len(nombre) < 3:
+            print("El nombre es muy corto")
             return 102
-
-
-
-    Edad = str(input("Edad del reservador: "))
-    if len(Edad) == 2:
-        try:
-            Edad = int(Edad)
-
-        except ValueError:
-            print("Numeros unicamente")
-            return 103 # Letra dentro de los numeros
+        
+        if len(nombre) > 30:
+            print("El nombre es muy largo")
+            return 123
+        
     else:
-        if len(Edad) <= 1 or len(Edad) >= 3:
-            print("Edad inapropiada")
-            return 104
+        print("Es algo mas que letras solas")
+        print(nombre)
+        return 120
 
 
-    Nombre = str(input("Nombre del reservador: "))
-    if len(Nombre) <= 30 and len(Nombre) >= 3:
-        pass
+    # Apellido de la persona que realizará la reserva
+    apellido = str(input("Apellido del reservador: "))
+    apellido = apellido.replace(" ", "")
 
+    if apellido.isalpha():
+        print("Es solo letras")
+
+        if len(apellido) < 3:
+            print("El apellido es muy corto")
+            return 102
+        
+        if len(apellido) > 30:
+            print("El apellido es muy largo")
+            return 123
+        
     else:
-        if len(Nombre) >= 31:
-            print("Nombre demasiado largo")
-            return 105
-        if len(Nombre) <= 2:
-            print("Apellido demasiado corto")
-            return 106
+        print("Es algo mas que letras solas")
+        return 120
+    
+    while True:
+        email = str(input("Mail del reservador:\n"))
+        email_confirmacion = str(input("Confirme el mail:\n"))
 
-    Apellido = str(input("Apellido del reservador: "))
+        if email == email_confirmacion:
+            break
+        else:
+            print("Email incorrecto, volve a intentarlo!\n")
 
-    if len(Apellido) <= 30 and len(Apellido) >= 3:
-        pass
+    
+    try:
+        telefono = abs(int(input("Telefono del reservador: +54 9 ")))
+        telefono = str(telefono)
+        
+        if len(telefono) < 10 or len(telefono) > 10:
+            print("Telefono inexistente")
+            return 100
+        else:
+            telefono = int(telefono)
+    
+    except ValueError:
+        print("Unicamente numeros")
+        return 103
 
-    else:
-        if len(Apellido) >= 31:
-            print("Nombre demasiado largo")
-            return 105
-        if len(Apellido) <= 2:
-            print("Apellido demasiado corto")
-            return 106
+    datos_existentes(dni, edad, nombre, apellido, email, telefono)
 
-    datos_existentes(Dni, Edad, Nombre, Apellido)
-
-crear_base_datos()
 tomar_datos_cliente()

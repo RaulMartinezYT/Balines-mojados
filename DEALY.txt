@@ -205,3 +205,78 @@ Recien terminé todo, asi que ahora con una previa visualizacion puedo ver quien
 
 21:20 2/9/2024:
 Recien termine con el sistema de guardado de datos a cerca del usuario, este sistema va a servir a la hora de cargar los datos de los participantes y a la hora de realizar la reserva, de paso que estaba realicé en el mismo sistema una serie de "requisitos" para cada valor... por ejemplo, la edad no puede ser mayor o igual a 100 años, es algo poco comun y que a la hora de jugar no creo que alguien de 100 años se ponga y/o pueda jugar paintball, o tambien que el apellido no tenga mas de 30 caracteres ya que por codigo le puse ese limite a la base de datos, asi que nada, por ahora estoy reforzando eso, sin nada mas que decir voy a proceder a arreglar un poco el proyecto ya que lo veo muy desorganizado con el tema de carpetas...
+
+10:04 3/9/2024:
+Estoy conectando las tablas del archivo .db...
+
+11:17 3/9/2024:
+Desede que son las 11 no tengo internet, pero unicamente vine a dar un reporte de lo que estoy haciendo, hasta ahora lo que hice (EN GENERAL) fue hacer parte por parte el proyecto, ya tengo la UI del inicio de sesion, ya tengo el codigo para subir datos y el esquema de la base de datos, pero haciendo por partes separadas me di cuenta que necesito un dato o una parte del codigo antes que terminar esa parte, por ejemplo, estaba con el sistema para subir los datos del o los clientes a la base de datos, por lo que a la hora de subirlos se subia, pero para realizar la reserva necesitaria saber en que sucursal o quien la esta haciendo la reserva, asi que me voy a encargar de realizar el inicio de sesion y la base de datos, ya que estan conectadas, al iniciar sesion con un nombre y la clave del personal que esta iniciando sesion ya se en que sucursal se encuentra PERO, no se si pueda obtener algun valor tipo int o string de una base de datos con sqlite3 pero ahora lo verifico
+
+11:52 3/9/2024:
+me acabo de dar cuenta algo mientras estaba reformando la base de datos a cerca de que habia puesto en la misma tabla de canchas, el horario de la reserva, lo cual no tiene nada que ver con respecto al reserva, ahora ya corregido eso, seguimos
+
+13:35 3/9/2024:
+Me di cuenta de que una misma id de sucursal no puede tener mas de 1 cancha por id osea por sucursal, ahi es donde entra el tema de las conexiones entre las tablas en las que tambien entran en juego las relaciones de una a muchas o de muchas a muchas,etc
+
+13:45 3/9/2024:
+Otra cosa que mem olvidé poner en las tablas, mas especifico, en la tabla de canchas, me olvide poner los demas datos de la cancha, por ejemplo tamaño, medidas, modo que se juega, etc...
+
+14:25 3/9/2024:
+Me veia a mi mismo escribiendo peticion por peticion como un boludo, por lo que decidi hacerlo de forma automatica, voy a crear un sistema para agregar sucursales, personal, cancha, cambiar claves de usuarios por si se les olvida, asi que por ahora voy a hacer eso y en un futuro lo voy a reutilizar como parte del codigo del administrador que va a poder realizar estas acciones y mas, asi que nada, eso...
+
+15:18 4/9/2024:
+Ayer en la noche en horario de clase me hizo dar cuenta un compañero que estaba mal el esquema de sql ya que una sucursal no tiene una cancha, asi que la relacion la hice al reves, de muchas a una en vez de una a muchas
+
+17:32 4/9/2024:
+Estoy realizando una revision y reforma del codigo del software asi lo tengo todo en uno mismo, estoy viendo linea por linea para corregir u optimizar el codigo, y ver que puedo mejorar o si encuentro algun error, asi que nada, por ahora eso
+
+20:16 4/9/2024:
+Me acabo de dar cuenta que el nombre de una persona es repetible por lo que decidi cambiarlo en la ventana de inicio de sesion por el dni de la persona, lo cual va a evitar errores o cualquier tipo de bug en el sistema...
+
+13:59 5/9/2024:
+estoy realizando el sistema de inicio de sesion el cual va a consistir en que hace una consulta a la base de datos, los pasos a seguir serian, pasarle los datos a travez del formulario, una vez pasados verifica si ese DNI existe y si existe ese DNI en la base de datos tiene que verificar que tipo de empleado es, si es una oficinista puede acceder a todo el software, pero si es alguien de un rango inferior no y como caso contrario si es un administrador tiene acceso a una parte especifica para administradores.
+
+16:30 5/9/2024:
+Recien lo acabé el sistema, que sistema? el sistema que se encarga de subir datos de un nuevo personal, por ejemplo el dueño integró un nuevo referi en tal sucursal, con este sistema lo agrega a base de datos que pasa el administrador al software y este lo manda a la base de datos
+
+21:08 6/9/2024:
+Me olvide de escribir la dayli, pero venia a decir que el inicio de sesion ya funciona, ya puedo conseguir datos a travez de software...
+
+01:07 7/9/2024:
+Despues de estar ajustando el codigo final del inicio de sesion ya puedo proseguir a la siguiente ventana... la cual a este punto estoy dudando, que puedo hacer, si seguir como venia o para donde voy, no se si hacer lo que estaba previsto o hacer otra cosa, por un lado tengo lo siguiente que seria seleccionar la sucursal de reserva, pero seria mas complicado ya que tendria por un lado el id del personal que crea las reserva y despues el de la sucursal seleccionada, por lo que estoy pensando lo siguiente, si decido ir por ese lado deveria realizar lo que habia mencionado, y si no me funciona seria una GRAN perdida de tiempo, por lo que voy a seguir por lo que habia previsto y cualquier cosa voy a seguir con la siguiente ventana
+
+02:17 7/9/2024:
+Acabe de realizar el sistema que me va a decir en que sucursal se encuentra el empleado que inicio sesion...
+
+02:49 7/9/2024: 
+Hasta aqui termina mi trabajo de hoy, asi que nada, terminé completamente con el sistema de inicio de sesion, ahora toca hacer las siguientes UIs, asi que nada, hasta mañana...
+
+13:25 7/9/2024:
+estoy aca hace rato y no habia escrito nada, me habia re olvidado, pero bueno, estoy haciendo el UI de ya propiamente las reservas, asi que por ahora nada, estoy haciendo eso...
+
+14:57 7/9/2024:
+Acabé de configurar la ventana de reservas para tenerla dividida en 2 (con 2 frames) los cuales van a servir para mantener el orden en la ventana
+
+15:58 7/9/2024:
+Ya acabé con el primer frame, coloque todos los botones, asi que ahora quedaria ver como hacer las reservas de forma visual, para eso voy a buscar alguna forma de realizar un cuadro para ponerle en las columnas la hora y en las filas los dias, despues lo veo bien como, pero por ahora eso
+
+16:48 7/9/2024:
+descubri algo que me desanimo...
+las tablas en tkiter no se pueden personalizar, por lo que no puedo utilizar tablas para la parte visual de las reservas, asi que nada, tengo que encontrar otra forma...
+
+19:14 7/9/2024:
+actualizacion del caso, ya intenté de todas las formas, no se puede personalizar, no puedo introducir otras librerias o las que encontre no son compatibles con tkinter y otra desventaja que encontre con el treeview(herramienta para realizar tablas en tkinter) es que no hay manera de agregar filas asi que me queda inventar de la nada una forma para crear la tabla, pero ya tengo una idea, voy a utilizar el frame de la parte visual de las reservas como lienzo, voy a ingresar ahi mismo los datos, voy a dividir el frame en columnas y filas, voy a crear una lista, esta lista va a tener filas y columnas, igual como el frame, en cada valor de una fila y columna va a realizarse un chequeo de que valor deveria ir
+
+21:27 7/9/2024:
+Recien termine el sistema que se encarga de hacer lo siguiente:
+detecta que fecha es hoy y los siguientes 10 con el estilo de aaaa-mm-dd
+estos dias se pasan al formato que utilizamos nosotros dd-mm-aaaa
+obtenemos que dia es (lun,mar,mie,jue,vie,sab,dom) y de los siguientes dias
+y lo guarda en la lista que se llama TABLA, la cual como adivinaste va a ser la tabla que se va a mostrar en el frame de reservas visuales, para ayudar a la persona de forma visual...
+por ahora eso, pero va encaminado
+
+21:40 7/9/2024:
+ahora pensandolo necesito desarmar la fecha y la hora, para poder hacer el chequeo a travez de una consulta a la base de datos si exsite algun tipo de reserva, y si si existe agregarla de forma visual
+
+23:39 7/9/2024:
+recien prové el sistema que creé y si funciona, ahora quiero ver si le puedo hacer las delimitaciones como lo habia planeado, sinó no pasa nada, pero con eso ta tengo, estoy feliz que si funciona y no esta lageado ni nada

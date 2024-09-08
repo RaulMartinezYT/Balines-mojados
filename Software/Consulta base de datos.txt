@@ -1,0 +1,6 @@
+inicio_sesion = cursor.fetchall()
+            consulta2 = "SELECT dni FROM personal WHERE nombre = ?;"
+            datos = ("raul",)
+            cursor.execute(consulta2,datos)
+            a = cursor.fetchone()
+            print(a[0])
