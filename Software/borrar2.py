@@ -1,55 +1,91 @@
-import datetime
-from datetime import timedelta
+import tkinter as tk
 
-def nombre_dia(numero_dia):
-    dias_de_semana = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"]
-    return dias_de_semana[numero_dia]
+ventana = tk.Tk()
 
-fecha_hoy = datetime.datetime.now().date()
+# Función para mostrar el frame de la opción 1
+def mostrar_frame(frame):
+    # Ocultar todos los frames antes de mostrar el seleccionado
+    for fr in [frame_btn1, frame_btn2, frame_btn3, frame_btn4]:
+        fr.pack_forget()
+    frame.pack(fill="both", expand=True)
 
-fecha = [
-        datetime.datetime.now().date(),
-        fecha_hoy + timedelta(days = 1),
-        fecha_hoy + timedelta(days = 2),
-        fecha_hoy + timedelta(days = 3),
-        fecha_hoy + timedelta(days = 4),
-        fecha_hoy + timedelta(days = 5),
-        fecha_hoy + timedelta(days = 6),
-        fecha_hoy + timedelta(days = 7),
-        fecha_hoy + timedelta(days = 8),
-        fecha_hoy + timedelta(days = 9),
-        ]
-dia = [
-    nombre_dia(fecha_hoy.weekday()),
-    nombre_dia(fecha[1].weekday()),
-    nombre_dia(fecha[2].weekday()),
-    nombre_dia(fecha[3].weekday()),
-    nombre_dia(fecha[4].weekday()),
-    nombre_dia(fecha[5].weekday()),
-    nombre_dia(fecha[6].weekday()),
-    nombre_dia(fecha[7].weekday()),
-    nombre_dia(fecha[8].weekday()),
-    nombre_dia(fecha[9].weekday()),
-    ]
+# Función para ocultar los indicadores
+def ocultar_indicadores():
+    btn1_indicador.config(bg="#aaaaaa")
+    btn2_indicador.config(bg="#aaaaaa")
+    btn3_indicador.config(bg="#aaaaaa")
+    btn4_indicador.config(bg="#aaaaaa")
 
-print(f"""
-        Dia actual: {dia[0]}
-        fecha actual: {fecha[0].strftime("%d-%m-%Y")}\n
-        Dia: {dia[1]}
-        fecha: {fecha[1].strftime("%d-%m-%Y")}\n
-        Dia: {dia[2]}
-        fecha: {fecha[2].strftime("%d-%m-%Y")}\n
-        Dia: {dia[3]}
-        fecha: {fecha[3].strftime("%d-%m-%Y")}\n
-        Dia: {dia[4]}
-        fecha: {fecha[4].strftime("%d-%m-%Y")}\n
-        Dia: {dia[5]}
-        fecha: {fecha[5].strftime("%d-%m-%Y")}\n
-        Dia: {dia[6]}
-        fecha: {fecha[6].strftime("%d-%m-%Y")}\n
-        Dia: {dia[7]}
-        fecha: {fecha[7].strftime("%d-%m-%Y")}\n
-        Dia: {dia[8]}
-        fecha: {fecha[8].strftime("%d-%m-%Y")}\n
-        Dia: {dia[9]}
-        fecha: {fecha[9].strftime("%d-%m-%Y")}\n""")
+# Función para cambiar el indicador y mostrar el frame correspondiente
+def indicador(label, frame):
+    ocultar_indicadores()
+    label.config(bg="blue")  # Cambia el color del indicador seleccionado
+    mostrar_frame(frame)  # Muestra el frame correspondiente
+
+# Crear el frame de las opciones de la izquierda
+opciones = tk.Frame(ventana, bg="#aaaaaa")
+
+# Botón para la opción 1
+btn1 = tk.Button(opciones, text="OPCION 1", bg="#aaaaaa", relief="flat", fg="blue", font=("Bold", 10),
+                 command=lambda: indicador(btn1_indicador, frame_btn1))
+btn1.place(x=10, y=50)
+
+# Indicador para el botón 1
+btn1_indicador = tk.Label(opciones, background="#aaaaaa")
+btn1_indicador.place(x=3, y=50, height=38)
+
+# Botón para la opción 2
+btn2 = tk.Button(opciones, text="OPCION 2", bg="#aaaaaa", relief="flat", fg="blue", font=("Bold", 10),
+                 command=lambda: indicador(btn2_indicador, frame_btn2))
+btn2.place(x=10, y=100)
+
+# Indicador para el botón 2
+btn2_indicador = tk.Label(opciones, background="#aaaaaa")
+btn2_indicador.place(x=3, y=100, height=38)
+
+# Botón para la opción 3
+btn3 = tk.Button(opciones, text="OPCION 3", bg="#aaaaaa", relief="flat", fg="blue", font=("Bold", 10),
+                 command=lambda: indicador(btn3_indicador, frame_btn3))
+btn3.place(x=10, y=150)
+
+# Indicador para el botón 3
+btn3_indicador = tk.Label(opciones, background="#aaaaaa")
+btn3_indicador.place(x=3, y=150, height=38)
+
+# Botón para la opción 4
+btn4 = tk.Button(opciones, text="OPCION 4", bg="#aaaaaa", relief="flat", fg="blue", font=("Bold", 10),
+                 command=lambda: indicador(btn4_indicador, frame_btn4))
+btn4.place(x=10, y=200)
+
+# Indicador para el botón 4
+btn4_indicador = tk.Label(opciones, background="#aaaaaa")
+btn4_indicador.place(x=3, y=200, height=38)
+
+# Colocar el frame de opciones a la izquierda
+opciones.pack(side=tk.LEFT)
+opciones.pack_propagate(False)
+opciones.configure(width=100, height=500)
+
+# Crear el frame principal que cambiará su contenido
+frame_original = tk.Frame(ventana, highlightbackground="black", highlightthickness=2)
+frame_original.pack(side=tk.LEFT, fill="both", expand=True)
+frame_original.pack_propagate(False)
+frame_original.configure(height=500, width=500)
+
+# Definir los frames para cada opción
+frame_btn1 = tk.Frame(frame_original, bg="lightblue")
+frame_btn2 = tk.Frame(frame_original, bg="lightgreen")
+frame_btn3 = tk.Frame(frame_original, bg="lightyellow")
+frame_btn4 = tk.Frame(frame_original, bg="lightpink")
+
+# Añadir contenido a los frames (ejemplo: solo un Label en cada uno)
+tk.Label(frame_btn1, text="Contenido Opción 1", bg="lightblue", font=("Arial", 18)).pack(expand=True)
+tk.Label(frame_btn2, text="Contenido Opción 2", bg="lightgreen", font=("Arial", 18)).pack(expand=True)
+tk.Label(frame_btn3, text="Contenido Opción 3", bg="lightyellow", font=("Arial", 18)).pack(expand=True)
+tk.Label(frame_btn4, text="Contenido Opción 4", bg="lightpink", font=("Arial", 18)).pack(expand=True)
+
+# Mostrar inicialmente el frame de la opción 1
+mostrar_frame(frame_btn1)
+
+# Iniciar la ventana principal
+ventana.mainloop()

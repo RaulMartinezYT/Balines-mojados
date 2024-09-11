@@ -35,3 +35,291 @@ def reserva(fondo_principal = "#0F1035", fondo_secundario = "#365486", letras = 
     boton.pack()
 
     ventana.mainloop()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        for x in range(3):
+            frame_principal.grid_columnconfigure(x, weight = 1)
+        frame_principal.grid_rowconfigure(0, weight = 1)
+
+        frame_añadir = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
+        frame_añadir.grid(column = 0, row = 0, sticky = "nsew", pady = (5,0), padx = (0,5))
+
+        frame_añadir.grid_columnconfigure(0, weight = 1)
+
+        for x in range(15):
+            frame_añadir.grid_rowconfigure(x, weight = 1)
+
+        añadir_texto = tk.Label(frame_añadir, text = "AÑADIR RESERVA", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
+        añadir_texto.grid(column = 0, row = 0, sticky = "nsew", padx = 5, pady = 5)
+
+        sucursal_texto = tk.Label(frame_añadir, text = "Dni del reservador:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        sucursal_texto.grid(column = 0, row = 1, sticky = "nsew")
+        
+        barrio_entry = tk.Entry(frame_añadir, font = ("Bold", 15))
+        barrio_entry.grid(column = 0, row = 2, sticky = "ew", padx = 15)
+
+        tamaño_texto = tk.Label(frame_añadir, text = "Sucursal de la reserva:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        tamaño_texto.grid(column = 0, row = 3, sticky = "nsew")
+
+        tamaño = [1,2,3]
+        tamaño_entry = ttk.Combobox(frame_añadir, values = tamaño, state = "readonly", font = ("Bold", 15))
+        tamaño_entry.grid(column = 0, row = 4, sticky = "ew", padx = 15)
+
+        tipo_texto = tk.Label(frame_añadir, text = "Cancha de la reserva:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        tipo_texto.grid(column = 0, row = 5, sticky = "nsew")
+
+        fecha_frame = tk.Frame(frame_añadir, background = fondo_secundario)
+        fecha_frame.grid(column = 0, row = 6, sticky = "nsew", padx=(5,0))
+
+        for x in range(5):
+            fecha_frame.grid_columnconfigure(x, weight = 1)
+            fecha_frame.grid_rowconfigure(x, weight = 1)
+        
+        fecha_frame.rowconfigure(0, weight=1)
+        fecha_frame.rowconfigure(1, weight=1)
+
+        # Etiquetas en la primera fila
+        tk.Label(fecha_frame, text="AÑO").grid(row=0, column=0, padx=5, pady=5, sticky='ew')
+        tk.Label(fecha_frame, text="MES").grid(row=0, column=1, padx=5, pady=5, sticky='ew')
+        tk.Label(fecha_frame, text="Día").grid(row=0, column=2, padx=5, pady=5, sticky='ew')
+        tk.Label(fecha_frame, text="Hora").grid(row=0, column=3, padx=5, pady=5, sticky='ew')
+        tk.Label(fecha_frame, text="Minutos").grid(row=0, column=4, padx=5, pady=5, sticky='ew')
+
+        # Entradas en la segunda fila
+        entry_anio = tk.Entry(fecha_frame)
+        entry_mes = tk.Entry(fecha_frame)
+        entry_dia = tk.Entry(fecha_frame)
+        entry_hora = tk.Entry(fecha_frame)
+        entry_minutos = tk.Entry(fecha_frame)
+
+        entry_anio.grid(row=1, column=0, padx=5, pady=5, sticky='ew')
+        entry_mes.grid(row=1, column=1, padx=5, pady=5, sticky='ew')
+        entry_dia.grid(row=1, column=2, padx=5, pady=5, sticky='ew')
+        entry_hora.grid(row=1, column=3, padx=5, pady=5, sticky='ew')
+        entry_minutos.grid(row=1, column=4, padx=5, pady=5, sticky='ew')
+
+
+        año = tk.Label(fecha_frame, text = "Año", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        año.grid(column = 1, row = 0)
+
+        año_entry = tk.Entry(fecha_frame, font = ("Bold", 15))
+        año_entry.grid(column = 1, row = 1,)
+
+        mes = tk.Label(fecha_frame, text = "Mes", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        mes.grid(column = 2, row = 2)
+
+        mes_entry = tk.Entry(fecha_frame, font = ("Bold", 15))
+        mes_entry.grid(column = 3, row = 1, padx=(0, 5))
+
+        dia = tk.Label(fecha_frame, text = "Dia", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        dia.grid(column = 3, row = 0)
+
+        dia_entry = tk.Entry(fecha_frame, font = ("Bold", 15))
+        dia_entry.grid(column = 3, row = 1, padx=(0, 5))
+
+        hora = tk.Label(fecha_frame, text = "Hora", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        hora.grid(column = 4, row = 0)
+
+        hora_entry = tk.Entry(fecha_frame, font = ("Bold", 15))
+        hora_entry.grid(column = 4, row = 1, padx=(0, 5))
+
+        minuto = tk.Label(fecha_frame, text = "Minuto", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        minuto.grid(column = 5, row = 0) 
+        año_entry.grid(column = 5, row = 1, padx=(0,5))
+
+        btn_añadir_sucursal = tk.Button(frame_añadir, text = "AÑADIR CANCHA", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2)
+        btn_añadir_sucursal.grid(column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
+
+
+
+
+
+
+
+
+        frame_modificar = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
+        frame_modificar.grid(column = 2, row = 0, sticky = "nsew", pady = (5,0), padx = (0,5))
+
+        frame_modificar.grid_columnconfigure(0, weight = 1)
+
+        for x in range(15):
+            frame_modificar.grid_rowconfigure(x, weight = 1)
+
+        añadir_texto = tk.Label(frame_modificar, text = "AÑADIR RESERVA", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
+        añadir_texto.grid(column = 0, row = 0, sticky = "nsew", padx = 5, pady = 5)
+
+        sucursal_texto = tk.Label(frame_modificar, text = "Dni del reservador:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        sucursal_texto.grid(column = 0, row = 1, sticky = "nsew")
+        
+        barrio_entry = tk.Entry(frame_modificar, font = ("Bold", 15))
+        barrio_entry.grid(column = 0, row = 2, sticky = "ew", padx = 15)
+
+        tamaño_texto = tk.Label(frame_modificar, text = "Sucursal de la reserva:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        tamaño_texto.grid(column = 0, row = 3, sticky = "nsew")
+
+        tamaño = [1,2,3]
+        tamaño_entry = ttk.Combobox(frame_modificar, values = tamaño, state = "readonly", font = ("Bold", 15))
+        tamaño_entry.grid(column = 0, row = 4, sticky = "ew", padx = 15)
+
+        tipo_texto = tk.Label(frame_modificar, text = "Cancha de la reserva:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        tipo_texto.grid(column = 0, row = 5, sticky = "nsew")
+
+        fecha_frame = tk.Frame(frame_modificar, background = fondo_secundario)
+        fecha_frame.grid(column = 0, row = 6, sticky = "nsew", padx=(5,0))
+
+        for x in range(5):
+            fecha_frame.grid_columnconfigure(x, weight = 1)
+        fecha_frame.grid_rowconfigure(0, weight = 1)
+        fecha_frame.grid_rowconfigure(1, weight = 1)
+
+        año = tk.Label(fecha_frame, text = "Año", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        año.grid(column = 1, row = 0)
+
+        año_entry = tk.Entry(fecha_frame, font = ("Bold", 15))
+        año_entry.grid(column = 1, row = 1,)
+
+        mes = tk.Label(fecha_frame, text = "Mes", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        mes.grid(column = 2, row = 0)
+
+        mes_entry = tk.Entry(fecha_frame, font = ("Bold", 15))
+        mes_entry.grid(column = 2, row = 1, padx=(0, 5))
+
+        dia = tk.Label(fecha_frame, text = "Dia", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        dia.grid(column = 3, row = 0)
+
+        dia_entry = tk.Entry(fecha_frame, font = ("Bold", 15))
+        dia_entry.grid(column = 3, row = 1, padx=(0, 5))
+
+        hora = tk.Label(fecha_frame, text = "Hora", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        hora.grid(column = 4, row = 0)
+
+        hora_entry = tk.Entry(fecha_frame, font = ("Bold", 15))
+        hora_entry.grid(column = 4, row = 1, padx=(0, 5))
+
+        minuto = tk.Label(fecha_frame, text = "Minuto", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        minuto.grid(column = 5, row = 0) 
+        año_entry.grid(column = 5, row = 1, padx=(0,5))
+
+        btn_añadir_sucursal = tk.Button(frame_modificar, text = "AÑADIR CANCHA", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2)
+        btn_añadir_sucursal.grid(column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
+
+
+
+
+
+        frame_eliminar = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
+        frame_eliminar.grid(column = 3, row = 0, sticky = "nsew", pady = (5,0), padx = (0,5))
+
+        frame_eliminar.grid_columnconfigure(0, weight = 1)
+
+        for x in range(15):
+            frame_eliminar.grid_rowconfigure(x, weight = 1)
+
+        añadir_texto = tk.Label(frame_eliminar, text = "AÑADIR RESERVA", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
+        añadir_texto.grid(column = 0, row = 0, sticky = "nsew", padx = 5, pady = 5)
+
+        sucursal_texto = tk.Label(frame_eliminar, text = "Dni del reservador:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        sucursal_texto.grid(column = 0, row = 1, sticky = "nsew")
+        
+        barrio_entry = tk.Entry(frame_eliminar, font = ("Bold", 15))
+        barrio_entry.grid(column = 0, row = 2, sticky = "ew", padx = 15)
+
+        tamaño_texto = tk.Label(frame_eliminar, text = "Sucursal de la reserva:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        tamaño_texto.grid(column = 0, row = 3, sticky = "nsew")
+
+        tamaño = [1,2,3]
+        tamaño_entry = ttk.Combobox(frame_eliminar, values = tamaño, state = "readonly", font = ("Bold", 15))
+        tamaño_entry.grid(column = 0, row = 4, sticky = "ew", padx = 15)
+
+        tipo_texto = tk.Label(frame_eliminar, text = "Cancha de la reserva:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        tipo_texto.grid(column = 0, row = 5, sticky = "nsew")
+
+        fecha_frame = tk.Frame(frame_eliminar, background = fondo_secundario)
+        fecha_frame.grid(column = 0, row = 6, sticky = "nsew", padx=(5,0))
+
+        for x in range(5):
+            fecha_frame.grid_columnconfigure(x, weight = 1)
+        fecha_frame.grid_rowconfigure(0, weight = 1)
+        fecha_frame.grid_rowconfigure(1, weight = 1)
+
+        año = tk.Label(fecha_frame, text = "Año", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        año.grid(column = 1, row = 0)
+
+        año_entry = tk.Entry(fecha_frame, font = ("Bold", 15))
+        año_entry.grid(column = 1, row = 1,)
+
+        mes = tk.Label(fecha_frame, text = "Mes", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        mes.grid(column = 2, row = 0)
+
+        mes_entry = tk.Entry(fecha_frame, font = ("Bold", 15))
+        mes_entry.grid(column = 2, row = 1, padx=(0, 5))
+
+        dia = tk.Label(fecha_frame, text = "Dia", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        dia.grid(column = 3, row = 0)
+
+        dia_entry = tk.Entry(fecha_frame, font = ("Bold", 15))
+        dia_entry.grid(column = 3, row = 1, padx=(0, 5))
+
+        hora = tk.Label(fecha_frame, text = "Hora", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        hora.grid(column = 4, row = 0)
+
+        hora_entry = tk.Entry(fecha_frame, font = ("Bold", 15))
+        hora_entry.grid(column = 4, row = 1, padx=(0, 5))
+
+        minuto = tk.Label(fecha_frame, text = "Minuto", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        minuto.grid(column = 5, row = 0) 
+        año_entry.grid(column = 5, row = 1, padx=(0,5))
+
+        btn_añadir_sucursal = tk.Button(frame_eliminar, text = "AÑADIR CANCHA", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2)
+        btn_añadir_sucursal.grid(column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)

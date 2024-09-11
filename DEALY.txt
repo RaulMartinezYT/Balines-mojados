@@ -280,3 +280,15 @@ ahora pensandolo necesito desarmar la fecha y la hora, para poder hacer el chequ
 
 23:39 7/9/2024:
 recien prové el sistema que creé y si funciona, ahora quiero ver si le puedo hacer las delimitaciones como lo habia planeado, sinó no pasa nada, pero con eso ta tengo, estoy feliz que si funciona y no esta lageado ni nada
+
+02:48 8/9/2024:
+Ya terminado el sistema visual toca retocar el codigo para que sea mas entendible y hacerlo por bloques para que no se interponga algo sobre otro algo, osea ordenar el codigo y punto.
+
+15:49 8/9/2024:
+Bueno, despues de hacer las compras y varias cosas en la cassa volvi a hacer el proyecto, ahora no lo suelto hasta terminarlo, me voy a encargar de lo que es el backend, crear o modificar reservas, voy a realizar el apartado de ui de administrador...
+
+21:06 8/9/2024:
+Bueno actualizacion, desde la tarde estuve diseñando la UI del administrador una vez termine esto ya con esto terminado podria ponerme a terminar el bakend, porque una vez terminada esa parte ya estaria todo
+
+06:51 9/9/2024:
+Bueno, despues de toda la noche ya tengo el sistema de subir personal, aunque pienses que: QUE PIBE MAS LENTO ESTUVO TODA LA NOCHE PARA HACER UN SISTEMITA DE MIERDA, quiero que sepas que ya de acá en adelante es cntrl + C y cntrl + V, nada mas, asi qeu nada, feliz de estar donde estoy, a seguir
