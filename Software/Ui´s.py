@@ -1,9 +1,12 @@
-import datetime, sqlite3, tkinter as tk
+import datetime, sqlite3, time, tkinter as tk
 from tkinter import ttk
 from tkcalendar import DateEntry
 from tkinter import messagebox
 from datetime import timedelta
 
+############################
+ #   VENTANAS EMERGENTES    #
+  ############################
 # Ventana emergente de alerta.
 def alerta(titulo_ventana, descripcion):
     messagebox.showwarning(titulo_ventana, descripcion)
@@ -32,8 +35,11 @@ def reintentar_si_no(titulo_ventana, pregunta):
     else:
         return False
 
+#####################################
+ #   EXTRACCION DE DATOS DE LA DB    #
+  #####################################
 def existe_dni(dni):
-    conn = sqlite3.connect('Balines_mojados.db')
+    conn = sqlite3.connect("Balines_mojados.db")
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(*) FROM personal WHERE dni = ?", (dni,))
     entrada = cursor.fetchone()
@@ -44,7 +50,7 @@ def existe_dni(dni):
         return False
 
 def id_sucursal_a_barrio_sucursal(id_sucursal):
-    conn = sqlite3.connect('Balines_mojados.db')
+    conn = sqlite3.connect("Balines_mojados.db")
     cursor = conn.cursor()
     peticion = "SELECT barrio FROM sucursales WHERE id = ?;"
     datos = (id_sucursal,)
@@ -55,7 +61,7 @@ def id_sucursal_a_barrio_sucursal(id_sucursal):
     return nombre_sucursal
 
 def barrio_sucursal_a_id_sucursal(barrio_sucursal):
-    conn = sqlite3.connect('Balines_mojados.db')
+    conn = sqlite3.connect("Balines_mojados.db")
     cursor = conn.cursor()
     peticion = "SELECT id FROM sucursales WHERE barrio = ?;"
     datos = (barrio_sucursal,)
@@ -69,7 +75,7 @@ def barrio_sucursal_a_id_sucursal(barrio_sucursal):
         conn.close()
     
 def dni_a_id_sucursal(dni):
-    conn = sqlite3.connect('Balines_mojados.db')
+    conn = sqlite3.connect("Balines_mojados.db")
     cursor = conn.cursor()
     peticion = "SELECT id_sucursal FROM personal WHERE dni = ?;"
     datos = (dni,)
@@ -83,9 +89,9 @@ def dni_a_id_sucursal(dni):
         conn.close()
 
 def dni_a_clave(dni):
-    conn = sqlite3.connect('Balines_mojados.db')
+    conn = sqlite3.connect("Balines_mojados.db")
     cursor = conn.cursor()
-    peticion = "SELECT clave_acceso FROM personal WHERE dni = ?;"
+    peticion = "SELECT clave FROM personal WHERE dni = ?;"
     datos = (dni,)
     cursor.execute(peticion, datos)
     resultado = cursor.fetchone()
@@ -97,7 +103,7 @@ def dni_a_clave(dni):
         conn.close()
 
 def dni_a_nombre(dni):
-    conn = sqlite3.connect('Balines_mojados.db')
+    conn = sqlite3.connect("Balines_mojados.db")
     cursor = conn.cursor()
     peticion = "SELECT nombre FROM personal WHERE dni = ?;"
     datos = (dni,)
@@ -111,7 +117,7 @@ def dni_a_nombre(dni):
         conn.close()
 
 def dni_a_apellido(dni):
-    conn = sqlite3.connect('Balines_mojados.db')
+    conn = sqlite3.connect("Balines_mojados.db")
     cursor = conn.cursor()
     peticion = "SELECT apellido FROM personal WHERE dni = ?;"
     datos = (dni,)
@@ -125,7 +131,7 @@ def dni_a_apellido(dni):
         conn.close()
 
 def dni_a_trabajo(dni):
-    conn = sqlite3.connect('Balines_mojados.db')
+    conn = sqlite3.connect("Balines_mojados.db")
     cursor = conn.cursor()
     peticion = "SELECT trabajo FROM personal WHERE dni = ?;"
     datos = (dni,)
@@ -137,17 +143,40 @@ def dni_a_trabajo(dni):
         return trabajo
     else:
         conn.close()
-        
-    
 
+################################
+ #   LISTA DE LAS SUCURSALES    #
+  ################################
 def lista_barrios_sucursales():
-    conn = sqlite3.connect('Balines_mojados.db')
+    conn = sqlite3.connect("Balines_mojados.db")
     cursor = conn.cursor()
     cursor.execute("SELECT barrio FROM sucursales;")
     resultados = cursor.fetchall()
-    lista_barrios = [fila[0] for fila in resultados]
+    lista_barrios = ["~~~ Sucursal a seleccionar ~~~"] + [fila[0] for fila in resultados]
     conn.close()
     return lista_barrios
+
+
+#######################################
+ #   ESTADO DE LA SUCURSAL / CANCHA    #
+  #######################################
+def id_sucursal_estado(id):
+    conn = sqlite3.connect("Balines_mojados.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT estado FROM sucursales;")
+    resultado = cursor.fetchall()
+    estado = resultado[0]
+    conn.close()
+    return estado
+        
+def id_cancha_estado(id):
+    conn = sqlite3.connect("Balines_mojados.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT estado FROM canchas;")
+    resultado = cursor.fetchall()
+    estado = resultado[0]
+    conn.close()
+    return estado
 
 # Funcion para la creacion de la ventana de inicio de sesion.
 # Recibe como atributos colores para la ventana, no es obligado pasarlos ya que tiene valores por defecto:
@@ -160,7 +189,7 @@ def lista_barrios_sucursales():
 def ventana_iniciar_sesion(fondo_principal = "#0F1035", fondo_secundario = "#365486", letras = "#7FC7D9", marcos = "#ffffff", fondo_boton_activo = "#ffffff", h1 = 60, h2 = 50, h3 = 40 , h4 =30, h5 = 20, h6 = 10):
 
     # Conectamos el software con la base de datos.
-    conn = sqlite3.connect('Balines_mojados.db')
+    conn = sqlite3.connect("Balines_mojados.db")
 
     # Declaramos el nombre del cursor, el cual se encarga de realizar las consultas a la base de datos.
     cursor = conn.cursor()
@@ -231,7 +260,7 @@ def ventana_iniciar_sesion(fondo_principal = "#0F1035", fondo_secundario = "#365
         if confirmacion_dni == True and confirmacion_clave == True:
             
             # Se define la consulta a realizar para el login:
-            consulta = f"SELECT * FROM personal WHERE dni = ? AND clave_acceso = ?;"
+            consulta = f"SELECT * FROM personal WHERE dni = ? AND clave = ?;"
 
             # Se define los datos para pasarle a la consulta.
             datos = (dni, clave)
@@ -252,19 +281,33 @@ def ventana_iniciar_sesion(fondo_principal = "#0F1035", fondo_secundario = "#365
             cursor.execute(consulta_id, datos_id)
 
             # Creamos una variable en la que se va a guardar el resultado de la consulta, osea la respuesta de la consulta.
-            a = cursor.fetchone()
+            respuesta = cursor.fetchone()
 
             # Detecta si hay valor en la variable y si es asi:
-            if a:                    
+            if respuesta:                    
                 # Guarda la reserva de la consulta en una variable la cual se pasa a la siguiente ventana.
                 # Y extraemos el valor de la tupla.
-                id_sucursal_personal = a[0]
+                id_sucursal = respuesta[0]
 
             # Si la peticion (chequea si el DNI y la clave son iguales a las que estan guardadas en la base de datos) se confirma el personal y el inicio de sesion, permitiendo asi el ingreso al software.
             if inicio_sesion:
-                informacion("Inicio de sesion", "Inicio de sesion completa.")
-                ventana.destroy()
-                ventana_reservas(dni, id_sucursal_personal, fondo_principal, letras, marcos, h1, h2, h3, h4, h5, h6)
+                nombre = dni_a_nombre(dni)
+                apellido = dni_a_apellido(dni)
+                consulta = "SELECT * FROM personal WHERE dni = ? AND clave = ? AND trabajo = 'administrador';"
+                datos = (dni, clave)
+                cursor.execute(consulta, datos)
+                respuesta_administrador = cursor.fetchall()
+
+                if respuesta_administrador:
+                    informacion("Inicio de sesion - Administrador", f"Inicio de sesion completa.\nBienvenido {nombre} {apellido}")
+                    ventana.destroy()
+                    time.sleep(0.5)
+                    ventana_administrador(dni, id_sucursal, fondo_principal, fondo_secundario, letras, marcos, fondo_boton_activo, h1, h2, h3, h4, h5, h6)
+                
+                else:
+                    informacion("Inicio de sesion - Personal", f"Inicio de sesion completa.\nBienvenido {nombre} {apellido}")
+                    ventana.destroy()
+                    ventana_reservas(dni, id_sucursal, fondo_principal, letras, marcos, h1, h2, h3, h4, h5, h6)
             else:
                 informacion("Inicio de sesion", "Error al intentar iniciar sesion.")
 
@@ -408,8 +451,6 @@ def ventana_iniciar_sesion(fondo_principal = "#0F1035", fondo_secundario = "#365
     Aceptar.pack()
     ventana.mainloop()
 
-
-
 def ventana_reservas(dni_personal = None, id_sucursal_personal = None, fondo_principal = "#0F1035", fondo_secundario = "#365486", letras = "#7FC7D9", marcos = "#ffffff", fondo_boton_activo = "#ffffff", h1 = 60, h2 = 50, h3 = 40 , h4 =30, h5 = 20, h6 = 10):
     
     def nombre_dia(numero_dia):
@@ -422,7 +463,7 @@ def ventana_reservas(dni_personal = None, id_sucursal_personal = None, fondo_pri
         return error
     else:
         # Conectamos el software con la base de datos.
-        conn = sqlite3.connect('Balines_mojados.db')
+        conn = sqlite3.connect("Balines_mojados.db")
 
         # Declaramos el nombre del cursor, el cual se encarga de realizar las consultas a la base de datos.
         cursor = conn.cursor()
@@ -441,7 +482,7 @@ def ventana_reservas(dni_personal = None, id_sucursal_personal = None, fondo_pri
             pass
     
     # Conectamos el software con la base de datos.
-    conn = sqlite3.connect('Balines_mojados.db')
+    conn = sqlite3.connect("Balines_mojados.db")
 
     # Declaramos el nombre del cursor, el cual se encarga de realizar las consultas a la base de datos.
     cursor = conn.cursor()
@@ -666,326 +707,392 @@ def ventana_reservas(dni_personal = None, id_sucursal_personal = None, fondo_pri
 
     ventana.mainloop()
 
-
-
 def ventana_administrador(dni_administrador = None, id_sucursal_administrador = None, fondo_principal = "#0F1035", fondo_secundario = "#365486", letras = "#7FC7D9", marcos = "#ffffff", fondo_boton_activo = "#ffffff", h1 = 60, h2 = 50, h3 = 40 , h4 =30, h5 = 20, h6 = 10):
     
-    def subir_datos_personal(dni, id_sucursal, clave_acceso, nombre, apellido, trabajo):
-        conn = sqlite3.connect('Balines_mojados.db')
-        cursor = conn.cursor()
-        consulta = "INSERT INTO personal (dni, id_sucursal, clave_acceso, nombre, apellido, trabajo) VALUES (?, ?, ?, ?, ?, ?)"
-        datos = (dni, id_sucursal, clave_acceso, nombre, apellido, trabajo)
-        cursor.execute(consulta, datos)
-        conn.commit()
-        informacion("Procesado satisfactoriamente", "Personal agregado correctamente a la base de datos.")
-
-    def modificar_datos_personal(dni, id_sucursal = None, clave_acceso = None, nombre = None, apellido = None, trabajo = None):
-        conn = sqlite3.connect('Balines_mojados.db')
-        cursor = conn.cursor()
-        if id_sucursal != "" and id_sucursal != None:
-            id_sucursal_original = dni_a_id_sucursal(dni)
-            if id_sucursal != id_sucursal_original:
-                if pregunta_si_no("Confirmar cambio", f'¿Estas seguro de cambiar la sucursal del empleado {dni}, de "{id_sucursal_original}" a "{id_sucursal}"?'):
-                    consulta = "UPDATE personal SET clave_acceso = ? WHERE dni = ?;"
-                    datos = (id_sucursal, dni)
-                    if cursor.execute(consulta, datos):
-                        informacion("Procesado satisfactoriamente","Actualizacion de datos completada con exito.")
-                        conn.commit()
-                    else:
-                        informacion("Error inesperado", "No se pudo actualizar los datos del personal.")
-                else:
-                    informacion("Procesado cancelado satisfactoriamente","Actualizacion de datos cancelada.")
-            else:
-                pass
-
-        if clave_acceso != "" and clave_acceso != None:
-            clave_original = dni_a_clave(dni)
-            if clave_acceso != clave_original:
-                if pregunta_si_no("Confirmar cambio", f'¿Estas seguro de cambiar la clave del empleado {dni}, de "{clave_original}" a "{clave_acceso}"?'):
-                    consulta = "UPDATE personal SET clave_acceso = ? WHERE dni = ?;"
-                    datos = (clave_acceso, dni)
-                    if cursor.execute(consulta, datos):
-                        informacion("Procesado satisfactoriamente","Actualizacion de datos completada con exito.")
-                        conn.commit()
-                    else:
-                        informacion("Error inesperado", "No se pudo actualizar los datos del personal.")
-                else:
-                    informacion("Procesado cancelado satisfactoriamente","Actualizacion de datos cancelada.")
-            else:
-                pass
-
-        if nombre != "" and nombre != None:
-            nombre_original = dni_a_nombre(dni)
-            if nombre != nombre_original:
-                if pregunta_si_no("Confirmar cambio", f'¿Estas seguro de cambiar el nombre del empleado {dni}, de "{nombre_original}" a "{nombre}"?'):
-                    consulta = "UPDATE personal SET nombre = ? WHERE dni = ?;"
-                    datos = (nombre, dni)
-                    if cursor.execute(consulta, datos):
-                        informacion("Procesado satisfactoriamente","Actualizacion de datos completada con exito.")
-                        conn.commit()
-                    else:
-                        informacion("Error inesperado", "No se pudo actualizar los datos del personal.")
-                else:
-                    informacion("Procesado cancelado satisfactoriamente","Actualizacion de datos cancelada.")
-            else:
-                pass
-
-        if nombre != "" and nombre != None:
-            nombre_original = dni_a_nombre(dni)
-            if nombre != nombre_original:
-                if pregunta_si_no("Confirmar cambio", f'¿Estas seguro de cambiar el nombre del empleado {dni}, de "{nombre_original}" a "{nombre}"?'):
-                    consulta = "UPDATE personal SET nombre = ? WHERE dni = ?;"
-                    datos = (nombre, dni)
-                    if cursor.execute(consulta, datos):
-                        informacion("Procesado satisfactoriamente","Actualizacion de datos completada con exito.")
-                        conn.commit()
-                    else:
-                        informacion("Error inesperado", "No se pudo actualizar los datos del personal.")
-                else:
-                    informacion("Procesado cancelado satisfactoriamente","Actualizacion de datos cancelada.")
-            else:
-                pass
-
-
-        if apellido != "" and apellido != None:
-            apellido_original = dni_a_apellido(dni)
-            if apellido != apellido_original:
-                if pregunta_si_no("Confirmar cambio", f'¿Estas seguro de cambiar el apellido del empleado {dni}, de "{apellido_original}" a "{apellido}"?'):
-                    consulta = "UPDATE personal SET apellido = ? WHERE dni = ?;"
-                    datos = (apellido, dni)
-                    if cursor.execute(consulta, datos):
-                        informacion("Procesado satisfactoriamente","Actualizacion de datos completada con exito.")
-                        conn.commit()
-                    else:
-                        informacion("Error inesperado", "No se pudo actualizar los datos del personal.")
-                else:
-                    informacion("Procesado cancelado satisfactoriamente","Actualizacion de datos cancelada.")
-            else:
-                pass
-
-        if trabajo != "" and trabajo != None:
-            trabajo_original = dni_a_trabajo(dni)
-            if trabajo != trabajo_original:
-                if pregunta_si_no("Confirmar cambio", f'¿Estas seguro de cambiar el area del empleado {dni}, de "{trabajo_original}" a "{trabajo}"?'):
-                    consulta = "UPDATE personal SET trabajo = ? WHERE dni = ?;"
-                    datos = (trabajo, dni)
-                    if cursor.execute(consulta, datos):
-                        informacion("Procesado satisfactoriamente","Actualizacion de datos completada con exito.")
-                        conn.commit()
-                    else:
-                        informacion("Error inesperado", "No se pudo actualizar los datos del personal.")
-                else:
-                    informacion("Procesado cancelado satisfactoriamente","Actualizacion de datos cancelada.")
-            else:
-                pass
-
-    def eliminar_datos_personal(dni):
-        conn = sqlite3.connect('Balines_mojados.db')
-        cursor = conn.cursor()
-        consulta = "DELETE FROM personal WHERE dni = ?;"
-        datos = (dni,)
-        nombre = dni_a_nombre(dni)
-        apellido = dni_a_apellido(dni)
-        sucursal = dni_a_id_sucursal(dni)
-        if pregunta_si_no("Eliminar personal", f'¿Estas seguro de eliminar de la base de datos a "{nombre}", "{apellido}", con el dni: "{dni}" que trabaja en la sucursal de: "{sucursal}"?'):
-            if pregunta_si_no("Eliminar personal","¿Estas realmente segjguro?\n(Este cambio no se puede deshacer)"):
-                cursor.execute(consulta, datos)
-                informacion("Procesado satisfactoriamente","Actualizacion de datos completada con exito.")
-                conn.commit()
-            else:
-                informacion("Procesado cancelado satisfactoriamente","Actualizacion de datos cancelada.")
-        else:
-            informacion("Procesado cancelado satisfactoriamente","Actualizacion de datos cancelada.")
-
     def limpiar_frame(funcion):
         for widget in frame_principal.winfo_children():
             widget.destroy()
         funcion()
-    
-    def mostrar_contenido_personal():
+
+    def personal_frame():
+
+        #################################
+         #   SUBIR A LA BASE DE DATOS    #
+          #################################
+
+        def modificar_datos_personal(dni, id_sucursal = None, clave = None, nombre = None, apellido = None, trabajo = None):
+            conn = sqlite3.connect("Balines_mojados.db")
+            cursor = conn.cursor()
+
+            if id_sucursal != "" and id_sucursal != None:
+                id_sucursal_original = dni_a_id_sucursal(dni)
+
+                if id_sucursal != id_sucursal_original:
+
+                    if pregunta_si_no("Confirmar cambio", f'¿Estás seguro de cambiar la sucursal del empleado {nombre} {apellido} con DNI ({dni}) de "{id_sucursal_original}" a "{id_sucursal}"?'):
+                        consulta = "UPDATE personal SET clave = ? WHERE dni = ?;"
+                        datos = (id_sucursal, dni)
+
+                        if cursor.execute(consulta, datos):
+                            informacion("Procesado satisfactoriamente","Actualizacion de datos completada con exito.")
+                            conn.commit()
+                        else:
+                            informacion("Error inesperado", "No se pudo actualizar los datos del personal.")
+                    else:
+                        informacion("Procesado cancelado satisfactoriamente","Actualizacion de datos cancelada.")
+                else:
+                    pass
+
+            if clave != "" and clave != None:
+                clave_original = dni_a_clave(dni)
+
+                if clave != clave_original:
+
+                    if pregunta_si_no("Confirmar cambio", f'¿Estás seguro de cambiar la clave del empleado {nombre} {apellido} con DNI ({dni}), de "{clave_original}" a "{clave}"?'):
+                        consulta = "UPDATE personal SET clave = ? WHERE dni = ?;"
+                        datos = (clave, dni)
+
+                        if cursor.execute(consulta, datos):
+                            informacion("Procesado satisfactoriamente","Actualizacion de datos completada con exito.")
+                            conn.commit()
+                        else:
+                            informacion("Error inesperado", "No se pudo actualizar los datos del personal.")
+                    else:
+                        informacion("Procesado cancelado satisfactoriamente","Actualizacion de datos cancelada.")
+                else:
+                    pass
+
+            if nombre != "" and nombre != None:
+                nombre_original = dni_a_nombre(dni)
+
+                if nombre != nombre_original:
+                    
+                    if pregunta_si_no("Confirmar cambio", f'¿Estás seguro de cambiar el nombre del empleado con DNI ({dni}) de {nombre_original} {apellido} a {nombre} {apellido}?'):
+                        consulta = "UPDATE personal SET nombre = ? WHERE dni = ?;"
+                        datos = (nombre, dni)
+
+                        if cursor.execute(consulta, datos):
+                            informacion("Procesado satisfactoriamente","Actualizacion de datos completada con exito.")
+                            conn.commit()
+                        else:
+                            informacion("Error inesperado", "No se pudo actualizar los datos del personal.")
+                    else:
+                        informacion("Procesado cancelado satisfactoriamente","Actualizacion de datos cancelada.")
+                else:
+                    pass
+
+            if apellido != "" and apellido != None:
+                apellido_original = dni_a_apellido(dni)
+
+                if apellido != apellido_original:
+
+                    if pregunta_si_no("Confirmar cambio", f'¿Estás seguro de cambiar el apellido de {nombre} {apellido_original} con DNI ({dni}) a {nombre} {apellido}?'):
+                        consulta = "UPDATE personal SET apellido = ? WHERE dni = ?;"
+                        datos = (apellido, dni)
+
+                        if cursor.execute(consulta, datos):
+                            informacion("Procesado satisfactoriamente","Actualizacion de datos completada con exito.")
+                            conn.commit()
+                        else:
+                            informacion("Error inesperado", "No se pudo actualizar los datos del personal.")
+                    else:
+                        informacion("Procesado cancelado satisfactoriamente","Actualizacion de datos cancelada.")
+                else:
+                    pass
+
+            if trabajo != "" and trabajo != None:
+                trabajo_original = dni_a_trabajo(dni)
+
+                if trabajo != trabajo_original:
+
+                    if pregunta_si_no("Confirmar cambio", f'¿Estas seguro de cambiar el desempeño laboral del empleado {nombre} {apellido} con dni ({dni}), de "{trabajo_original}" a "{trabajo}"?'):
+                        consulta = "UPDATE personal SET trabajo = ? WHERE dni = ?;"
+                        datos = (trabajo, dni)
+
+                        if cursor.execute(consulta, datos):
+                            informacion("Procesado satisfactoriamente","Actualizacion de datos completada con exito.")
+                            conn.commit()
+                        else:
+                            informacion("Error inesperado", "No se pudo actualizar los datos del personal.")
+                    else:
+                        informacion("Procesado cancelado satisfactoriamente","Actualizacion de datos cancelada.")
+                else:
+                    pass
+
+        def eliminar_datos_personal(dni):
+            conn = sqlite3.connect("Balines_mojados.db")
+            cursor = conn.cursor()
+
+            consulta = "DELETE FROM personal WHERE dni = ?;"
+            datos = (dni,)
+            nombre = dni_a_nombre(dni)
+            apellido = dni_a_apellido(dni)
+            sucursal = dni_a_id_sucursal(dni)
+            sucursal = id_sucursal_a_barrio_sucursal(sucursal)
+
+            if pregunta_si_no("Eliminar personal", f'¿Estás seguro de eliminar de la base de datos a "{nombre} {apellido}" con DNI: "{dni}", que trabaja en la sucursal de: "{sucursal}"?'):
+
+                if pregunta_si_no("Eliminar personal","¿Estas realmente seguro?\n(Este cambio es irreversible)"):
+                    cursor.execute(consulta, datos)
+                    informacion("Procesado satisfactoriamente","Actualizacion de datos completada con exito.")
+                    conn.commit()
+                else:
+                    informacion("Procesado cancelado satisfactoriamente","Actualizacion de datos cancelada.")
+            else:
+                informacion("Procesado cancelado satisfactoriamente","Actualizacion de datos cancelada.")
         
+        ##############################
+         #   OBTENER DATOS DEL SOFT   #
+          ##############################
         def obtener_datos_añadir():
+            dni               = dni_entry_añadir.get()
+            sucursal_nombre   = sucursal_entry_añadir.get()
+            id_sucursal       = barrio_sucursal_a_id_sucursal(sucursal_nombre)
+            clave             = clave_entry_añadir.get()
+            clave_confir      = clave_confir_entry_añadir.get()
+            nombre            = nombre_entry_añadir.get()
+            nombre            = nombre.capitalize()
+            nombre            = nombre.lstrip()
+            apellido          = apellido_entry_añadir.get()
+            apellido          = apellido.capitalize()
+            apellido          = apellido.lstrip()
+            trabajo           = desempeño_entry_añadir.get()
+
             while True:
-                try:
-                    dni = dni_entry_añadir.get()
-                    dni = abs(int(dni))
-                    dni = str(dni)
-
-                    if len(dni) < 8 :
-                        alerta("Dni incompleto", "El numero de DNI proporcionado se encuentra incompleto.")
-                        return error
-                                  
-                    if len(dni) > 8:
-                        alerta("Dni inexistente", "El numero de DNI proporcionado es demasiado largo.")
-                        return error
-                    
-                    dni = int(dni)
-
-                except ValueError:
-                    alerta("Unicamente numeros", "El numero de DNI proporcionado no corresponde a un DNI.")
-                    return error
-                
-                sucursal_nombre = sucursal_entry_añadir.get()
-                id_sucursal = barrio_sucursal_a_id_sucursal(sucursal_nombre)
-
-                clave_acceso = clave_entry_añadir.get()
-                clave_confir = clave_confir_entry_añadir.get()
-
-                if len(clave_acceso) < 8:
-                    alerta("Clave muy corta", "La clave es muy corta, se necesita 8 caracteres como minimo.")
-                    return error
-                else:
-                    if len(clave_acceso) > 15:
-                        alerta("Clave muy larga", "La clave es muy larga, 15 caracteres como maximo.")
-                    else:
-                        if clave_acceso == clave_confir:
-                            pass
-                        else:
-                            alerta("Confirmar clave", "La clave no se pudo confirmar.")
-                            return error
-                        
-                nombre = nombre_entry_añadir.get()
-                nombre = nombre.lower()
-                nombre = nombre.lstrip()
-                
-                if nombre.isalpha():
-                    pass
-                    if len(nombre) < 3:
-                        alerta("El nombre es muy corto", "El nombre debe contener entre 4 y 30 caracteres.")
-                        return error
-                    
-                    if len(nombre) > 30:
-                        alerta("El nombre es muy largo","El nombre debe contener entre 4 y 30 caracteres.")
-                        return error
-                    
-                else:
-                    alerta("Nombre incorrecto",'El parametro de "Nombre", acepta unicamente letras.')
-                    return error
-                
-                apellido = apellido_entry_añadir.get()
-                apellido = apellido.lower()
-                apellido = apellido.lstrip()
-                
-                if apellido.isalpha():
-                    pass
-
-                    if len(apellido) < 3:
-                        alerta("El apellido es muy corto", "El apellido debe contener entre 4 y 30 caracteres.")
-                        return error
-                    
-                    if len(apellido) > 30:
-                        alerta("El apellido es muy largo", "El apellido debe contener entre 4 y 30 caracteres.")
-                        return error
-                
-                trabajo = desempeño_entry_añadir.get()
                 if existe_dni(dni):
-                    alerta("Error base de datos", "El Dni ya se encuentra en la base de datos.")
-                    return error
+                        alerta("Error base de datos", "El Dni ya se encuentra en la base de datos.")
+                        return error
                     
                 else:
-                    nombre_sucursal = id_sucursal_a_barrio_sucursal(id_sucursal)
-                    if pregunta_si_no("Confirmacion de datos", f"Los siguientes datos son correctos:\n-DNI: {dni}\n-Sucursal: {nombre_sucursal}\n-Clave_acceso: {clave_acceso}\n-Nombre: {nombre}\n-Apellido: {apellido}\n-Trabajo: {trabajo}"):
-                        dni_entry_añadir.delete(0, tk.END)
-                        sucursal_entry_añadir.delete(0, tk.END)
-                        clave_entry_añadir.delete(0, tk.END)
-                        clave_confir_entry_añadir.delete(0, tk.END)
-                        nombre_entry_añadir.delete(0, tk.END)
-                        apellido_entry_añadir.delete(0, tk.END)
-                        desempeño_entry_añadir.delete(0, tk.END)
-                        subir_datos_personal(dni, id_sucursal, clave_acceso, nombre, apellido, trabajo)
-                        break                    
-        
-        def obtener_datos_modificar():
-            while True:
-                try:
-                    dni = dni_entry_modificar.get()
-                    dni = str(dni)
-
-                    if len(dni) < 8 :
-                        alerta("Dni incompleto", "El numero de DNI proporcionado se encuentra incompleto.")
-                        return error
-                
-                    if len(dni) > 8:
-                        alerta("Dni inexistente", "El numero de DNI proporcionado es demasiado largo.")
-                        return error
-                    else:
-                        pass
-
-                    dni = int(dni)
-
-                except ValueError:
-                    alerta("Unicamente numeros", "El numero de DNI proporcionado no corresponde a un DNI.")
-                    return error
-
-                if existe_dni(dni):
-                    sucursal_nombre = sucursal_entry_modificar.get()
-                    id_sucursal = barrio_sucursal_a_id_sucursal(sucursal_nombre)
-
                     
-                    clave_acceso = clave_entry_modificar.get()
-                    clave_confir = clave_confir_entry_modificar.get()
-                    if len(clave_acceso) < 8:
-                        alerta("Clave muy corta", "La clave es muy corta, se necesita 8 caracteres como minimo.")
-                        return error
+                    if dni == "":
+                        alerta("Dni incompleto", "El campo del dni se encuentra vacio.")
+                        break
+                    
                     else:
-                        if len(clave_acceso) > 15:
-                            alerta("Clave muy larga", "La clave es muy larga, 15 caracteres como maximo.")
-                        else:
-                            if clave_acceso == clave_confir:
-                                pass
-                            else:
-                                
-                                alerta("Confirmar clave", "La clave no se pudo confirmar.")
+                        try:
+                            dni = abs(int(dni))
+                            dni = str(dni)
+
+                            if len(dni) < 8 :
+                                alerta("Dni incompleto", "El numero de DNI proporcionado se encuentra incompleto.")
                                 return error
+                                        
+                            if len(dni) > 8:
+                                alerta("Dni inexistente", "El numero de DNI proporcionado es demasiado largo.")
+                                return error
+                            
+                            dni = int(dni)
 
-                
-                    nombre = nombre_entry_modificar.get()
-                    nombre = nombre.lower()
-                    nombre = nombre.lstrip()
-                    if nombre.isalpha():
-                        pass
-                        if len(nombre) < 3:
-                            alerta("El nombre es muy corto", "El nombre debe contener entre 4 y 30 caracteres.")
+                        except ValueError:
+                            alerta("Unicamente numeros", "El numero de DNI proporcionado no corresponde a un DNI.")
                             return error
                         
-                        if len(nombre) > 30:
-                            alerta("El nombre es muy largo","El nombre debe contener entre 4 y 30 caracteres.")
-                            return error
-                    
-                    else:
-                        alerta("Nombre incorrecto",'El parametro de "Nombre", acepta unicamente letras.')
+                        if sucursal_nombre == "~~~ Sucursal a seleccionar ~~~":
+                            alerta("Sucursal incompleta", "El campo del sucursal no es una sucursal.")
+                            break
+                        else:
+
+                            if clave == "":
+                                alerta("Clave incompleta", "El campo de la clave se encuentra vacio.")
+                                break
+
+                            else:
+                                if len(clave) < 8:
+                                    alerta("Clave muy corta", "La clave es muy corta, se necesita 8 caracteres como minimo.")
+                                    return error
+                                else:
+
+                                    if len(clave) > 15:
+                                        alerta("Clave muy larga", "La clave es muy larga, 15 caracteres como maximo.")
+                                    else:
+
+                                        if clave == clave_confir:
+                                            pass
+                                        else:
+                                            alerta("Confirmar clave", "La clave no se pudo confirmar.")
+                                            return error
+                                if nombre == "":
+                                    alerta("Nombre incompleto", "El campo del nombre se encuentra vacio.")
+                                    break
+
+                                else:
+                                    if nombre.isalpha():
+
+                                        if len(nombre) < 3:
+                                            alerta("El nombre es muy corto", "El nombre debe contener entre 4 y 30 caracteres.")
+                                            return error
+                                        
+                                        if len(nombre) > 30:
+                                            alerta("El nombre es muy largo","El nombre debe contener entre 4 y 30 caracteres.")
+                                            return error
+                                        
+                                    else:
+                                        alerta("Nombre incorrecto",'El parametro de "Nombre", acepta unicamente letras.')
+                                        return error
+                                
+                                    if apellido == "":
+                                        alerta("Apellido incompleto", "El campo del apellido se encuentra vacio.")
+                                        break
+
+                                    else:
+                                        if apellido.isalpha():
+
+                                            if len(apellido) < 3:
+                                                alerta("El apellido es muy corto", "El apellido debe contener entre 4 y 30 caracteres.")
+                                                return error
+                                            
+                                            if len(apellido) > 30:
+                                                alerta("El apellido es muy largo", "El apellido debe contener entre 4 y 30 caracteres.")
+                                                return error
+
+                                            conn = sqlite3.connect("Balines_mojados.db")
+                                            cursor = conn.cursor()
+
+                                            consulta = "INSERT INTO personal (dni, id_sucursal, clave, nombre, apellido, trabajo) VALUES (?, ?, ?, ?, ?, ?)"
+                                            barrio_sucusal = id_sucursal_a_barrio_sucursal(id_sucursal)
+                                            datos = (dni, id_sucursal, clave, nombre, apellido, trabajo)
+
+                                            if pregunta_si_no("Confirmacion de datos", f'¿Están correctos los siguientes datos?\n● Nombre: "{nombre}"\n● Apellido: "{apellido}"\n● Cargo: "{trabajo}"\n● En la sucursal: "{barrio_sucusal}"?'):
+                                                dni_entry_añadir.delete(0, tk.END)
+                                                sucursal_entry_añadir.current(0)
+                                                clave_entry_añadir.delete(0, tk.END)
+                                                clave_confir_entry_añadir.delete(0, tk.END)
+                                                nombre_entry_añadir.delete(0, tk.END)
+                                                apellido_entry_añadir.delete(0, tk.END)
+                                                desempeño_entry_añadir.current(0)
+
+                                                cursor.execute(consulta, datos)
+                                                conn.commit()
+                                                informacion("Procesado satisfactoriamente", "Personal agregado correctamente a la base de datos.")
+                                                break
+                                            else:
+                                                informacion("Procesado cancelado satisfactoriamente","Añadicion de datos cancelada.")
+                                                break
+
+                                        else:
+                                            alerta("Apellido Incorrecto", "El apellido tiene que conformarse unicamente por letras")
+                                            break
+                                            
+                                        
+                                
+        def obtener_datos_modificar():
+            dni                = dni_entry_modificar.get()
+            sucursal_nombre    = sucursal_entry_modificar.get()
+            id_sucursal        = barrio_sucursal_a_id_sucursal(sucursal_nombre)
+            clave              = clave_entry_modificar.get()
+            clave_confir       = clave_confir_entry_modificar.get()
+            nombre             = nombre_entry_modificar.get()
+            nombre             = nombre.capitalize()
+            nombre             = nombre.lstrip()
+            apellido           = apellido_entry_modificar.get()
+            apellido           = apellido.capitalize()
+            apellido           = apellido.lstrip()
+            trabajo            = desempeño_entry_modificar.get()
+
+            while True:
+                if existe_dni(dni) == False:
+                        alerta("Error base de datos", "El Dni no se encuentra en la base de datos.")
                         return error
                     
-                    
-                    apellido = apellido_entry_modificar.get()
-                    apellido = apellido.lower()
-                    apellido = apellido.lstrip()
-                    
-                    if apellido.isalpha():
-                        pass
-
-                        if len(apellido) < 3:
-                            alerta("El apellido es muy corto", "El apellido debe contener entre 4 y 30 caracteres.")
-                            return error
-                        
-                        if len(apellido) > 30:
-                            alerta("El apellido es muy largo", "El apellido debe contener entre 4 y 30 caracteres.")
-                            return error
-                        
-                    else:
-                        alerta("Apellido incorrecto",'El parametro de "Apellido", acepta unicamente letras.')
-                        return error
-                    
-                    trabajo = desempeño_entry_modificar.get()
-                    modificar_datos_personal(dni, id_sucursal, clave_acceso, nombre, apellido, trabajo)
-                    break
                 else:
-                    alerta("Error base de datos", "El Dni no se encuentra en la base de datos.")
-                    return error
+                    
+                    if dni == "":
+                        alerta("Dni incompleto", "El campo del dni se encuentra vacio.")
+                        break
+                    
+                    else:
+                        try:
+                            dni = abs(int(dni))
+                            dni = str(dni)
+
+                            if len(dni) < 8 :
+                                alerta("Dni incompleto", "El numero de DNI proporcionado se encuentra incompleto.")
+                                return error
+                                        
+                            if len(dni) > 8:
+                                alerta("Dni inexistente", "El numero de DNI proporcionado es demasiado largo.")
+                                return error
+                            
+                            dni = int(dni)
+
+                        except ValueError:
+                            alerta("Unicamente numeros", "El numero de DNI proporcionado no corresponde a un DNI.")
+                            return error
+                        
+                        if sucursal_nombre == "~~~ Sucursal a seleccionar ~~~":
+                            alerta("Sucursal incompleta", "El campo del sucursal no es una sucursal.")
+                            break
+                        else:
+
+                            if clave == "":
+                                alerta("Clave incompleta", "El campo de la clave se encuentra vacio.")
+                                break
+
+                            else:
+                                if len(clave) < 8:
+                                    alerta("Clave muy corta", "La clave es muy corta, se necesita 8 caracteres como minimo.")
+                                    return error
+                                else:
+
+                                    if len(clave) > 15:
+                                        alerta("Clave muy larga", "La clave es muy larga, 15 caracteres como maximo.")
+                                    else:
+
+                                        if clave == clave_confir:
+                                            pass
+                                        else:
+                                            alerta("Confirmar clave", "La clave no se pudo confirmar.")
+                                            return error
+                                if nombre == "":
+                                    alerta("Nombre incompleto", "El campo del nombre se encuentra vacio.")
+                                    break
+
+                                else:
+                                    if nombre.isalpha():
+
+                                        if len(nombre) < 3:
+                                            alerta("El nombre es muy corto", "El nombre debe contener entre 4 y 30 caracteres.")
+                                            return error
+                                        
+                                        if len(nombre) > 30:
+                                            alerta("El nombre es muy largo","El nombre debe contener entre 4 y 30 caracteres.")
+                                            return error
+                                        
+                                    else:
+                                        alerta("Nombre incorrecto",'El parametro de "Nombre", acepta unicamente letras.')
+                                        return error
+                                
+                                    if apellido == "":
+                                        alerta("Apellido incompleto", "El campo del apellido se encuentra vacio.")
+                                        break
+
+                                    else:
+                                        if apellido.isalpha():
+
+                                            if len(apellido) < 3:
+                                                alerta("El apellido es muy corto", "El apellido debe contener entre 4 y 30 caracteres.")
+                                                return error
+                                            
+                                            if len(apellido) > 30:
+                                                alerta("El apellido es muy largo", "El apellido debe contener entre 4 y 30 caracteres.")
+                                                return error
+                                        else:
+                                            alerta("Apellido Incorrecto", "El apellido tiene que conformarse unicamente por letras")
+                                        dni_entry_modificar.delete(0, tk.END)
+                                        sucursal_entry_modificar.delete(0, tk.END)
+                                        clave_entry_modificar.delete(0, tk.END)
+                                        clave_confir_entry_modificar.delete(0, tk.END)
+                                        nombre_entry_modificar.delete(0, tk.END)
+                                        apellido_entry_modificar.delete(0, tk.END)
+                                        desempeño_entry_modificar.delete(0, tk.END)
+                                        subir_datos_personal(dni, id_sucursal, clave, nombre, apellido, trabajo)
 
         def obtener_datos_eliminar():
+                dni = dni_entry_eliminar.get()
+                
                 try:
-                    dni = dni_entry_eliminar.get()
+                    
                     dni = str(dni)
 
                     if len(dni) < 8 :
@@ -1008,431 +1115,478 @@ def ventana_administrador(dni_administrador = None, id_sucursal_administrador = 
                     alerta("Error base de datos", "El Dni no se encuentra en la base de datos.")
                     return error
         
+        # Lista de los barrios de las sucursales:
+        sucursales = lista_barrios_sucursales()
 
+        # Lista del desempeño del personal:
+        desempeño = ["Recepcionista", "Referi", "Equipamiento","Seguridad", "Administrador"]
+
+        # Configuracion del grid del frame principal.
         for x in range(3):
             frame_principal.grid_columnconfigure(x, weight = 1)
         frame_principal.grid_rowconfigure(0, weight = 1)
 
+        # Declaracion de los frames.
+        frame_añadir      = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
+        frame_modificar   = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
+        frame_eliminar    = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
 
-        # Frame añadir personal
-        frame_añadir = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
-        frame_añadir.grid(column = 0, row = 0, sticky = "nsew", pady = (5,0), padx = (0,5))
+        # Posicionamiento de los frames.
+        frame_añadir.grid(     column = 0, row = 0, sticky = "nsew", pady = (5,0), padx = (0,5))
+        frame_modificar.grid(  column = 1, row = 0, sticky = "nsew", pady = (5,0), padx = (0,5))
+        frame_eliminar.grid(   column = 2, row = 0, sticky = "nsew", pady = (5,0))
 
-        frame_añadir.grid_columnconfigure(0, weight = 1)
+        # Configuracion del grid de los frames.
         for x in range(15):
             frame_añadir.grid_rowconfigure(x, weight = 1)
+        frame_añadir.grid_columnconfigure(0, weight = 1)
 
-
-        # Frame modificar personal
-        frame_modificar = tk.Frame(frame_principal, background= fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
-        frame_modificar.grid(column = 1, row = 0, sticky = "nsew", pady = (5,0), padx = (0,5))
-
-        frame_modificar.grid_columnconfigure(0, weight = 1)
         for x in range(15):
             frame_modificar.grid_rowconfigure(x, weight = 1)
+        frame_modificar.grid_columnconfigure(0, weight = 1)
 
-
-        # Frame eliminar personal
-        frame_eliminar = tk.Frame(frame_principal, background= fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
-        frame_eliminar.grid(column = 2, row = 0, sticky = "nsew", pady = (5,0))
-
-        frame_eliminar.grid_columnconfigure(0, weight = 1)
         for x in range(15):
             frame_eliminar.grid_rowconfigure(x, weight = 1)
+        frame_eliminar.grid_columnconfigure(0, weight = 1)
+
+        
+
+          ##################################################
+         #    DECLARACION DE ELEMENTOS AÑADIR PERSONAL    #
+        ##################################################
+        encabezado_añadir          = tk.Label(       frame_añadir, text = "AÑADIR PERSONAL", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
+                
+        dni_texto_añadir           = tk.Label(       frame_añadir, text = "Dni del personal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        dni_entry_añadir           = tk.Entry(       frame_añadir, font = ("Bold", 15))
+         
+        sucursal_texto_añadir      = tk.Label(       frame_añadir, text = "Sucursal en la que desempeñará su trabajo:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        sucursal_entry_añadir      = ttk.Combobox(   frame_añadir, values = sucursales, state = "readonly", font = ("Bold", 15))
+        sucursal_entry_añadir.current(0)
+        
+        clave_texto_añadir         = tk.Label(       frame_añadir, text = "Clave del personal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        clave_entry_añadir         = tk.Entry(       frame_añadir, font = ("Bold", 15))
+        
+        clave_confir_texto_añadir  = tk.Label(       frame_añadir, text = "Repita la clave:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        clave_confir_entry_añadir  = tk.Entry(       frame_añadir, font = ("Bold", 15))
+                 
+        nombre_texto_añadir        = tk.Label(       frame_añadir, text = "Nombre del empleado:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        nombre_entry_añadir        = tk.Entry(       frame_añadir, font = ("Bold", 15))
+               
+        apellido_texto_añadir      = tk.Label(       frame_añadir, text = "Apellido del empleado:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        apellido_entry_añadir      = tk.Entry(       frame_añadir, font = ("Bold", 15))
+        
+        desempeño_texto_añadir     = tk.Label(       frame_añadir, text = "Desempeño laboral:", foreground = letras,  bg = fondo_secundario, font = ("Bold", 15))
+        desempeño_entry_añadir     = ttk.Combobox(   frame_añadir, values = desempeño, state = "readonly", font = ("Bold", 15))
+        desempeño_entry_añadir.current(0)
+
+        btn_añadir =                  tk.Button(frame_añadir, text = "Añadir personal", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2, command = obtener_datos_añadir)
+
+          ######################################################
+         #    POSICIONAMIENTO DE ELEMENTOS AÑADIR PERSONAL    #
+        ######################################################
+        encabezado_añadir.grid(            column = 0, row = 0,  sticky = "nsew", padx = 5, pady = 5)
+
+        dni_texto_añadir.grid(             column = 0, row = 1,  sticky = "nsew")
+        dni_entry_añadir.grid(             column = 0, row = 2,  sticky = "ew",   padx = 15)
+
+        sucursal_texto_añadir.grid(        column = 0, row = 3,  sticky = "nsew")
+        sucursal_entry_añadir.grid(        column = 0, row = 4,  sticky = "ew",   padx = 15)
+
+        clave_texto_añadir.grid(           column = 0, row = 5,  sticky = "nsew")
+        clave_entry_añadir.grid(           column = 0, row = 6,  sticky = "ew",   padx = 15)
+        clave_confir_texto_añadir.grid(    column = 0, row = 7,  sticky = "nsew")
+        clave_confir_entry_añadir.grid(    column = 0, row = 8,  sticky = "ew",   padx = 15)
+
+        nombre_texto_añadir.grid(          column = 0, row = 9,  sticky = "nsew")
+        nombre_entry_añadir.grid(          column = 0, row = 10, sticky = "ew",   padx = 15)
+
+        apellido_texto_añadir.grid(        column = 0, row = 11, sticky = "nsew")
+        apellido_entry_añadir.grid(        column = 0, row = 12, sticky = "ew",   padx = 15)
+
+        desempeño_texto_añadir.grid(       column = 0, row = 13, sticky = "nsew")
+        desempeño_entry_añadir.grid(       column = 0, row = 14, sticky = "ew",   padx = 15)
+        
+        btn_añadir.grid(                   column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
+
+          #####################################################
+         #    DECLARACION DE ELEMENTOS MODIFICAR PERSONAL    #
+        #####################################################
+        encabezado_modificar              = tk.Label(       frame_modificar, text = "MODIFICAR DATOS DE PERSONAL",    border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
+        dni_texto_modificar               = tk.Label(       frame_modificar, text = "Dni del personal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        dni_entry_modificar               = tk.Entry(       frame_modificar, font = ("Bold", 15))
+        sucursal_texto_modificar          = tk.Label(       frame_modificar, text = "Sucursal en la que desempeña su trabajo:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        sucursal_entry_modificar          = ttk.Combobox(   frame_modificar, values = sucursales, state = "readonly", font = ("Bold", 15))
+        sucursal_entry_modificar.current(0)
+        clave_texto_modificar             = tk.Label(       frame_modificar, text = "Clave del personal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        clave_entry_modificar             = tk.Entry(       frame_modificar, font = ("Bold", 15))
+        clave_confir_texto_modificar      = tk.Label(       frame_modificar, text = "Repita la clave:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        clave_confir_entry_modificar      = tk.Entry(       frame_modificar, font = ("Bold", 15))
+        nombre_texto_modificar            = tk.Label(       frame_modificar, text = "Nombre del empleado:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        nombre_entry_modificar            = tk.Entry(       frame_modificar, font = ("Bold", 15))
+        apellido_texto_modificar          = tk.Label(       frame_modificar, text = "Apellido del empleado:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        apellido_entry_modificar          = tk.Entry(       frame_modificar, font = ("Bold", 15))
+        desempeño_texto_modificar         = tk.Label(       frame_modificar, text = "Desempeño laboral:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        desempeño_entry_modificar         = ttk.Combobox(   frame_modificar, values = desempeño, state = "readonly", font = ("Bold", 15))
+        desempeño_entry_modificar.current(0)
+        btn_modificar                     = tk.Button(      frame_modificar, text = "Guardar datos del personal", foreground = letras, bg = fondo_secundario, font = ("Bold", 15),relief = "ridge", activebackground = fondo_boton_activo, border = 2, command = obtener_datos_modificar)
+
+          #########################################################
+         #    POSICIONAMIENTO DE ELEMENTOS MODIFICAR PERSONAL    #
+        #########################################################
+        encabezado_modificar.grid(         column = 0, row = 0,  sticky = "nsew", padx = 5, pady = 5)
+        dni_texto_modificar.grid(          column = 0, row = 1,  sticky = "nsew")
+        dni_entry_modificar.grid(          column = 0, row = 2,  sticky = "ew", padx = 15)
+        sucursal_texto_modificar.grid(     column = 0, row = 3,  sticky = "nsew")
+        sucursal_entry_modificar.grid(     column = 0, row = 4,  sticky = "ew", padx = 15)
+        clave_texto_modificar.grid(        column = 0, row = 5,  sticky = "nsew")
+        clave_entry_modificar.grid(        column = 0, row = 6,  sticky = "ew", padx = 15)
+        clave_confir_texto_modificar.grid( column = 0, row = 7,  sticky = "nsew")
+        clave_confir_entry_modificar.grid( column = 0, row = 8,  sticky = "ew", padx = 15)
+        nombre_texto_modificar.grid(       column = 0, row = 9,  sticky = "nsew")
+        nombre_entry_modificar.grid(       column = 0, row = 10, sticky = "ew", padx = 15)
+        apellido_texto_modificar.grid(     column = 0, row = 11, sticky = "nsew")
+        apellido_entry_modificar.grid(     column = 0, row = 12, sticky = "ew", padx = 15)
+        desempeño_texto_modificar.grid(    column = 0, row = 13, sticky = "nsew")
+        desempeño_entry_modificar.grid(    column = 0, row = 14, sticky = "ew", padx = 15)
+        btn_modificar.grid(                column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
+
+          ####################################################
+         #    DECLARACION DE ELEMENTOS ELIMINAR PERSONAL    #
+        ####################################################
+        encabezado_eliminar           = tk.Label(    frame_eliminar, text = "ELIMINAR PERSONAL", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
+        dni_texto_eliminar            = tk.Label(    frame_eliminar, text = "Dni del personal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        dni_entry_eliminar            = tk.Entry(    frame_eliminar, font = ("Bold", 15))
+        btn_eliminar                  = tk.Button(   frame_eliminar, text = "Eliminar personal", foreground = letras, bg = fondo_secundario, font = ("Bold", 15),relief = "ridge", activebackground = fondo_boton_activo, border = 2, command = obtener_datos_eliminar)
+        
+          #########################################################
+         #    POSICIONAMIENTO DE ELEMENTOS ELIMINARS PERSONAL    #
+        #########################################################
+        encabezado_eliminar.pack(    side = "top",     fill = "x", padx = 5, pady = 5)
+        dni_texto_eliminar.pack(     side = "top",     fill = "x", padx = 5, pady = 5)
+        dni_entry_eliminar.pack(     side = "top",     fill = "x", padx = 15, pady = 5)
+        btn_eliminar.pack(           side = "bottom",  fill = "x", padx = 5, pady = 5)
+
+    def sucursales_frame():
+
+        def obtener_datos_añadir():
+            barrio   = barrio_entry_añadir.get()
+            calle    = calle_entry_añadir.get()
+            numero   = altura_entry_añadir.get()
+            estado   = estado_entry_añadir.get()
+            while True:
+                if barrio == "":
+                    alerta
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+        estados = ["Activa", "Inactiva", "Suspendida",  "Renovaciones"]
 
         sucursales = lista_barrios_sucursales()
         sucursal_default = sucursales[0]
+
+        for x in range(3):
+            frame_principal.grid_columnconfigure(x, weight = 1)
+        frame_principal.grid_rowconfigure(0, weight = 1)
+        
+        frame_añadir      = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
+        frame_modificar   = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
+        frame_eliminar    = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
+
+        frame_añadir.grid(     column = 0, row = 0, sticky = "nsew", pady = (5, 0), padx = (0, 5))
+        frame_modificar.grid(  column = 1, row = 0, sticky = "nsew", pady = (5, 0), padx = (0, 5))
+        frame_eliminar.grid(   column = 2, row = 0, sticky = "nsew", pady = (5, 0))
+
+        for x in range(15):
+            frame_añadir.grid_rowconfigure(x, weight = 1)
+        frame_añadir.grid_columnconfigure(0, weight = 1)
+
+        for x in range(15):
+            frame_modificar.grid_rowconfigure(x, weight = 1)
+        frame_modificar.grid_columnconfigure(0, weight = 1)
+
+        for x in range(15):
+            frame_eliminar.grid_rowconfigure(x, weight = 1)
+        frame_eliminar.grid_columnconfigure(0, weight = 1)
+
+          ####################################################
+         #    DECLARACION DE ELEMENTOS AÑADIR SUCURSALES    #
+        ####################################################
+        
+        encabezado_añadir          = tk.Label(      frame_añadir, text = "AÑADIR SUCURSAL", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
+            
+        barrio_texto_añadir        = tk.Label(      frame_añadir, text = "Barrio de la sucursal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        barrio_entry_añadir        = tk.Entry(      frame_añadir, font = ("Bold", 15))
+            
+        calle_texto_añadir         = tk.Label(      frame_añadir, text = "Calle de la sucursal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        calle_entry_añadir         = tk.Entry(      frame_añadir, font = ("Bold", 15))
+            
+        altura_texto_añadir        = tk.Label(      frame_añadir, text = "Numero de la calle:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        altura_entry_añadir        = tk.Entry(      frame_añadir, font = ("Bold", 15))
+        
+        estado_texto_añadir        = tk.Label(      frame_añadir, text = "Estado de la sucursal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        
+        estado_entry_añadir       = ttk.Combobox(   frame_añadir, values = estados, state = "readonly", font = ("Bold", 15))
+        estado_entry_añadir.current(0)
+
+        btn_añadir                 = tk.Button(     frame_añadir, text = "AÑADIR SUCURSAL", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2)
+        
+          ###################################################
+         #    COLOCACION DE ELEMENTOS AÑADIR SUCURSALES    #
+        ###################################################
+        encabezado_añadir.grid(      column = 0, row = 0, sticky = "nsew", padx = 5, pady = 5)
+
+        barrio_texto_añadir.grid(    column = 0, row = 1, sticky = "nsew")
+        barrio_entry_añadir.grid(    column = 0, row = 2, sticky = "ew", padx = 15)
+    
+        calle_texto_añadir.grid(     column = 0, row = 3, sticky = "nsew")
+        calle_entry_añadir.grid(     column = 0, row = 4, sticky = "ew", padx = 15)
+    
+        altura_texto_añadir.grid(    column = 0, row = 5, sticky = "nsew")
+        altura_entry_añadir.grid(    column = 0, row = 6, sticky = "ew", padx = 15)
+
+        estado_texto_añadir.grid(    column = 0, row = 7, sticky = "nsew")
+        estado_entry_añadir.grid(    column = 0, row = 8, sticky = "ew", padx = 15)
+
+        btn_añadir.grid(             column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
+        
+        
+          #######################################################
+         #    DECLARACION DE ELEMENTOS MODIFICAR SUCURSALES    #
+        #######################################################
+        encabezado_modificar       = tk.Label(frame_modificar, text = "MODIFICAR SUCURSAL", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
+        
+        sucursal_texto_modificar   = tk.Label(frame_modificar, text = "Sucursal a modificar:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        sucursal_entry_modificar   = ttk.Combobox(frame_modificar, values = sucursales, state = "readonly", font = ("Bold", 15))
+        sucursal_entry_modificar.current(0)
+       
+        barrio_texto_modificar     = tk.Label(frame_modificar, text = "Barrio de la sucursal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        barrio_entry_modificar     = tk.Entry(frame_modificar, font = ("Bold", 15))
+        
+        calle_texto_modificar      = tk.Label(frame_modificar, text = "Calle de la sucursal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        calle_entry_modificar      = tk.Entry(frame_modificar, font = ("Bold", 15))
+        
+        altura_texto_modificar     = tk.Label(frame_modificar, text = "Altura de la calle:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        altura_entry_modificar     = tk.Entry(frame_modificar, font = ("Bold", 15))
+        
+        btn_modificar               = tk.Button(frame_modificar, text = "GUARDAR DATOS DE LA SUCURSAL", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2)
+        
+
+          #####################################################
+         #    COLOCACION DE ELEMENTOS ELIMINAR SUCURSALES    #
+        #####################################################
+        encabezado_modificar.grid(        column = 0, row = 0, sticky = "nsew", padx = 5, pady = 5)
+        
+        sucursal_texto_modificar.grid(    column = 0, row = 1, sticky = "nsew")
+        sucursal_entry_modificar.grid(    column = 0, row = 2, sticky = "ew", padx = 15)
+        
+        barrio_texto_modificar.grid(      column = 0, row = 3, sticky = "nsew")
+        barrio_entry_modificar.grid(      column = 0, row = 4, sticky = "ew", padx = 15)
+        
+        calle_texto_modificar.grid(       column = 0, row = 5, sticky = "nsew")
+        calle_entry_modificar.grid(       column = 0, row = 6, sticky = "ew", padx = 15)
+        
+        altura_texto_modificar.grid(      column = 0, row = 7, sticky = "nsew")
+        altura_entry_modificar.grid(      column = 0, row = 8, sticky = "ew", padx = 15)
+        
+        btn_modificar.grid(               column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
+
+          #######################################################
+         #    DECLARACION DE ELEMENTOS MODIFICAR SUCURSALES    #
+        #######################################################
+        encabezado_eliminar              = tk.Label(frame_eliminar, text = "ELIMINAR SUCURSAL", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
+        sucursal_texto_eliminar          = tk.Label(frame_eliminar, text = "Sucursal a eliminar:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        sucursal_entry_eliminar          = ttk.Combobox(frame_eliminar, values = sucursales, state = "readonly", font = ("Bold", 15))
+        btn_eliminar                     = tk.Button(frame_eliminar, text = "ELIMINAR SUCURSAL", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2)
+        
+
+          #####################################################
+         #    COLOCACION DE ELEMENTOS ELIMINAR SUCURSALES    #
+        #####################################################
+        encabezado_eliminar.grid(         column = 0, row = 0, sticky = "nsew")
+        sucursal_texto_eliminar.grid(     column = 0, row = 1, sticky = "nsew", padx = 5, pady = 5)
+        sucursal_entry_eliminar.grid(     column = 0, row = 2, sticky = "ew", padx = 15)
+        btn_eliminar.grid(                column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
+
+    def canchas_frame():
+        tamaño_cancha = ["Grande", "Mediana", "Chica"]
+        tipo_cancha = ["Speedball", "Recball", "Woodsball"]
+        obstaculos = ["Artificiales", "Naturales"]
+        min_jug = [6, 8, 12]
+        max_jug = [12, 16, 24]
+        terreno = ["Tierra", "Pasto sintetico", "Cemento", "Polvo de ladrillo"]
+
+        # Lista de los barrios de las sucursales:
+        sucursales = lista_barrios_sucursales()
+        sucursal_default = sucursales[0]
+
+        # Lista del desempeño del personal:
         desempeño = ["Recepcionista", "Referi", "Equipamiento","Seguridad", "Administrador"]
         desempeño_default = desempeño[0]
-
-        encabezado_añadir = tk.Label(frame_añadir, text = "AÑADIR PERSONAL", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
-        encabezado_añadir.grid(column = 0, row = 0, sticky = "nsew", padx = 5, pady = 5)
-
-        dni_texto_añadir = tk.Label(frame_añadir, text = "Dni del personal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        dni_texto_añadir.grid(column = 0, row = 1, sticky = "nsew")
-
-        dni_entry_añadir = tk.Entry(frame_añadir, font = ("Bold", 15))
-        dni_entry_añadir.grid(column = 0, row = 2, sticky = "ew", padx = 15)
-
-        sucursal_texto_añadir = tk.Label(frame_añadir, text = "Sucursal en la que desempeñará su trabajo:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        sucursal_texto_añadir.grid(column = 0, row = 3, sticky = "nsew")
-
-          ##########################
-         #    LISTA SUCURSALES    #
-        ##########################
-        sucursal_entry_añadir = ttk.Combobox(frame_añadir, values = sucursales, state = "readonly", font = ("Bold", 15))
-        sucursal_entry_añadir.set(sucursal_default)
-        sucursal_entry_añadir.grid(column = 0, row = 4, sticky = "ew", padx = 15)
-
-        clave_texto_añadir = tk.Label(frame_añadir, text = "Clave del personal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        clave_texto_añadir.grid(column = 0, row = 5, sticky = "nsew")
-
-        clave_entry_añadir = tk.Entry(frame_añadir, font = ("Bold", 15))
-        clave_entry_añadir.grid(column = 0, row = 6, sticky = "ew", padx = 15)
-
-        clave_confir_texto_añadir = tk.Label(frame_añadir, text = "Repita la clave:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        clave_confir_texto_añadir.grid(column = 0, row = 7, sticky = "nsew")
-
-        clave_confir_entry_añadir = tk.Entry(frame_añadir, font = ("Bold", 15))
-        clave_confir_entry_añadir.grid(column = 0, row = 8, sticky = "ew", padx = 15)
-
-        nombre_texto_añadir = tk.Label(frame_añadir, text = "Nombre del empleado:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        nombre_texto_añadir.grid(column = 0, row = 9, sticky = "nsew")
-
-        nombre_entry_añadir = tk.Entry(frame_añadir, font = ("Bold", 15))
-        nombre_entry_añadir.grid(column = 0, row = 10, sticky = "ew", padx = 15)
-
-        apellido_texto_añadir = tk.Label(frame_añadir, text = "Apellido del empleado:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        apellido_texto_añadir.grid(column = 0, row = 11, sticky = "nsew")
-
-        apellido_entry_añadir = tk.Entry(frame_añadir, font = ("Bold", 15))
-        apellido_entry_añadir.grid(column = 0, row = 12, sticky = "ew", padx = 15)
-
-        desempeño_texto_añadir = tk.Label(frame_añadir, text = "Desempeño laboral:", foreground = letras,  bg = fondo_secundario, font = ("Bold", 15))
-        desempeño_texto_añadir.grid(column = 0, row = 13, sticky = "nsew")
-
-          #########################
-         #    LISTA DESEMPEÑO    #
-        #########################
-
-        desempeño_entry_añadir = ttk.Combobox(frame_añadir, values = desempeño, state = "readonly", font = ("Bold", 15))
-        desempeño_entry_añadir.set(desempeño_default)
-        desempeño_entry_añadir.grid(column = 0, row = 14, sticky = "ew", padx = 15)
         
-        btn_añadir = tk.Button(frame_añadir, text = "Añadir personal", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2, command = obtener_datos_añadir)
-        btn_añadir.grid(column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
+        for x in range(3):
+            frame_principal.grid_columnconfigure(x, weight = 1)
+        frame_principal.grid_rowconfigure(0, weight = 1)
 
-
-
-          ###########################
-         #    FRAME 2 MODIFICAR    #
-        ###########################      
-
-
-
-        encabezado_modificar = tk.Label(frame_modificar, text = "MODIFICAR DATOS DE PERSONAL", border = 1, foreground = letras,  bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
-        encabezado_modificar.grid(column = 0, row = 0, sticky = "nsew", padx=5,pady=5)
-
-        dni_texto_modificar = tk.Label(frame_modificar, text = "Dni del personal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        dni_texto_modificar.grid(column = 0, row = 1, sticky = "nsew")
-
-        dni_entry_modificar = tk.Entry(frame_modificar, font = ("Bold", 15))
-        dni_entry_modificar.grid(column = 0, row = 2, sticky = "ew", padx = 15)
-
-        sucursal_texto_modificar = tk.Label(frame_modificar, text = "Sucursal en la que desempeña su trabajo:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        sucursal_texto_modificar.grid(column = 0, row = 3, sticky = "nsew")
-
-          ##########################
-         #    LISTA SUCURSALES    #
-        ##########################
-
-        sucursal_entry_modificar = ttk.Combobox(frame_modificar, values = sucursales, state = "readonly", font = ("Bold", 15))
-        sucursal_entry_modificar.set(sucursal_default)
-        sucursal_entry_modificar.grid(column = 0, row = 4, sticky = "ew", padx = 15)
-
-        clave_texto_modificar = tk.Label(frame_modificar, text = "Clave del personal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        clave_texto_modificar.grid(column = 0, row = 5, sticky = "nsew")
-
-        clave_entry_modificar = tk.Entry(frame_modificar, font = ("Bold", 15))
-        clave_entry_modificar.grid(column = 0, row = 6, sticky = "ew", padx = 15)
-
-        clave_confir_texto_modificar = tk.Label(frame_modificar, text = "Repita la clave:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        clave_confir_texto_modificar.grid(column = 0, row = 7, sticky = "nsew")
-
-        clave_confir_entry_modificar = tk.Entry(frame_modificar, font = ("Bold", 15))
-        clave_confir_entry_modificar.grid(column = 0, row = 8, sticky = "ew", padx = 15)
-
-        nombre_texto_modificar = tk.Label(frame_modificar, text = "Nombre del empleado:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        nombre_texto_modificar.grid(column = 0, row = 9, sticky = "nsew")
-
-        nombre_entry_modificar = tk.Entry(frame_modificar, font = ("Bold", 15))
-        nombre_entry_modificar.grid(column = 0, row = 10, sticky = "ew", padx = 15)
-
-        apellido_texto_modificar = tk.Label(frame_modificar, text = "Apellido del empleado:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        apellido_texto_modificar.grid(column = 0, row = 11, sticky = "nsew")
-
-        apellido_entry_modificar = tk.Entry(frame_modificar, font = ("Bold", 15))
-        apellido_entry_modificar.grid(column = 0, row = 12, sticky = "ew", padx = 15)
-
-        desempeño_texto_modificar = tk.Label(frame_modificar, text = "Desempeño laboral:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        desempeño_texto_modificar.grid(column = 0, row = 13, sticky = "nsew")
-
-          #########################
-         #    LISTA DESEMPEÑO    #
-        #########################
-
-        desempeño_entry_modificar = ttk.Combobox(frame_modificar, values = desempeño, state = "readonly", font = ("Bold", 15))
-        desempeño_entry_modificar.set(desempeño_default)
-        desempeño_entry_modificar.grid(column = 0, row = 14, sticky = "ew", padx = 15)
+        frame_añadir      = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
+        frame_modificar   = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
+        frame_eliminar    = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
         
-        btn_modificar = tk.Button(frame_modificar, text = "Guardar datos del personal", foreground = letras, bg = fondo_secundario, font = ("Bold", 15),relief = "ridge", activebackground = fondo_boton_activo, border = 2, command = obtener_datos_modificar)
-        btn_modificar.grid(column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
+        frame_añadir.grid(     column = 0, row = 0, sticky = "nsew", pady = (5,0), padx = (0, 5))
+        frame_modificar.grid(  column = 1, row = 0, sticky = "nsew", pady = (5,0), padx = (0, 5))
+        frame_eliminar.grid(   column = 2, row = 0, sticky = "nsew", pady = (5,0))
 
-          ##########################
-         #    FRAME 3 ELIMINAR    #
-        ##########################
+        for x in range(15):
+            frame_añadir.grid_rowconfigure(x, weight = 1)
+        frame_añadir.grid_columnconfigure(0, weight = 1)
 
-        encabezado_eliminar = tk.Label(frame_eliminar, text = "ELIMINAR PERSONAL", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos, height=1)
-        encabezado_eliminar.pack(side="top",fill="x", padx=5,pady=5)
+        for x in range(15):
+            frame_modificar.grid_rowconfigure(x, weight = 1)
+        frame_modificar.grid_columnconfigure(0, weight = 1)
 
-        dni_texto_eliminar = tk.Label(frame_eliminar, text = "Dni del personal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        dni_texto_eliminar.pack(side="top", fill = "x", padx = 5, pady = 5)
+        for x in range(15):
+            frame_eliminar.grid_rowconfigure(x, weight = 1)
+        frame_eliminar.grid_columnconfigure(0, weight = 1)
 
-        dni_entry_eliminar = tk.Entry(frame_eliminar, font = ("Bold", 15))
-        dni_entry_eliminar.pack(side="top", fill = "x", padx = 15, pady = 5)
+
+          #################################################
+         #    DECLARACION DE ELEMENTOS AÑADIR CANCHAS    #
+        #################################################
+        encabezado_añadir             = tk.Label(frame_añadir, text = "AÑADIR CANCHA", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
+        
+        sucursal_texto_añadir         = tk.Label(frame_añadir, text = "Sucursal de la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        sucursal_entry_añadir         = ttk.Combobox(frame_añadir, values = sucursales, state = "readonly", font = ("Bold", 15))
+        
+        tamaño_texto_añadir           = tk.Label(frame_añadir, text = "Tamaño de la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        tamaño_entry_añadir           = ttk.Combobox(frame_añadir, values = tamaño_cancha, state = "readonly", font = ("Bold", 15))
+        
+        tipo_texto_añadir             = tk.Label(frame_añadir, text = "Tipo de la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        tipo_entry_añadir             = ttk.Combobox(frame_añadir, values = tipo_cancha, state = "readonly", font = ("Bold", 15))
+        
+        obstaculos_texto_añadir       = tk.Label(frame_añadir, text = "Obstaculos de la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        obstaculos_entry_añadir       = ttk.Combobox(frame_añadir, values = obstaculos, state = "readonly", font = ("Bold", 15))
+        
+        min_jug_texto_añadir          = tk.Label(frame_añadir, text = "Minimos jugadores en la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        min_jug_entry_añadir          = ttk.Combobox(frame_añadir, values = min_jug, state = "readonly", font = ("Bold", 15))
+        
+        terreno_texto_añadir          = tk.Label(frame_añadir, text = "Terreno de la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        terreno_entry_añadir          = ttk.Combobox(frame_añadir, values = terreno, state = "readonly", font = ("Bold", 15))
+        
+        medidas_texto_añadir          = tk.Label(frame_añadir, text = "Medidas de la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        medidas_entry_añadir          = ttk.Entry(frame_añadir, font = ("Bold", 15))
+        
+        btn_añadir    = tk.Button(frame_añadir, text = "AÑADIR CANCHA", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2)
+        
+
+          ################################################
+         #    COLOCACION DE ELEMENTOS AÑADIR CANCHAS    #
+        ################################################
+        encabezado_añadir.grid(        column = 0, row = 0, sticky = "nsew", padx = 5, pady = 5)
+        
+        sucursal_texto_añadir.grid(    column = 0, row = 1, sticky = "nsew")
+        sucursal_entry_añadir.grid(    column = 0, row = 2, sticky = "ew", padx = 15)
+        
+        tamaño_texto_añadir.grid(      column = 0, row = 3, sticky = "nsew")
+        tamaño_entry_añadir.grid(      column = 0, row = 4, sticky = "ew", padx = 15)
+        
+        tipo_texto_añadir.grid(        column = 0, row = 5, sticky = "nsew")
+        tipo_entry_añadir.grid(        column = 0, row = 6, sticky = "ew", padx = 15)
+        
+        obstaculos_texto_añadir.grid(  column = 0, row = 7, sticky = "nsew")
+        obstaculos_entry_añadir.grid(  column = 0, row = 8, sticky = "ew", padx = 15)
+         
+        min_jug_texto_añadir.grid(     column = 0, row = 9, sticky = "nsew")
+        min_jug_entry_añadir.grid(     column = 0, row = 10, sticky = "ew", padx = 15)
+             
+        terreno_texto_añadir.grid(     column = 0, row = 11, sticky = "nsew")
+        terreno_entry_añadir.grid(     column = 0, row = 12, sticky = "ew", padx = 15)
+             
+        medidas_texto_añadir.grid(     column = 0, row = 13, sticky = "nsew")
+        medidas_entry_añadir.grid(     column = 0, row = 14, sticky = "ew", padx = 15)
+        
+        btn_añadir.grid(               column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
+        
+        
+          ####################################################
+         #    DECLARACION DE ELEMENTOS MODIFICAR CANCHAS    #
+        ####################################################
+        encabezado_modificar       = tk.Label(frame_modificar, text = "MODIFICAR CANCHA", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
+        
+        sucursal_texto_modificar   = tk.Label(frame_modificar, text = "Sucursal a modificar:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        sucursal_entry_modificar   = ttk.Combobox(frame_modificar, values = sucursales, state = "readonly", font = ("Bold", 15))
+        
+        barrio_texto_modificar     = tk.Label(frame_modificar, text = "Barrio de la sucursal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        barrio_entry_modificar     = tk.Entry(frame_modificar, font = ("Bold", 15))
+        
+        calle_texto_modificar      = tk.Label(frame_modificar, text = "Calle de la sucursal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        calle_entry_modificar      = tk.Entry(frame_modificar, font = ("Bold", 15))
+        
+        altura_texto_modificar     = tk.Label(frame_modificar, text = "Altura de la calle:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        altura_entry_modificar     = tk.Entry(frame_modificar, font = ("Bold", 15))
+        
+        btn_modificar              = tk.Button(frame_modificar, text = "GUARDAR DATOS DE LA CANCHA", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2)
+        
+          ###################################################
+         #    COLOCACION DE ELEMENTOS MODIFICAR CANCHAS    #
+        ###################################################
+        encabezado_modificar.grid(      column = 0, row = 0, sticky = "nsew", padx = 5, pady = 5)
+        
+        sucursal_texto_modificar.grid(  column = 0, row = 1, sticky = "nsew")
+        sucursal_entry_modificar.grid(  column = 0, row = 2, sticky = "ew", padx = 15)
+        
+        barrio_texto_modificar.grid(    column = 0, row = 3, sticky = "nsew")
+        barrio_entry_modificar.grid(    column = 0, row = 4, sticky = "ew", padx = 15)
+        
+        calle_texto_modificar.grid(     column = 0, row = 5, sticky = "nsew")
+        calle_entry_modificar.grid(     column = 0, row = 6, sticky = "ew", padx = 15)
+        
+        altura_texto_modificar.grid(    column = 0, row = 7, sticky = "nsew")
+        altura_entry_modificar.grid(    column = 0, row = 8, sticky = "ew", padx = 15)
+        
+        btn_modificar.grid(             column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
+
+        
+          ###################################################
+         #    DECLARACION DE ELEMENTOS ELIMINAR CANCHAS    #
+        ###################################################
+        encabezado_eliminar        = tk.Label(frame_eliminar, text = "ELIMINAR CANCHA", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
+        
+        sucursal_texto             = tk.Label(frame_eliminar, text = "Sucursal de la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        sucursal_entry             = ttk.Combobox(frame_eliminar, values = sucursales, state = "readonly", font = ("Bold", 15))
        
-        btn_eliminar = tk.Button(frame_eliminar, text = "Eliminar personal", foreground = letras, bg = fondo_secundario, font = ("Bold", 15),relief = "ridge", activebackground = fondo_boton_activo, border = 2, command = obtener_datos_eliminar)
-        btn_eliminar.pack(side = "bottom", fill = "x", padx = 5, pady = 5)
+        barrio_texto               = tk.Label(frame_eliminar, text = "Cancha a eliminar:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
+        sucursal_entry             = ttk.Combobox(frame_eliminar, values = sucursales, state = "readonly", font = ("Bold", 15))
+        btn_añadir_sucursal        = tk.Button(frame_eliminar, text = "ELIMINAR CANCHA", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2)
 
-    def mostrar_contenido_sucursales():
 
-        for x in range(3):
-            frame_principal.grid_columnconfigure(x, weight = 1)
-        frame_principal.grid_rowconfigure(0, weight = 1)
+         ###################################################
+         #    COLOCACION DE ELEMENTOS ELIMINAR CANCHAS    #
+        ##################################################
+        encabezado_eliminar.grid(  column = 0, row = 0, sticky = "nsew", padx = 5, pady = 5)
+        sucursal_texto.grid(       column = 0, row = 1, sticky = "nsew")
+        sucursal_entry.grid(       column = 0, row = 2, sticky = "ew", padx = 15)
+        barrio_texto.grid(         column = 0, row = 3, sticky = "nsew")
+        sucursal_entry.grid(       column = 0, row = 4, sticky = "ew", padx = 15)
+        btn_añadir_sucursal.grid(  column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
 
-        frame_añadir = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
-        frame_añadir.grid(column = 0, row = 0, sticky = "nsew", pady = (5,0), padx = (0,5))
+    def reservas_frame():
+        # Lista de los barrios de las sucursales:
+        sucursales = lista_barrios_sucursales()
+        sucursal_default = sucursales[0]
 
-        frame_añadir.grid_columnconfigure(0, weight = 1)
-
-        for x in range(15):
-            frame_añadir.grid_rowconfigure(x, weight = 1)
-
-        añadir_texto = tk.Label(frame_añadir, text = "AÑADIR SUCURSAL", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
-        añadir_texto.grid(column = 0, row = 0, sticky = "nsew", padx = 5, pady = 5)
-
-        barrio_texto = tk.Label(frame_añadir, text = "Sucursal a modificar:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        barrio_texto.grid(column = 0, row = 1, sticky = "nsew")
+        # Lista del desempeño del personal:
+        desempeño = ["Recepcionista", "Referi", "Equipamiento","Seguridad", "Administrador"]
+        desempeño_default = desempeño[0]
         
-        barrio_entry = tk.Entry(frame_añadir, font = ("Bold", 15))
-        barrio_entry.grid(column = 0, row = 2, sticky = "ew", padx = 15)
-
-        calle_texto = tk.Label(frame_añadir, text = "Calle de la sucursal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        calle_texto.grid(column = 0, row = 3, sticky = "nsew")
-
-        calle_entry = tk.Entry(frame_añadir, font = ("Bold", 15))
-        calle_entry.grid(column = 0, row = 4, sticky = "ew", padx = 15)
-
-        altura_texto = tk.Label(frame_añadir, text = "Altura de la calle:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        altura_texto.grid(column = 0, row = 5, sticky = "nsew")
-
-        altura_entry = tk.Entry(frame_añadir, font = ("Bold", 15))
-        altura_entry.grid(column = 0, row = 6, sticky = "ew", padx = 15)
-
-        btn_añadir_sucursal = tk.Button(frame_añadir, text = "AÑADIR SUCURSAL", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2)
-        btn_añadir_sucursal.grid(column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
-
-        
-        
-
-
-        frame_modificar = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
-        frame_modificar.grid(column = 1, row = 0, sticky = "nsew", pady = (5,0), padx = (0,5))
-
-        frame_modificar.grid_columnconfigure(0, weight = 1)
-        for x in range(15):
-            frame_modificar.grid_rowconfigure(x, weight = 1)
-
-        añadir_texto = tk.Label(frame_modificar, text = "MODIFICAR SUCURSAL", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
-        añadir_texto.grid(column = 0, row = 0, sticky = "nsew", padx = 5, pady = 5)
-
-        barrio_texto = tk.Label(frame_modificar, text = "Sucursal a modificar:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        barrio_texto.grid(column = 0, row = 1, sticky = "nsew")
-
-        sucursales = [1,2,3]
-        sucursal_entry = ttk.Combobox(frame_modificar, values = sucursales, state = "readonly", font = ("Bold", 15))
-        sucursal_entry.grid(column = 0, row = 2, sticky = "ew", padx = 15)
-
-        barrio_texto = tk.Label(frame_modificar, text = "Barrio de la sucursal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        barrio_texto.grid(column = 0, row = 3, sticky = "nsew")
-
-        barrio_entry = tk.Entry(frame_modificar, font = ("Bold", 15))
-        barrio_entry.grid(column = 0, row = 4, sticky = "ew", padx = 15)
-
-        calle_texto = tk.Label(frame_modificar, text = "Calle de la sucursal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        calle_texto.grid(column = 0, row = 5, sticky = "nsew")
-
-        calle_entry = tk.Entry(frame_modificar, font = ("Bold", 15))
-        calle_entry.grid(column = 0, row = 6, sticky = "ew", padx = 15)
-
-        altura_texto = tk.Label(frame_modificar, text = "Altura de la calle:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        altura_texto.grid(column = 0, row = 7, sticky = "nsew")
-
-        altura_entry = tk.Entry(frame_modificar, font = ("Bold", 15))
-        altura_entry.grid(column = 0, row = 8, sticky = "ew", padx = 15)
-
-        btn_añadir_sucursal = tk.Button(frame_modificar, text = "GUARDAR DATOS DE LA SUCURSAL", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2)
-        btn_añadir_sucursal.grid(column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
-
-
-
-
-
-        frame_eliminar = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
-        frame_eliminar.grid(column = 2, row = 0, sticky = "nsew", pady = (5,0))
-
-        frame_eliminar.grid_columnconfigure(0, weight = 1)
-        for x in range(15):
-            frame_eliminar.grid_rowconfigure(x, weight = 1)
-
-        añadir_texto = tk.Label(frame_eliminar, text = "ELIMINAR SUCURSAL", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
-        añadir_texto.grid(column = 0, row = 0, sticky = "nsew", padx = 5, pady = 5)
-
-        barrio_texto = tk.Label(frame_eliminar, text = "Sucursal a eliminar:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        barrio_texto.grid(column = 0, row = 1, sticky = "nsew")
-
-        sucursales = [1,2,3]
-        sucursal_entry = ttk.Combobox(frame_eliminar, values = sucursales, state = "readonly", font = ("Bold", 15))
-        sucursal_entry.grid(column = 0, row = 2, sticky = "ew", padx = 15)
-
-        btn_añadir_sucursal = tk.Button(frame_eliminar, text = "ELIMINAR SUCURSAL", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2)
-        btn_añadir_sucursal.grid(column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
-        
-    def mostrar_contenido_canchas():
-
-        for x in range(3):
-            frame_principal.grid_columnconfigure(x, weight = 1)
-        frame_principal.grid_rowconfigure(0, weight = 1)
-
-        frame_añadir = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
-        frame_añadir.grid(column = 0, row = 0, sticky = "nsew", pady = (5,0), padx = (0,5))
-
-        frame_añadir.grid_columnconfigure(0, weight = 1)
-
-        for x in range(15):
-            frame_añadir.grid_rowconfigure(x, weight = 1)
-
-        añadir_texto = tk.Label(frame_añadir, text = "AÑADIR CANCHA", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
-        añadir_texto.grid(column = 0, row = 0, sticky = "nsew", padx = 5, pady = 5)
-
-        sucursal_texto = tk.Label(frame_añadir, text = "Sucursal de la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        sucursal_texto.grid(column = 0, row = 1, sticky = "nsew")
-        
-        sucursal = [1,2,3]
-        sucursal_entry = ttk.Combobox(frame_añadir, values = sucursal, state = "readonly", font = ("Bold", 15))
-        sucursal_entry.grid(column = 0, row = 2, sticky = "ew", padx = 15)
-
-        tamaño_texto = tk.Label(frame_añadir, text = "Tamaño de la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        tamaño_texto.grid(column = 0, row = 3, sticky = "nsew")
-
-        tamaño = [1,2,3]
-        tamaño_entry = ttk.Combobox(frame_añadir, values = tamaño, state = "readonly", font = ("Bold", 15))
-        tamaño_entry.grid(column = 0, row = 4, sticky = "ew", padx = 15)
-
-        tipo_texto = tk.Label(frame_añadir, text = "Tipo de la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        tipo_texto.grid(column = 0, row = 5, sticky = "nsew")
-
-        tipo = [1,2,3]
-        tipo_entry = ttk.Combobox(frame_añadir, values = tipo, state = "readonly", font = ("Bold", 15))
-        tipo_entry.grid(column = 0, row = 6, sticky = "ew", padx = 15)
-
-        obstaculos_texto = tk.Label(frame_añadir, text = "Obstaculos de la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        obstaculos_texto.grid(column = 0, row = 7, sticky = "nsew")
-
-        obstaculos = [1,2,3]
-        obstaculos_entry = ttk.Combobox(frame_añadir, values = obstaculos, state = "readonly", font = ("Bold", 15))
-        obstaculos_entry.grid(column = 0, row = 8, sticky = "ew", padx = 15)
-
-        min_jug_texto = tk.Label(frame_añadir, text = "Minimos jugadores en la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        min_jug_texto.grid(column = 0, row = 9, sticky = "nsew")
-
-        min_jug = [1,2,3]
-        min_jug_entry = ttk.Combobox(frame_añadir, values = min_jug, state = "readonly", font = ("Bold", 15))
-        min_jug_entry.grid(column = 0, row = 10, sticky = "ew", padx = 15)
-
-        terreno_texto = tk.Label(frame_añadir, text = "Terreno de la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        terreno_texto.grid(column = 0, row = 11, sticky = "nsew")
-
-        terreno = [1,2,3]
-        terreno_entry = ttk.Combobox(frame_añadir, values = terreno, state = "readonly", font = ("Bold", 15))
-        terreno_entry.grid(column = 0, row = 12, sticky = "ew", padx = 15)
-
-        medidas_texto = tk.Label(frame_añadir, text = "Medidas de la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        medidas_texto.grid(column = 0, row = 13, sticky = "nsew")
-
-        medidas = [1,2,3]
-        medidas_entry = ttk.Combobox(frame_añadir, values = medidas, state = "readonly", font = ("Bold", 15))
-        medidas_entry.grid(column = 0, row = 14, sticky = "ew", padx = 15)
-
-        btn_añadir_sucursal = tk.Button(frame_añadir, text = "AÑADIR CANCHA", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2)
-        btn_añadir_sucursal.grid(column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
-
-        
-        
-
-
-        frame_modificar = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
-        frame_modificar.grid(column = 1, row = 0, sticky = "nsew", pady = (5,0), padx=(0, 5))
-
-        frame_modificar.grid_columnconfigure(0, weight = 1)
-        for x in range(15):
-            frame_modificar.grid_rowconfigure(x, weight = 1)
-
-        añadir_texto = tk.Label(frame_modificar, text = "MODIFICAR CANCHA", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
-        añadir_texto.grid(column = 0, row = 0, sticky = "nsew", padx = 5, pady = 5)
-
-        barrio_texto = tk.Label(frame_modificar, text = "Sucursal a modificar:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        barrio_texto.grid(column = 0, row = 1, sticky = "nsew")
-
-        sucursales = [1,2,3]
-        sucursal_entry = ttk.Combobox(frame_modificar, values = sucursales, state = "readonly", font = ("Bold", 15))
-        sucursal_entry.grid(column = 0, row = 2, sticky = "ew", padx = 15)
-
-        barrio_texto = tk.Label(frame_modificar, text = "Barrio de la sucursal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        barrio_texto.grid(column = 0, row = 3, sticky = "nsew")
-
-        barrio_entry = tk.Entry(frame_modificar, font = ("Bold", 15))
-        barrio_entry.grid(column = 0, row = 4, sticky = "ew", padx = 15)
-
-        calle_texto = tk.Label(frame_modificar, text = "Calle de la sucursal:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        calle_texto.grid(column = 0, row = 5, sticky = "nsew")
-
-        calle_entry = tk.Entry(frame_modificar, font = ("Bold", 15))
-        calle_entry.grid(column = 0, row = 6, sticky = "ew", padx = 15)
-
-        altura_texto = tk.Label(frame_modificar, text = "Altura de la calle:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        altura_texto.grid(column = 0, row = 7, sticky = "nsew")
-
-        altura_entry = tk.Entry(frame_modificar, font = ("Bold", 15))
-        altura_entry.grid(column = 0, row = 8, sticky = "ew", padx = 15)
-
-        btn_añadir_sucursal = tk.Button(frame_modificar, text = "GUARDAR DATOS DE LA CANCHA", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2)
-        btn_añadir_sucursal.grid(column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
-
-
-
-
-
-
-
-        frame_eliminar = tk.Frame(frame_principal, background = fondo_secundario, highlightcolor = marcos, highlightthickness = 1)
-        frame_eliminar.grid(column = 2, row = 0, sticky = "nsew", pady = (5,0))
-
-        frame_eliminar.grid_columnconfigure(0, weight = 1)
-        for x in range(15):
-            frame_eliminar.grid_rowconfigure(x, weight = 1)
-
-        eliminar_texto = tk.Label(frame_eliminar, text = "ELIMINAR CANCHA", border = 1, foreground = letras, bg = fondo_secundario, font = ("Bold", 15), highlightthickness = 1, highlightcolor = marcos, highlightbackground = marcos)
-        eliminar_texto.grid(column = 0, row = 0, sticky = "nsew", padx = 5, pady = 5)
-
-        sucursal_texto = tk.Label(frame_eliminar, text = "Sucursal de la cancha:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        sucursal_texto.grid(column = 0, row = 1, sticky = "nsew")
-
-        sucursales = [1,2,3]
-        sucursal_entry = ttk.Combobox(frame_eliminar, values = sucursales, state = "readonly", font = ("Bold", 15))
-        sucursal_entry.grid(column = 0, row = 2, sticky = "ew", padx = 15)
-
-        barrio_texto = tk.Label(frame_eliminar, text = "Cancha a eliminar:", foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
-        barrio_texto.grid(column = 0, row = 3, sticky = "nsew")
-
-        sucursales = [1,2,3]
-        sucursal_entry = ttk.Combobox(frame_eliminar, values = sucursales, state = "readonly", font = ("Bold", 15))
-        sucursal_entry.grid(column = 0, row = 4, sticky = "ew", padx = 15)
-
-        btn_añadir_sucursal = tk.Button(frame_eliminar, text = "ELIMINAR CANCHA", foreground = letras, bg = fondo_secundario, font = ("Bold", 15), relief = "ridge", activebackground = fondo_boton_activo, border = 2)
-        btn_añadir_sucursal.grid(column = 0, row = 15, sticky = "nsew", padx = 5, pady = 5)
- 
-    def mostrar_contenido_reservas():
         for x in range(3):
             frame_principal.grid_columnconfigure(x, weight = 1)
         frame_principal.grid_rowconfigure(0, weight = 1)
@@ -1455,8 +1609,7 @@ def ventana_administrador(dni_administrador = None, id_sucursal_administrador = 
         dni_reservador = tk.Entry(frame_añadir, foreground = letras, bg = fondo_secundario, font = ("Bold", 15))
         dni_reservador.grid(column = 0, row = 2, sticky = "ew", padx = 5, pady = 5)
 
-
-    conn = sqlite3.connect('Balines_mojados.db')
+    conn = sqlite3.connect("Balines_mojados.db")
     cursor = conn.cursor()
     ventana = tk.Tk()
     ancho_pantalla, alto_pantalla = ventana.winfo_screenwidth(), ventana.winfo_screenheight()
@@ -1495,24 +1648,24 @@ def ventana_administrador(dni_administrador = None, id_sucursal_administrador = 
     frame_principal = tk.Frame(frame_90_porciento, background = fondo_principal)
     frame_principal.grid(column = 0, row = 0, sticky = "nsew", padx = 10, pady = (0,10))
 
-    btn_personal = tk.Button(frame_btn, border = 0, text = "PERSONAL", font = ("Bold", 15), activebackground = fondo_boton_activo, activeforeground = letras, fg = letras, background = fondo_secundario, command=lambda: limpiar_frame(mostrar_contenido_personal))
+    btn_personal = tk.Button(frame_btn, border = 0, text = "PERSONAL", font = ("Bold", 15), activebackground = fondo_boton_activo, activeforeground = letras, fg = letras, background = fondo_secundario, command=lambda: limpiar_frame(personal_frame))
     btn_personal.grid(column = 0, row = 0, sticky = "nsew")
 
 
 
-    btn_sucursales = tk.Button(frame_btn, border = 0, text = "SUCURSALES", font = ("Bold", 15), activebackground = fondo_boton_activo, activeforeground = letras, fg = letras, background = fondo_secundario, command=lambda: limpiar_frame(mostrar_contenido_sucursales))
+    btn_sucursales = tk.Button(frame_btn, border = 0, text = "SUCURSALES", font = ("Bold", 15), activebackground = fondo_boton_activo, activeforeground = letras, fg = letras, background = fondo_secundario, command=lambda: limpiar_frame(sucursales_frame))
     btn_sucursales.grid(column = 1, row = 0, sticky = "nsew")
 
 
 
-    btn_canchas = tk.Button(frame_btn, border = 0, text = "CANCHAS", font = ("Bold", 15), activebackground = fondo_boton_activo, activeforeground = letras, fg = letras, background = fondo_secundario, command=lambda: limpiar_frame(mostrar_contenido_canchas))
+    btn_canchas = tk.Button(frame_btn, border = 0, text = "CANCHAS", font = ("Bold", 15), activebackground = fondo_boton_activo, activeforeground = letras, fg = letras, background = fondo_secundario, command=lambda: limpiar_frame(canchas_frame))
     btn_canchas.grid(column = 2, row = 0, sticky="nsew")
 
 
 
-    btn_reservas = tk.Button(frame_btn, border = 0, text = "RESERVAS", font = ("Bold", 15), activebackground = fondo_boton_activo, activeforeground = letras, fg = letras, background = fondo_secundario, command=lambda: limpiar_frame(mostrar_contenido_reservas))
+    btn_reservas = tk.Button(frame_btn, border = 0, text = "RESERVAS", font = ("Bold", 15), activebackground = fondo_boton_activo, activeforeground = letras, fg = letras, background = fondo_secundario, command=lambda: limpiar_frame(reservas_frame))
     btn_reservas.grid(column = 3, row = 0, sticky ="nsew")
 
     ventana.mainloop()
 
-ventana_administrador(51398854,1)
+ventana_administrador(51398854, 1)

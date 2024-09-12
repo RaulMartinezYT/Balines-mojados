@@ -292,3 +292,9 @@ Bueno actualizacion, desde la tarde estuve diseñando la UI del administrador un
 
 06:51 9/9/2024:
 Bueno, despues de toda la noche ya tengo el sistema de subir personal, aunque pienses que: QUE PIBE MAS LENTO ESTUVO TODA LA NOCHE PARA HACER UN SISTEMITA DE MIERDA, quiero que sepas que ya de acá en adelante es cntrl + C y cntrl + V, nada mas, asi qeu nada, feliz de estar donde estoy, a seguir
+
+14:54 11/9/2024:
+bueno, despues de tomarme ayer como dia de descanso, hoy estoy de vuelta, voy a arreglar todo el codigo ya que se me resulta dificil de entender hasta para mi... asi que nada, a meterle
+
+16:06 11/9/2024: 
+Arregle todo el codigo de inicio de seion por lo que ya estaria ese apartado, detecta si sos administrador o un personal comun y corriente, por lo que nada, eso ya estaria, faltaria el resto que ya esta casi terminado, solo falta lo visual
