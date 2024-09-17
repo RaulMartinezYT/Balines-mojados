@@ -7,8 +7,8 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS sucursales(
                id INTEGER PRIMARY KEY AUTOINCREMENT,
                barrio TEXT(30) NOT NULL,
                calle TEXT(30) NOT NULL,
-               estado TEXT(20) NOT NULL,
-               numero INT(4) NOT NULL)""")
+               altura TEXT(4) NOT NULL,
+               estado TEXT(20) NOT NULL)""")
 conn.commit()
 
 cursor.execute("""CREATE TABLE IF NOT EXISTS canchas(

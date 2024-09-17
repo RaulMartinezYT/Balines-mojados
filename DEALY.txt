@@ -298,3 +298,29 @@ bueno, despues de tomarme ayer como dia de descanso, hoy estoy de vuelta, voy a 
 
 16:06 11/9/2024: 
 Arregle todo el codigo de inicio de seion por lo que ya estaria ese apartado, detecta si sos administrador o un personal comun y corriente, por lo que nada, eso ya estaria, faltaria el resto que ya esta casi terminado, solo falta lo visual
+
+13:10 14/9/2024:
+Arreglados ya los bugs de los formularios ahora queda realizar el backend y el fronted de las reservas, no del sistema del empleado, sinó del administrador...
+
+16:07 14/9/2024:
+Me encuentro viendo una libreria de expresiones regulares, todo esto para las medidas de las canchas y mejore stetica a la hora de utilizar las combox
+
+16:49 14/9/2024:
+increible al intentar agregar el dataentry(calendario para determianar la fecha de la reserva)
+me entero que no se puede usar el metodo.grid, hay que utilizar si o si el .pack, asi que nada, toca agregar un frame dentro del frame del formulario, increible
+
+03:28 17/9/2024:
+Ajusté visualmente la tabla de las reservas
+
+12:06 17/9/2024:
+Bueno, estoy haciendo la parte de visualizar las reservas, ya tengo la tabla, tengo como agregarla, ahora faltaria hacer 2 cosas, una que es hacer que el pograma obtenga el dia actual y los siguientes 7 o 9, aun no lo defini, pero cuantos mas mejor, y la otra cosa seria, realizar las filas, osea organizar los datos de ese dia en la tabla
+
+13:30 17/9/2024:
+Me estaba matando la cabeza buscando una forma de hacerle un scroll vertical y añadirlo, pero acabo de caer en que si hago scroll con la ruedita del raton si funciona, asi que nada, avanzando y nadie me para jajajaj.
+
+14:04 17/9/2024:
+ya una vez teniendo la tabla la cual se va a encargar de mostrar visualmente las siguientes reservas, del mismo dia hasta el mes siguiente tengo que encargarme de realizar una funcion o un proceso el cual se encargue de hacer lo siguiente:
+verifica que dia es, busca en la base de datos si hay alguna reserva con esa fecha, si existe una reserva chequea a que hora es y de ahi tendria que ver en que columna se encuentra la hora de la reserva, una vez hecho eso introducimos todos valores en blanco o vacios para que a la hora de la reserva se introduzcan los datos y el estado de la reserva.
+
+15:38 17/9/2024:
+YA ESTÁ, ingresé una reserva a travez de la fecha y la hora
