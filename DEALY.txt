@@ -324,3 +324,25 @@ verifica que dia es, busca en la base de datos si hay alguna reserva con esa fec
 
 15:38 17/9/2024:
 YA ESTÁ, ingresé una reserva a travez de la fecha y la hora
+
+00:14 19/9/2024:
+La verdad es la siguiente:
+Estoy cansado de hacer este proyecto, en el ultimo mes, 100% seguro que tengo minimo 200 horas a full, pero bueno, voy a terminarlo como pueda y listo
+
+12:30 20/9/2024:
+ya quiero terminar el proyecto asi que voy a intentar hacerlo hoy
+
+14:36 21/9/2024:
+estoy terminando el sistema de reservas
+
+15:01 21/9/2024:
+chequeando la base de datos me di cuenta de varios errores que tuve a la hora de hacer el prototipo y en el codigo, como por ejemplo no ejecutar un comando el cual si no es escrito no existen las claves foraneas por lo que no se respetarian las mismas.
+
+15:33 21/9/2024:
+Ya tengo la version final de la base de datos, medio tarde pero eran detalles lo que faltaba
+
+17:36 22/9/2024:
+Ya está voy a hacer el codigo modular y ya, osea que sea todo visualmente igual lo unico que cambia es la parte de los datos, en cada sucursal hay canchas, en cada cancha hay reservas, voy a tomarlo por separado asi solo consulto de una cancha especifica de una sucursal especifica sin necesidad de tener todas las reservas en una tabla, asi que nada, lo que quedaria es adaptar el codigo, y ya...
+
+00:26 23/9/2024:
+Acabo de encontrar customtkinter, esto voy a usarlo para sorprender a olaso, en cuanto termine el programa voy a actualizar todo el codigo de tkinter a customtkinter, aunque parezca mucho, no lo es, es solo cambiar la forma en que se declaran, la logica sigue siendo lo mismo pero con mas customizacion y capaz mas simple, asi que nada, sigo

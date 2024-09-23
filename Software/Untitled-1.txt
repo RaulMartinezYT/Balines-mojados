@@ -1,0 +1,325 @@
+# lista_barrios = ["~~~ Sucursal a seleccionar ~~~"] + [f"{fila[0]} ({fila[1]}, {fila[2]})" for fila in resultados]
+# import re 
+# 
+# def extraer_dni(texto):
+#     # Usamos una expresión regular para capturar lo que está dentro de los paréntesis
+#     resultado = re.search(r'\((\d+)\)', texto)
+#     if resultado:
+#         return resultado.group(1)  # Retorna el número de DNI (lo que está entre paréntesis)
+#     return None
+# 
+# def extraer_barrio(texto):
+#     # Usamos una expresión regular que captura todo antes de los paréntesis
+#     resultado = re.search(r'^(.+?)\s*\(', texto)
+#     if resultado:  # Si encontró algo
+#         return resultado.group(1).strip()  # Devuelve el texto antes de los paréntesis, sin espacios extra
+#     return None  # Si no encontró nada, devuelve None
+# 
+# 
+# barrio = extraer_barrio("   Palermo sadsada asdasd     (Av. Santa Fe, 3456)")
+# 
+# print(f"Barrio extraído: {barrio}")  # Output: Barrio extraído: Palermo
+# dni = extraer_dni("Raul Martinez (51398854)")
+# print(f"DNI extraído: {dni}")  # Output: DNI extraído: 12345678
+# 
+
+
+
+# Funcion para la creacion de la ventana de inicio de sesion.
+# Recibe como atributos colores para la ventana, no es obligado pasarlos ya que tiene valores por defecto:
+#
+# color_principal:  Color principal de fondo.
+# color_secundario: Color secundario de fondo, se utiliza para diferenciar secciones.
+# color_letras: Color de las color_letras.
+# color_marcos: Color de las lineas o color_marcos de secciones de la ventana.
+# Boton_activo: Color que toma un boton al ser presionado.
+
+#def ventana_personalizacion(color_principal = "#0F1035", color_secundario = "#365486", color_letras = "#7FC7D9", color_marcos = "#ffffff", color_boton_activo = "#ffffff", h1s = 20, tamaño_texto = 15):
+#    ventana = tk.Tk()
+#    
+#    ancho_pantalla, alto_pantalla = ventana.winfo_screenwidth(), ventana.winfo_screenheight()
+#    
+#    ancho_ventana_inicial = int(((alto_pantalla / 1.4) * 16) / 9)
+#    alto_ventana_inicial =  int(((ancho_pantalla / 1.4) * 9) / 16)
+#
+#    ancho_ventana, alto_ventana = ventana.winfo_width(), ventana.winfo_height()
+#    
+#    ventana.minsize(ancho_ventana_inicial, alto_ventana_inicial)
+#
+#    ventana.geometry(f"{ancho_ventana_inicial}x{alto_ventana_inicial}")
+#
+#    ventana.config(background = color_principal)
+#
+#    ventana.title("Balines Mojados - Personalizacion")
+#    
+#    frame_decoracion = tk.Frame(ventana, background = color_principal)
+#    frame_decoracion.pack(padx = 5, pady = 5, expand = True, fill = "both")
+#
+#    for x in range(3):
+#        frame_decoracion.grid_columnconfigure(x, weight = 1)
+#
+#    titulo_marco = tk.LabelFrame(frame_decoracion, fg = color_marcos)
+#    titulo_label = tk.Label(titulo_marco, text = "TITULO EJEMPLO", font = (color_letras, tamaño_texto), background = color_secundario, fg = color_letras)
+#
+#    titulo_marco.pack()
+#    titulo_label.pack()
+#
+#    ventana.mainloop()
+#
+
+
+#def ventana_reservas(dni_personal = None, id_sucursal_personal = None, color_principal = "#0F1035", color_secundario = "#365486", color_letras = "#7FC7D9", color_marcos = "#ffffff", color_boton_activo = "#ffffff", h1 = 60, h2 = 50, h3 = 40 , h4 =30, h5 = 20, h6 = 10):
+#    
+#    def nombre_dia(numero_dia):
+#        dias_de_semana = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"]
+#        return dias_de_semana[numero_dia]
+#
+#    # Funcion que no permite a nadie ingresar a la ventana de reservas sin un dni o un
+#    if dni_personal == None or id_sucursal_personal == None:
+#        error("ERROR CATASTROFICO", "No deberias haber podido ingresar aqui")
+#        return error
+#    else:
+#        # Conectamos el software con la base de datos.
+#        conn = sqlite3.connect("Balines_mojados.db")
+#
+#        # Declaramos el nombre del cursor, el cual se encarga de realizar las consultas a la base de datos.
+#        cursor = conn.cursor()
+#
+#        consulta = f"SELECT * FROM personal WHERE dni = ? AND id_sucursal = ?;"
+#        datos = (dni_personal, id_sucursal_personal)
+#        cursor.execute(consulta, datos)
+#
+#        datos_correctos = cursor.fetchall()
+#
+#        if datos_correctos:
+#                informacion("Esta bien","OK")
+#        else:
+#            # informacion("Error en la base de datos", "No se encuentra en la base de datos.")
+#            # return error
+#            pass
+#    
+#    # Conectamos el software con la base de datos.
+#    conn = sqlite3.connect("Balines_mojados.db")
+#
+#    # Declaramos el nombre del cursor, el cual se encarga de realizar las consultas a la base de datos.
+#    cursor = conn.cursor()
+#
+#    # Creacion de la ventana.
+#    ventana = tk.Tk()
+#    
+#    # Guarda los valores de la pantalla en dos variables:
+#    # Ancho_pantall: Es el ancho de la pantalla.
+#    # Alto_pantalla: Es el alto de la pantalla.
+#    ancho_pantalla, alto_pantalla = ventana.winfo_screenwidth(), ventana.winfo_screenheight()
+#    
+#    # Esta linea de codigo se encarga de transformar los valores de la pantalla (Ancho y Alto de pantalla) a enteros (Numeros sin decimal) los cuales se utilizan para definir el tamaño de la ventana.
+#    # Al tener el ancho y el alto en enteros pasan por una cuenta matematica para que siempre mantengan la relacion 16:9.
+#    # Lo cual nos permite tener siempre una ventana con la misma relacion, unicamente para mantenerla responsive sin necesidad de que python lo intente y falle fatalmente.
+#    # Pasando a lo tecnico, agarra los valores anteriores de la pantalla (el ancho y largo, los cuales se dividen para que 9 valores de alto equivalgan a 16 de ancho, para tener siempre la misma relacion (16:9).
+#    ancho_ventana_inicial = int(((alto_pantalla / 1.4) * 16) / 9)
+#    alto_ventana_inicial =  int(((ancho_pantalla / 1.4) * 9) / 16)
+#
+#    ancho_ventana, alto_ventana = ventana.winfo_width(), ventana.winfo_height()
+#    
+#    # Establecemos el minimo tamaño que podrá tener la ventana
+#    ventana.minsize(ancho_ventana_inicial, alto_ventana_inicial)
+#
+#    # Especificamos las medidas iniciales de la ventana.
+#    ventana.geometry(f"{ancho_ventana_inicial}x{alto_ventana_inicial}")
+#
+#    # Especificamos el color de fondo de pantalla.
+#    # Este valor es el atributo que se le pasa a la funcion que ya fue antes mencionada.
+#    ventana.config(background = color_principal)
+#
+#    # Especificamos el nombre de la ventana.
+#    ventana.title("Balines Mojados - Reservas")
+#
+#    # ===================================== FRAME 1 ======================================== #
+#    # Configurar la cuadrícula de la ventana principal para la columna 0.
+#    ventana.columnconfigure(0, weight = 1)
+#
+#    # Configurar la cuadrícula de la ventana principal para la columna 1.
+#    ventana.columnconfigure(1, weight = 100)
+#
+#    # Configurar la cuadrícula de la ventana principal para la fila 0.
+#    ventana.rowconfigure(0, weight = 1)
+#
+#    # Crear el frame de los botones y lo coloca en la celda (columna 0, fila 0) de la ventana principal.
+#    reservas_botones = tk.Frame(ventana, bg = color_principal)
+#    reservas_botones.grid(column = 0, row = 0, sticky = "NSEW")
+#
+#    reservas_botones.columnconfigure(0, weight = 1)
+#
+#    # Crear el segundo frame y lo coloca en la celda (columna 1, fila 0).
+#    espacio_reservas_visuales = tk.Frame(ventana, bg = color_secundario)
+#    espacio_reservas_visuales.grid(column = 1, row = 0, sticky = "NSEW")
+#
+#
+#    Marco_boton_nueva_reserva = tk.LabelFrame(reservas_botones,
+#                            bg = color_secundario,
+#                            border = 0,
+#                            highlightthickness = 2,
+#                            highlightcolor = color_marcos,
+#                            highlightbackground = color_marcos)
+#    Marco_boton_nueva_reserva.pack(padx = 5, pady = (5, 0))
+#
+#    btn_crear_reserva = tk.Button(Marco_boton_nueva_reserva,
+#                            text = "NUEVA\n RESERVA ",
+#                            font = ("Arial", 15),
+#                            bg = color_secundario,
+#                            fg = color_letras,
+#                            border = 0,
+#                            activebackground = color_boton_activo,
+#                            activeforeground = color_boton_activo)
+#    btn_crear_reserva.pack()
+#
+#
+#
+#    Marco_boton_editar = tk.LabelFrame(reservas_botones,
+#                            bg = color_secundario,
+#                            border = 0,
+#                            highlightthickness = 2,
+#                            highlightcolor = color_marcos,
+#                            highlightbackground = color_marcos)
+#    Marco_boton_editar.pack(padx = 5, pady = (5, 0))
+#
+#    btn_editar_reserva = tk.Button(Marco_boton_editar,
+#                            text = "EDITAR\n RESERVA ",
+#                            font = ("Arial", 15),
+#                            bg = color_secundario,
+#                            fg = color_letras,
+#                            border = 0,
+#                            activebackground = color_boton_activo,
+#                            activeforeground = color_boton_activo)
+#    btn_editar_reserva.pack()
+#
+#
+#
+#    Marco_boton_eliminar = tk.LabelFrame(reservas_botones,
+#                            bg = color_secundario,
+#                            border = 0,
+#                            highlightthickness = 2,
+#                            highlightcolor = color_marcos,
+#                            highlightbackground = color_marcos)
+#    Marco_boton_eliminar.pack(padx = 5, pady = (5, 0))
+#
+#    btn_eliminar_reserva = tk.Button(Marco_boton_eliminar,
+#                            text = "ELIMINAR\n RESERVA ",
+#                            font = ("Arial", 15),
+#                            bg = color_secundario,
+#                            fg = color_letras,
+#                            border = 0,
+#                            activebackground = color_boton_activo,
+#                            activeforeground = color_boton_activo)
+#    btn_eliminar_reserva.pack()
+#
+#
+#
+#    Marco_boton_cambio_sucursal = tk.LabelFrame(reservas_botones,
+#                            bg = color_secundario,
+#                            border = 0,
+#                            highlightthickness = 2,
+#                            highlightcolor = color_marcos,
+#                            highlightbackground = color_marcos)
+#    Marco_boton_cambio_sucursal.pack(padx = 5, pady = (0, 5), side="bottom")
+#
+#    btn_cambio_sucursal = tk.Button(Marco_boton_cambio_sucursal,
+#                            text = "CAMBIAR\nSUCURSAL",
+#                            font = ("Arial", 14),
+#                            bg = color_secundario,
+#                            fg = color_letras,
+#                            border = 0,
+#                            activebackground = color_boton_activo,
+#                            activeforeground = color_boton_activo)
+#    btn_cambio_sucursal.pack()
+#
+#    # ===================================== FRAME 2 ======================================== #
+#    # Crear el canvas y agregarlo al frame
+#    canvas = tk.Canvas(espacio_reservas_visuales, background = color_secundario,highlightthickness = 2, highlightcolor = color_marcos, highlightbackground = color_marcos)
+#    canvas.pack(side='top', fill="both", expand=1)
+#
+#    # Crear la scrollbar horizontal y agregarla al frame
+#    scrollbar = ttk.Scrollbar(espacio_reservas_visuales, orient='horizontal', command=canvas.xview)
+#    scrollbar.pack(side='bottom', fill='x')
+#
+#    # Configurar el canvas para usar la scrollbar horizontal
+#    canvas.config(xscrollcommand = scrollbar.set, highlightthickness= 0)
+#
+#    # Usar "<Configure>" para actualizar el scrollregion
+#    canvas.bind("<Configure>", lambda e: canvas.config(scrollregion=canvas.bbox("all")))
+#
+#    # Crear un frame dentro del canvas
+#    reservas_visuales = tk.Frame(canvas, bg = color_secundario)
+#
+#    # Crear una ventana dentro del canvas para colocar el frame2
+#    canvas.create_window((0, 0), window=reservas_visuales, anchor="nw")
+#
+#    for columnas in range(100):
+#        reservas_visuales.columnconfigure(columnas, weight = 50)
+#        
+#    
+#    for filas in range(10):
+#        reservas_visuales.rowconfigure(filas, weight = 1)
+#
+#    fecha_hoy = datetime.datetime.now().date()
+#
+#    fecha = [
+#            datetime.datetime.now().date(),
+#            fecha_hoy + timedelta(days = 1),
+#            fecha_hoy + timedelta(days = 2),
+#            fecha_hoy + timedelta(days = 3),
+#            fecha_hoy + timedelta(days = 4),
+#            fecha_hoy + timedelta(days = 5),
+#            fecha_hoy + timedelta(days = 6),
+#            fecha_hoy + timedelta(days = 7),
+#            fecha_hoy + timedelta(days = 8),
+#            fecha_hoy + timedelta(days = 9),
+#            ]
+#
+#    dia =   [
+#            nombre_dia(fecha[0].weekday()),
+#            nombre_dia(fecha[1].weekday()),
+#            nombre_dia(fecha[2].weekday()),
+#            nombre_dia(fecha[3].weekday()),
+#            nombre_dia(fecha[4].weekday()),
+#            nombre_dia(fecha[5].weekday()),
+#            nombre_dia(fecha[6].weekday()),
+#            nombre_dia(fecha[7].weekday()),
+#            nombre_dia(fecha[8].weekday()),
+#            nombre_dia(fecha[9].weekday()),
+#            ]
+#
+#    tabla = [
+#            ["",     "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45", "00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00" ],
+#            [f"{dia[0]}\n{fecha[0]}", "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45", "00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00" ],
+#            [f"{dia[1]}\n{fecha[1]}", "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45", "00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00" ],
+#            [f"{dia[2]}\n{fecha[2]}", "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45", "00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00" ],
+#            [f"{dia[3]}\n{fecha[3]}", "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45", "00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00" ],
+#            [f"{dia[4]}\n{fecha[4]}", "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45", "00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00" ],
+#            [f"{dia[5]}\n{fecha[5]}", "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45", "00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00" ],
+#            [f"{dia[6]}\n{fecha[6]}", "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45", "00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00" ],
+#            [f"{dia[7]}\n{fecha[7]}", "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45", "00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00" ],
+#            [f"{dia[8]}\n{fecha[8]}", "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45", "00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00" ],
+#            [f"{dia[9]}\n{fecha[9]}", "08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45", "00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00" ]
+#            ]
+#    
+#    def crear_tabla(reservas_visuales, tabla):
+#        for i, fila in enumerate(tabla):
+#            for j, valor in enumerate(fila):
+#                if valor != "":
+#                    label = tk.Label(reservas_visuales, text=valor, borderwidth=0, relief="solid", fg= color_letras, background= color_secundario, highlightthickness = 2, highlightcolor = color_marcos, highlightbackground = color_marcos)
+#                    label.grid(row=i, column=j, sticky="nsew")
+#
+#    # Configura el tamaño de las columnas y filas
+#    def configurar_grid(reservas_visuales, numero_filas, numero_columnas):
+#        for filas in range(numero_filas):
+#            reservas_visuales.grid_rowconfigure(filas, weight=1)
+#            for columnas in range(numero_columnas):
+#                reservas_visuales.grid_columnconfigure(columnas, weight=1)
+#    
+#    filas = len(tabla)
+#    columnas = len(tabla[0])
+#    configurar_grid(reservas_visuales, filas, columnas)
+#    crear_tabla(reservas_visuales, tabla)
+#
+#    ventana.mainloop()
