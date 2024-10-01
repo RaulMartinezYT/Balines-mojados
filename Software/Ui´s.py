@@ -1,4 +1,5 @@
-import datetime, sqlite3, time, tkinter as tk
+import math, datetime, sqlite3, time, tkinter as tk
+from PIL import Image, ImageTk
 from tkinter import ttk
 from tkcalendar import DateEntry
 from tkinter import messagebox
@@ -240,13 +241,13 @@ def ventana_iniciar_sesion(color_principal = "#0F1035", color_secundario = "#365
         ventana_personalizar.grid_rowconfigure()
 
         # Crear un botón para cerrar la ventana emergente
-        boton_cerrar = tk.Button(ventana_personalizar, text="Cancelar", command = lambda: cerrar_ventana(ventana_personalizar))
-        boton_cerrar.pack(pady=20)
+        boton_cerrar = tk.Button(ventana_personalizar, text = "Cancelar", command = lambda: cerrar_ventana(ventana_personalizar))
+        boton_cerrar.pack(pady = 20)
 
         
 
-        boton_color = tk.Button(ventana_personalizar, text="Seleccionar Color", command = color)
-        boton_color.pack(pady=10)
+        boton_color = tk.Button(ventana_personalizar, text = "Seleccionar Color", command = color)
+        boton_color.pack(pady = 10)
         ventana_personalizar.mainloop()
 
     # Conectamos el software con la base de datos.
@@ -368,7 +369,7 @@ def ventana_iniciar_sesion(color_principal = "#0F1035", color_secundario = "#365
                 else:
                     informacion("Inicio de sesion - Personal", f"Inicio de sesion completa.\nBienvenido {nombre} {apellido}")
                     ventana.destroy()
-                    ventana_reservas(dni, id_sucursal)
+                    ventana_reservas(dni, id_sucursal, 1)
             else:
                 informacion("Inicio de sesion", "Error al intentar iniciar sesion.")
 
@@ -434,9 +435,9 @@ def ventana_iniciar_sesion(color_principal = "#0F1035", color_secundario = "#365
     marco.pack(pady = 20)
     bienvenido.pack()
     nombre.pack(padx = 200, pady = (30,0))
-    dni_entry.pack(pady=25)
-    clave.pack(pady=(40,25))
-    clave_entry.pack(pady=25)
+    dni_entry.pack(pady = 25)
+    clave.pack(pady = (40,25))
+    clave_entry.pack(pady = 25)
     marco_boton.pack(pady = (40,100))
     aceptar.pack()
     marco_personalizar.pack(side = tk.BOTTOM, anchor = tk.SE, padx = 5, pady = 5)
@@ -444,68 +445,188 @@ def ventana_iniciar_sesion(color_principal = "#0F1035", color_secundario = "#365
 
     ventana.mainloop()
 
-def ventana_sucursales(color_principal = "#0F1035", color_secundario = "#365486", color_letras = "#7FC7D9", tipografia = "Arial", color_marcos = "#ffffff", color_boton_activo = "#ffffff", h1 = 45, h2 = 40, h3 = 35, h4 = 30, h5 = 25, h6 = 20, h7 = 15):
-    ventana = tk.Tk()
-    ancho_pantalla, alto_pantalla = ventana.winfo_screenwidth(), ventana.winfo_screenheight()
-    ancho_ventana_inicial = int(((alto_pantalla / 1.4) * 16) / 9)
-    alto_ventana_inicial =  int(((ancho_pantalla / 1.4) * 9) / 16)
-    ventana.minsize(ancho_ventana_inicial, alto_ventana_inicial)
-    ventana.geometry(f"{ancho_ventana_inicial}x{alto_ventana_inicial}")
-    ventana.config(background = color_principal)
-    ventana.title("Balines Mojados - Sucursales")
-
-    frame_sucursales = tk.Frame(ventana, padx = 5, pady = 5)
-    frame_sucursales.grid()
-
-    for x in range(4):
-        frame_sucursales.grid_columnconfigure(x, weight = 1)
-
-    for x in range(5):
-        frame_sucursales.grid_rowconfigure()
-
-    cantidad_sucursales = cantidad_sucursales()
-    
-
-
-def ventana_reservas(dni_personal = None, id_sucursal_personal = None, color_principal = "#0F1035", color_secundario = "#365486", color_letras = "#7FC7D9", tipografia = "Arial", color_marcos = "#ffffff", color_boton_activo = "#ffffff", h1 = 45, h2 = 40, h3 = 35, h4 = 30, h5 = 25, h6 = 20, h7 = 15):
-    
-    def numero_dia_a_nombre_dia(numero_dia):
-        dias_de_semana = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"]
-        return dias_de_semana[numero_dia]
-
-    if dni_personal == None or id_sucursal_personal == None:
-        error("ERROR CATASTROFICO", "No deberias haber podido ingresar aqui")
+def ventana_canchas(dni_personal = None, id_sucursal_personal = None, id_sucursal= None, color_principal = "#0F1035", color_secundario = "#365486", color_letras = "#7FC7D9", tipografia = "Arial", color_marcos = "#ffffff", color_boton_activo = "#ffffff", h1 = 45, h2 = 40, h3 = 35, h4 = 30, h5 = 25, h6 = 20, h7 = 15):
+    if dni_personal == None and id_sucursal_personal == None:
+        error("ERROR CATASTROFICO", "No deberias haber podido ingresar aqui.")
         return error
+    
+    elif dni_personal == None or id_sucursal_personal == None:
+        error("ERROR DATOS", "Datos del personal incompleto, inicie sesion nuevamente.")
+
     else:
         conn = sqlite3.connect("Balines_mojados.db")
-
         cursor = conn.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON;")
 
         consulta = f"SELECT * FROM personal WHERE dni = ? AND id_sucursal = ?;"
         datos = (dni_personal, id_sucursal_personal)
         cursor.execute(consulta, datos)
-
         datos_correctos = cursor.fetchall()
+        conn.close()
 
         if datos_correctos:
-                informacion("Esta bien","OK")
+                ventana = tk.Tk()
+                ancho_pantalla, alto_pantalla = ventana.winfo_screenwidth(), ventana.winfo_screenheight()
+                ancho_ventana_inicial = int(((alto_pantalla / 1.4) * 16) / 9)
+                alto_ventana_inicial =  int(((ancho_pantalla / 1.4) * 9) / 16)
+                #ventana.minsize(ancho_ventana_inicial, alto_ventana_inicial)
+                ventana.geometry(f"{ancho_ventana_inicial}x{alto_ventana_inicial}")
+                ventana.config(background = color_principal)
+                barrio_sucursal = id_sucursal_a_barrio_sucursal(id_sucursal)
+                ventana.title(f"Canchas | Sucursal: {barrio_sucursal}")
         else:
-            # informacion("Error en la base de datos", "No se encuentra en la base de datos.")
-            # return error
-            pass
+            return error
+        
+    def obtener_canchas():
+        cursor.execute("SELECT * FROM canchas WHERE id_sucursal = ?;", (id_sucursal,))
+        todas_las_canchas = cursor.fetchall()
+        return todas_las_canchas
     
+    ventana.grid_columnconfigure(0, weight = 1)
+    ventana.grid_rowconfigure(0, weight = 2)
+    ventana.grid_rowconfigure(1, weight = 10)
+
+    
+    frame_titulo = tk.Frame(ventana, background = color_secundario, highlightbackground = color_marcos, highlightcolor = color_marcos, highlightthickness = 2)
+    frame_titulo.grid(column = 0, row = 0, padx = 5, pady = 5, sticky = "nsew")
+
+
+    titulo = tk.Label(frame_titulo, background = color_secundario, text = f"CANCHAS DE LA SUCURSAL\n{barrio_sucursal}")
+    titulo.pack()
+
+    
+    frame_canchas = tk.Frame(ventana, background = color_secundario, highlightbackground = color_marcos, highlightcolor = color_marcos, highlightthickness = 2)
+    frame_canchas.grid(column = 0, row = 1, padx = 5, pady = (0, 5), sticky = "nsew")
+
     conn = sqlite3.connect("Balines_mojados.db")
     cursor = conn.cursor()
-    ventana = tk.Tk()
-    ancho_pantalla, alto_pantalla = ventana.winfo_screenwidth(), ventana.winfo_screenheight()
-    ancho_ventana_inicial = int(((alto_pantalla / 1.4) * 16) / 9)
-    alto_ventana_inicial =  int(((ancho_pantalla / 1.4) * 9) / 16)
-    ancho_ventana, alto_ventana = ventana.winfo_width(), ventana.winfo_height()
-    ventana.minsize(ancho_ventana_inicial, alto_ventana_inicial)
-    ventana.geometry(f"{ancho_ventana_inicial}x{alto_ventana_inicial}")
-    ventana.config(background = color_principal)
-    ventana.title("Balines Mojados - Reservas")
+    cursor.execute("PRAGMA foreign_keys = ON;")
+    cursor.execute("SELECT COUNT(*) FROM canchas WHERE id_sucursal = ?;", (id_sucursal,))
+    respuesta = cursor.fetchone()
+    cantidad_canchas = respuesta[0]
+
+    canchas = obtener_canchas()
+    
+    filas = int(math.ceil(cantidad_canchas / 5))
+
+    for x in range(filas):
+        frame_canchas.grid_rowconfigure(x, weight = 1)
+    
+    for x in range(5):
+        frame_canchas.grid_columnconfigure(x, weight = 1)
+
+    for fila in canchas:
+        x = 0  # Fila
+        y = 0  # Columna
+
+        for cancha in canchas:
+            cancha_numero      = cancha[0]
+            cancha_tamaño      = cancha[2]
+            cancha_tipo        = cancha[3]
+            cancha_obstaculos  = cancha[4]
+            cancha_minju       = cancha[5]
+            cancha_maxju       = cancha[6]
+            cancha_terreno     = cancha[7]
+            cancha_medidas     = cancha[8]
+            cancha_estado      = cancha[9]
+            
+            cancha_frame = tk.LabelFrame(frame_canchas, background = color_secundario, border = 0, highlightbackground = color_marcos, highlightcolor = color_marcos, highlightthickness = 1)
+            cancha_frame.grid(column = y, row = x, padx = 2.5, pady = 2.5, sticky = "nsew")
+
+            cancha_frame.grid_rowconfigure(0, weight = 1)
+            cancha_frame.grid_rowconfigure(1, weight = 1)
+            cancha_frame.grid_rowconfigure(2, weight = 1)
+            cancha_frame.grid_columnconfigure(0, weight = 1)
+
+            try:
+                ruta_imagen = f"Canchas_imagenes/cancha_{cancha_numero}.png"
+                imagen = Image.open(ruta_imagen)
+            
+            except FileNotFoundError:
+                ruta_imagen = f"Canchas_imagenes/cancha_{cancha_numero}.jpg"
+                imagen = Image.open(ruta_imagen)
+
+
+            imagen_redimensionada = imagen.resize((int(ancho_pantalla / 5), int(alto_pantalla / 5)))
+            imagen_tk = ImageTk.PhotoImage(imagen_redimensionada)
+            etiqueta_imagen = tk.Label(cancha_frame, image = imagen_tk, bg = color_secundario)
+            etiqueta_imagen.image = imagen_tk # Mantener referencia
+            etiqueta_imagen.grid(column = 0, row = 0)
+
+            cancha_texto = tk.Label(cancha_frame, bg = color_secundario, fg = color_letras, text = f"● Tamaño de cancha: {cancha_tamaño}\n● Tipo de cancha: {cancha_tipo}\n● Obstaculos: {cancha_obstaculos}\n● Min. Jugadores: {cancha_minju}\n● Max. Jugadores: {cancha_maxju}\n● Terreno de la cancha: {cancha_terreno}\n● Cancha medidas: {cancha_medidas}\n● Estado cancha: {cancha_estado}")
+            cancha_texto.grid(column = 0, row = 1, pady = 5, padx = 5)
+
+            cancha_boton_marco = tk.LabelFrame(cancha_frame, bg = color_secundario, border = 0, highlightthickness = 2, highlightcolor = color_marcos, highlightbackground = color_marcos)
+            cancha_boton_marco.grid(column = 0, row = 2, pady = 5, padx = 5)
+
+            cancha_boton = tk.Button(cancha_boton_marco, bg = color_secundario, fg = color_letras, text = "Seleccionar", background = color_secundario, border = 0, highlightbackground = color_marcos, highlightcolor = color_marcos, highlightthickness = 1)
+            cancha_boton.pack()
+
+            # Actualizacion de X e Y.
+            y += 1
+            if y >= 5:  
+                y = 0
+                x += 1
+            
+
+
+def ventana_reservas(dni_personal = None, id_sucursal_personal = None, id_sucursal = None, id_cancha = None, color_principal = "#0F1035", color_secundario = "#365486", color_letras = "#7FC7D9", tipografia = "Arial", color_marcos = "#ffffff", color_boton_activo = "#ffffff", h1 = 45, h2 = 40, h3 = 35, h4 = 30, h5 = 25, h6 = 20, h7 = 15, colores_tabla = [ "#5f7fb8", "#7995d0"]):
+    
+    if dni_personal == None and id_sucursal_personal == None and id_cancha == None and id_sucursal == None:
+        error("ERROR CATASTROFICO", "No deberias haber podido ingresar aqui.")
+        return error
+    
+    elif dni_personal == None or id_sucursal_personal == None or id_cancha == None or id_sucursal == None:
+        error("ERROR DATOS", "Datos del personal incompleto, inicie sesion nuevamente.")
+
+    else:
+        conn = sqlite3.connect("Balines_mojados.db")
+        cursor = conn.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON;")
+
+        consulta = f"SELECT * FROM personal WHERE dni = ? AND id_sucursal = ?;"
+        datos = (dni_personal, id_sucursal_personal)
+        cursor.execute(consulta, datos)
+        datos_correctos = cursor.fetchall()
+        conn.close()
+
+        if datos_correctos:
+                conn = sqlite3.connect("Balines_mojados.db")
+                cursor = conn.cursor()
+                ventana = tk.Tk()
+                ancho_pantalla, alto_pantalla = ventana.winfo_screenwidth(), ventana.winfo_screenheight()
+                ancho_ventana_inicial = int(((alto_pantalla / 1.4) * 16) / 9)
+                alto_ventana_inicial =  int(((ancho_pantalla / 1.4) * 9) / 16)
+                ancho_ventana, alto_ventana = ventana.winfo_width(), ventana.winfo_height()
+                ventana.minsize(ancho_ventana_inicial, alto_ventana_inicial)
+                ventana.geometry(f"{ancho_ventana_inicial}x{alto_ventana_inicial}")
+                ventana.config(background = color_principal)
+
+                conn = sqlite3.connect("Balines_mojados.db")
+                cursor = conn.cursor()
+                cursor.execute("PRAGMA foreign_keys = ON;")
+                cursor.execute("SELECT tamaño, tipo, medidas FROM canchas WHERE id = ?;", (id_cancha,))
+                respuesta = cursor.fetchone()
+
+                barrio_sucursal = id_sucursal_a_barrio_sucursal(id_sucursal)
+                tamaño = respuesta[0]
+                tipo = respuesta[1]
+                medidas = respuesta[2]
+                ventana.title(f"Reservas | Sucursal: {barrio_sucursal} | Cancha: {tamaño}, {tipo}, {medidas}")
+        else:
+            return error
+    
     # ===================================== FRAME 1 ======================================== #
+
+    #for reserva in reservas:
+    #            id_reserva             = reserva[0]
+    #            dni_personal_reserva   = reserva[1]
+    #          # Id_cancha_reserva      = reserva[2]
+    #            dni_cliente            = reserva[3]
+    #            fecha_reserva          = reserva[4]
+    #            hora_inicio_reserva    = reserva[5]
+    #            hora_fin_reserva       = reserva[6]
+    #            estado_reserva         = reserva[7]
 
     ventana.grid_columnconfigure(0, weight = 1)
     ventana.grid_columnconfigure(1, weight = 1000)
@@ -519,75 +640,130 @@ def ventana_reservas(dni_personal = None, id_sucursal_personal = None, color_pri
 
     Marco_nueva_reserva     = tk.LabelFrame(frame_botones, bg = color_secundario, border = 0, highlightthickness = 1, highlightcolor = color_marcos, highlightbackground = color_marcos)
     crear_reserva           = tk.Button(Marco_nueva_reserva, text = "NUEVA\n RESERVA ", font = (tipografia, h7), bg = color_secundario, fg = color_letras, border = 0, activebackground = color_boton_activo, activeforeground = color_boton_activo)
+    Marco_detalles_reserva  = tk.LabelFrame(frame_botones, bg = color_secundario, border = 0, highlightthickness = 1, highlightcolor = color_marcos, highlightbackground = color_marcos)
+    detalles_reserva        = tk.Button(Marco_detalles_reserva, text = "DETALLES\n RESERVA ", font = (tipografia, h7), bg = color_secundario, fg = color_letras, border = 0, activebackground = color_boton_activo, activeforeground = color_boton_activo)
     Marco_editar            = tk.LabelFrame(frame_botones, bg = color_secundario, border = 0, highlightthickness = 1, highlightcolor = color_marcos, highlightbackground = color_marcos)
     editar_reserva          = tk.Button(Marco_editar, text = "EDITAR\n RESERVA ", font = (tipografia, h7), bg = color_secundario, fg = color_letras, border = 0, activebackground = color_boton_activo, activeforeground = color_boton_activo)
     Marco_eliminar          = tk.LabelFrame(frame_botones, bg = color_secundario, border = 0, highlightthickness = 1, highlightcolor = color_marcos, highlightbackground = color_marcos)
     eliminar_reserva        = tk.Button(Marco_eliminar, text = "ELIMINAR\n RESERVA ", font = (tipografia, h7), bg = color_secundario, fg = color_letras, border = 0, activebackground = color_boton_activo, activeforeground = color_boton_activo)
     Marco_cambio_sucursal   = tk.LabelFrame(frame_botones, bg = color_secundario, border = 0, highlightthickness = 1, highlightcolor = color_marcos, highlightbackground = color_marcos)
-    cambio_sucursal         = tk.Button(Marco_cambio_sucursal, text = "CAMBIAR\nSUCURSAL", font = (tipografia, h7), bg = color_secundario, fg = color_letras, border = 0, activebackground = color_boton_activo, activeforeground = color_boton_activo)
+    cambio_sucursal         = tk.Button(Marco_cambio_sucursal, text = "CAMBIAR\nDE CANCHA", font = (tipografia, h7), bg = color_secundario, fg = color_letras, border = 0, activebackground = color_boton_activo, activeforeground = color_boton_activo)
 
-    Marco_nueva_reserva.pack( pady = (5, 0), padx = 2.5)
+    Marco_nueva_reserva.pack(pady = (5, 0), padx = 5)
     crear_reserva.pack()
-    Marco_editar.pack( pady = (5, 0), padx = 2.5)
+    Marco_detalles_reserva.pack(pady = (5, 0), padx = 5)
+    detalles_reserva.pack()
+    Marco_editar.pack(pady = (5, 0), padx = 5)
     editar_reserva.pack()
-    Marco_eliminar.pack( pady = (5, 0), padx = 2.5)
+    Marco_eliminar.pack(pady = (5, 0), padx = 5)
     eliminar_reserva.pack()
-    Marco_cambio_sucursal.pack( pady = (0, 5), padx = 2.5, side="bottom")
+    Marco_cambio_sucursal.pack(pady = (0, 5), padx = 5, side = "bottom")
     cambio_sucursal.pack()
 
     # ===================================== FRAME 2 ======================================== #
     def nombre_dia(numero_dia):
-        dias_de_semana = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"]
+        dias_de_semana = ["   Lunes   ","  Martes  "," Miercoles","  Jueves  "," Viernes  ","  Sabado  "," Domingo "]
         return dias_de_semana[numero_dia]
     
     horas    = ["FECHA / HORA","08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45", "00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00"]
     fechas   = []
     dias     = []
+    reservas = []
 
     fecha_hoy = datetime.datetime.now().date()
 
+    # Crea la fecha y el numero del dia.
     for x in range(31):
         fechas.append(fecha_hoy + timedelta(days = x))
         dias.append(nombre_dia(fechas[x].weekday()))
-        fechas[x]   = str(fechas[x])
+        fechas[x]   = str(fechas[x].strftime("%d/%m/%Y"))
         dias[x]     = str(dias[x])
     
+    def obtener_reservas():
+        cursor.execute("SELECT * FROM reservas WHERE id = ?;", (id_cancha,))
+        reservas = cursor.fetchall()
+        return reservas
+
+    # Inserta en la tabla la fecha y el dia.
     def iniciar_tabla():
         for x in range(31):
+            color = colores_tabla[x % len(colores_tabla)]
             dia      = dias[x]
             fecha    = fechas[x]
-            tabla.insert("", "end", values = (f"  {dia}:\n{fecha}", ""))
+            tabla.insert("", "end", values = (f"{dia}\n{fecha}", ""), tags = (f"{color}",))
 
-    def reservas_visuales(fecha, fila, columna):
-        dia    = dias[fila]
-        datos  = [f"{dia}:\n{fecha}"]
-        for x in range(72):
-            if x == 0:
-                pass
-            else:
-                if x != columna:
-                    datos.append("")
-                else:
-                    datos.append("RESERVADO")
-                item_id = tabla.get_children()[fila]
-                tabla.item(item_id, values = datos)
-
-    def fila_columna_reserva(fecha, hora):
-        columna = horas.index(hora)
-        print(f"Columna: {columna}")
-
-        fila = fechas.index(fecha)
-        print(f"Fila: {fila}")
-
-        reservas_visuales(fecha, fila, columna)
+        for color in colores_tabla:
+            tabla.tag_configure(color, background = color, foreground = "#ffffff")
 
 
+
+
+    def insertar_reservas():
+        for reserva in reservas:
+                dni_cliente            = reserva[3]
+                fecha_reserva          = reserva[4]
+                hora_inicio_reserva    = reserva[5]
+                hora_fin_reserva       = reserva[6]
+                estado_reserva         = reserva[7]
                 
+                conn = sqlite3.connect("Balines_mojados.db")
+                cursor = conn.cursor()
+                cursor.execute("PRAGMA foreign_keys = ON;")
+                cursor.execute("SELECT nombre, apellido FROM clientes WHERE dni = ?;", (dni_cliente,))
+                datos_cliente = cursor.fetchall()
 
+                if datos_cliente:
+                    nombre_cliente = datos_cliente[0][0]
+                    apellido_cliente = datos_cliente[0][1]
+                conn.close()
+
+                try:
+                    columna_inicio = horas.index(hora_inicio_reserva)
+                    columna_final = horas.index(hora_fin_reserva)
+                    fila = fechas.index(fecha_reserva)
+
+                except ValueError:
+                    columna_inicio = None
+                    columna_final  = None
+                    fila           = None
+
+                if fila != None and columna_inicio != None and columna_final != None:
+                    dia    = dias[fila]
+                    datos  = [f"{dia}\n{fecha_reserva}"]
+                    
+                    for x in range(74):
+                        if x != 0:
+                            if x == columna_inicio:
+                                datos.append(f"====================\n|| {nombre_cliente}\n|| {apellido_cliente}\n|| Estado: {estado_reserva}\n====================")
+                            elif x == columna_final:
+                                datos.append(f"====================\n           FIN          \n         DE LA          \n       RESERVA          \n====================")
+                            elif ((x > columna_inicio) and (x < columna_final)):
+                                datos.append(f"====================\n  Fecha   |   Hora\n     {fecha_reserva}\n    {hora_inicio_reserva} - {hora_fin_reserva}\n====================")
+                            else:
+                                datos.append("")
+                            item_id = tabla.get_children()[fila]
+                            tabla.item(item_id, values = datos)
+                    
+                elif fila == None or columna_inicio == None or columna_final == None:
+                    error("FALTA DATOS","TITULO")
+                    pass
+                
+                else:
+                    error("NC","TITULO")
+                    pass
+
+    # Con esta funcion al entregarle la fecha y la hora de la reserva, sacamos la fecha, la fila y la columna de la reserva la cual se utiliza para ingresarlo en la tabla.
+    # La fila representa la fecha de la reserva.
+    # La columna la hora inicial y final de la reserva.
+    
+
+    # ===================================== MAIN ======================================== #
+    tabla = ttk.Treeview(frame_reservas, columns = horas, show = 'headings')
+    
     style = ttk.Style()
     style.configure("Treeview", rowheight = 70)
     
-    tabla = ttk.Treeview(frame_reservas, columns = horas, show = 'headings')
+    
 
     for hora in horas:
         tabla.heading(hora, text = hora, anchor = "center")
@@ -599,9 +775,13 @@ def ventana_reservas(dni_personal = None, id_sucursal_personal = None, color_pri
     scrollbar = ttk.Scrollbar(frame_reservas, orient = 'horizontal', command = tabla.xview)
     scrollbar.pack(side = 'bottom', fill = 'x')
     tabla.config(xscrollcommand = scrollbar.set)
-    iniciar_tabla()
-    fila_columna_reserva("2024-09-30", "08:00")
 
+
+    iniciar_tabla()
+    reservas = obtener_reservas()
+    insertar_reservas()
+    
+    conn.close()
     ventana.mainloop()
 
 def ventana_administrador(dni_administrador = None, id_sucursal_administrador = None, color_principal = "#0F1035", color_secundario = "#365486", color_letras = "#7FC7D9", tipografia = "Arial", color_marcos = "#ffffff", color_boton_activo = "#ffffff", h1 = 45, h2 = 40, h3 = 35, h4 = 30, h5 = 25, h6 = 20, h7 = 15):
@@ -1896,8 +2076,8 @@ def ventana_administrador(dni_administrador = None, id_sucursal_administrador = 
         frame_modificar.grid(  column = 1, row = 0, sticky = "nsew", pady = (5, 0), padx = (0, 5))
         frame_eliminar.grid(   column = 2, row = 0, sticky = "nsew", pady = (5, 0))
 
-        añadir_texto               = tk.Label(frame_añadir, text="AÑADIR RESERVA", border = 1, foreground = color_letras, bg = color_secundario, font = (tipografia, h7), highlightthickness = 1, highlightcolor = color_marcos, highlightbackground = color_marcos)
-        dni_reservador_texto       = tk.Label(frame_añadir, text="Dni del reservador:", foreground = color_letras, bg = color_secundario, font = (tipografia, h7))
+        añadir_texto               = tk.Label(frame_añadir, text = "AÑADIR RESERVA", border = 1, foreground = color_letras, bg = color_secundario, font = (tipografia, h7), highlightthickness = 1, highlightcolor = color_marcos, highlightbackground = color_marcos)
+        dni_reservador_texto       = tk.Label(frame_añadir, text = "Dni del reservador:", foreground = color_letras, bg = color_secundario, font = (tipografia, h7))
         fecha                      = DateEntry(frame_añadir, width=12, background = color_secundario, foreground = color_principal, borderwidth=2)
         spinbox_hora               = tk.Spinbox(frame_añadir, from_=8, to=23, format="%02.0f", state='normal')
         spinbox_minuto             = tk.Spinbox(frame_añadir, from_=8, to=23, format="%02.0f", state='normal')
@@ -1950,24 +2130,23 @@ def ventana_administrador(dni_administrador = None, id_sucursal_administrador = 
     frame_principal = tk.Frame(frame_90_porciento, background = color_principal)
     frame_principal.grid(column = 0, row = 0, sticky = "nsew", padx = 10, pady = (0,10))
 
-    btn_personal = tk.Button(frame_btn, border = 0, text = "PERSONAL", font = (tipografia, h7), activebackground = color_boton_activo, activeforeground = color_letras, fg = color_letras, background = color_secundario, command=lambda: limpiar_frame(personal_frame))
+    btn_personal = tk.Button(frame_btn, border = 0, text = "PERSONAL", font = (tipografia, h7), activebackground = color_boton_activo, activeforeground = color_letras, fg = color_letras, background = color_secundario, command = lambda: limpiar_frame(personal_frame))
     btn_personal.grid(column = 0, row = 0, sticky = "nsew")
 
 
 
-    btn_sucursales = tk.Button(frame_btn, border = 0, text = "SUCURSALES", font = (tipografia, h7), activebackground = color_boton_activo, activeforeground = color_letras, fg = color_letras, background = color_secundario, command=lambda: limpiar_frame(sucursales_frame))
+    btn_sucursales = tk.Button(frame_btn, border = 0, text = "SUCURSALES", font = (tipografia, h7), activebackground = color_boton_activo, activeforeground = color_letras, fg = color_letras, background = color_secundario, command = lambda: limpiar_frame(sucursales_frame))
     btn_sucursales.grid(column = 1, row = 0, sticky = "nsew")
 
 
 
-    btn_canchas = tk.Button(frame_btn, border = 0, text = "CANCHAS", font = (tipografia, h7), activebackground = color_boton_activo, activeforeground = color_letras, fg = color_letras, background = color_secundario, command=lambda: limpiar_frame(canchas_frame))
+    btn_canchas = tk.Button(frame_btn, border = 0, text = "CANCHAS", font = (tipografia, h7), activebackground = color_boton_activo, activeforeground = color_letras, fg = color_letras, background = color_secundario, command = lambda: limpiar_frame(canchas_frame))
     btn_canchas.grid(column = 2, row = 0, sticky="nsew")
 
 
 
-    btn_reservas = tk.Button(frame_btn, border = 0, text = "RESERVAS", font = (tipografia, h7), activebackground = color_boton_activo, activeforeground = color_letras, fg = color_letras, background = color_secundario, command=lambda: limpiar_frame(reservas_frame))
+    btn_reservas = tk.Button(frame_btn, border = 0, text = "RESERVAS", font = (tipografia, h7), activebackground = color_boton_activo, activeforeground = color_letras, fg = color_letras, background = color_secundario, command = lambda: limpiar_frame(reservas_frame))
     btn_reservas.grid(column = 3, row = 0, sticky ="nsew")
 
     ventana.mainloop()
-
-ventana_iniciar_sesion()
+ventana_canchas(51398854, 1, 1)

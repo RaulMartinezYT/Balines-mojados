@@ -1,30 +1,23 @@
-import customtkinter as ctk
+import tkinter as tk
+from PIL import Image, ImageTk
 
-# Inicializar la aplicación
-ctk.set_appearance_mode("System")  # Modo de apariencia
-ctk.set_default_color_theme("blue")  # Tema de color
+# Crear la ventana principal
+ventana = tk.Tk()
+ventana.title("Imagen con Descripción")
 
-root = ctk.CTk()  # Crear la ventana principal
-root.title("Ejemplo de Tabla en CustomTkinter")
+# Cargar la imagen
+ruta_imagen = "Canchas_imagenes/cancha_1.jpg"  # Cambia esto por la ruta de tu imagen
+imagen = Image.open(ruta_imagen)
+imagen_tk = ImageTk.PhotoImage(imagen)
 
-# Crear encabezados de la tabla
-headers = ["Nombre", "Edad", "Ciudad"]
-for col, header in enumerate(headers):
-    label = ctk.CTkLabel(root, text=header)
-    label.grid(row=0, column=col, padx=10, pady=10)
+# Crear un label para mostrar la imagen
+label_imagen = tk.Label(ventana, image=imagen_tk)
+label_imagen.pack(pady=10)
 
-# Datos de ejemplo
-data = [
-    ("Juan", 25, "Madrid"),
-    ("Ana", 30, "Barcelona"),
-    ("Luis", 22, "Valencia"),
-]
+# Crear un label para la descripción
+descripcion = "Esta es una descripción de la imagen."
+label_descripcion = tk.Label(ventana, text=descripcion, font=("Arial", 14))
+label_descripcion.pack(pady=10)
 
-# Insertar datos en la tabla
-for row, values in enumerate(data, start=1):
-    for col, value in enumerate(values):
-        label = ctk.CTkLabel(root, text=value)
-        label.grid(row=row, column=col, padx=10, pady=5)
-
-# Ejecutar el bucle principal
-root.mainloop()
+# Iniciar el bucle principal
+ventana.mainloop()

@@ -1,102 +1,78 @@
-import datetime, sqlite3, time, tkinter as tk
-from tkinter import ttk
-from tkcalendar import DateEntry
-from tkinter import messagebox
-from datetime import timedelta
+import customtkinter as ctk
 from tkinter import colorchooser
 
-# Ventana emergente de alerta.
-def alerta(titulo_ventana, descripcion):
-    messagebox.showwarning(titulo_ventana, descripcion)
+class AplicacionDibujo:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Aplicación de Dibujo")
+        self.root.geometry("800x600")
 
-# Ventana emergente de informacion.
-def informacion(titulo_ventana, descripcion):
-    messagebox.showinfo(titulo_ventana, descripcion)
+        # Configuración del lienzo
+        self.lienzo = ctk.CTkCanvas(root, bg="white")
+        self.lienzo.pack(fill="both", expand=True)
 
-# Ventana emergente de error.
-def error(titulo_ventana, descripcion):
-    messagebox.showerror(titulo_ventana, descripcion)
+        # Variables para el dibujo
+        self.dibujando = False
+        self.x_inicial = None
+        self.y_inicial = None
+        self.color = "black"
+        self.grosor = 2
 
-# Ventana emergente con una pregunta a responder con si o no, retorna True o False dependiendo la seleccion.
-def pregunta_si_no(titulo_ventana, pregunta):
-    respuesta = messagebox.askyesno(titulo_ventana, pregunta)
-    if respuesta:
-        return True
-    else:
-        return False
+        # Eventos del mouse
+        self.lienzo.bind("<Button-1>", self.iniciar_dibujo)
+        self.lienzo.bind("<B1-Motion>", self.dibujar)
+        self.lienzo.bind("<ButtonRelease-1>", self.finalizar_dibujo)
 
-# Ventana emergente con una pregunta a responder con si o no, retorna True o False dependiendo la seleccion.
-def reintentar_si_no(titulo_ventana, pregunta):
-    respuesta = messagebox.askretrycancel(titulo_ventana, pregunta)
-    if respuesta:
-        return True
-    else:
-        return False
-    
-def ventana_reservas(dni_personal = None, id_sucursal_personal = None, id_cancha = None, color_principal = "#0F1035", color_secundario = "#365486", color_letras = "#7FC7D9", tipografia = "Arial", color_marcos = "#ffffff", color_boton_activo = "#ffffff", h1 = 45, h2 = 40, h3 = 35, h4 = 30, h5 = 25, h6 = 20, h7 = 15):
-    
-    # Chequea si los datos son correctos.
-    if dni_personal == None and id_sucursal_personal == None and id_cancha == None:
-        error("ERROR CATASTROFICO", "No deberias haber podido ingresar aqui.")
-        return error
-    
-    elif dni_personal == None or id_sucursal_personal == None or id_cancha == None:
-        error("ERROR DATOS", "Datos del personal incompleto, inicie sesion nuevamente.")
-    
-    else:
-        conn = sqlite3.connect("Balines_mojados.db")
-        cursor = conn.cursor()
-        cursor.execute("PRAGMA foreign_keys = ON;")
+        # Frame para los controles
+        self.frame_controles = ctk.CTkFrame(root)
+        self.frame_controles.pack(pady=10)
 
-        consulta = f"SELECT * FROM personal WHERE dni = ? AND id_sucursal = ?;"
-        datos = (dni_personal, id_sucursal_personal)
-        cursor.execute(consulta, datos)
-        datos_correctos = cursor.fetchall()
-        conn.close()
-        
-        if datos_correctos:
-                conn = sqlite3.connect("Balines_mojados.db")
-                cursor = conn.cursor()
-                ventana = tk.Tk()
+        # Botón para limpiar el lienzo
+        self.boton_limpiar = ctk.CTkButton(self.frame_controles, text="Limpiar", command=self.limpiar_lienzo)
+        self.boton_limpiar.pack(side="left", padx=5)
 
-                ancho_pantalla, alto_pantalla = ventana.winfo_screenwidth(), ventana.winfo_screenheight()
+        # Botón para seleccionar color
+        self.boton_color = ctk.CTkButton(self.frame_controles, text="Seleccionar Color", command=self.seleccionar_color)
+        self.boton_color.pack(side="left", padx=5)
 
-                ancho_ventana_inicial = int(((alto_pantalla / 1.4) * 16) / 9)
-                alto_ventana_inicial =  int(((ancho_pantalla / 1.4) * 9) / 16)
-                
-                ventana.minsize(ancho_ventana_inicial, alto_ventana_inicial)
-                ventana.geometry(f"{ancho_ventana_inicial}x{alto_ventana_inicial}")
-                ventana.config(background = color_principal)
-                ventana.title("Balines Mojados - Reservas")
-        else:
-            return error
-    # ===================================== FRAME 1 ======================================== #
+        # Selector de grosor
+        self.grosor_var = ctk.StringVar(value="2")
+        self.selector_grosor = ctk.CTkOptionMenu(self.frame_controles, self.grosor_var, "1", "2", "3", "4", "5", command=self.cambiar_grosor)
+        self.selector_grosor.pack(side="left", padx=5)
 
+    def iniciar_dibujo(self, event):
+        self.dibujando = True
+        self.x_inicial = event.x
+        self.y_inicial = event.y
 
+    def dibujar(self, event):
+        if self.dibujando:
+            self.lienzo.create_line(self.x_inicial, self.y_inicial, event.x, event.y, fill=self.color, width=self.grosor)
+            self.x_inicial = event.x
+            self.y_inicial = event.y
 
-    # ===================================== FRAME 2 ======================================== #
-    horas    = ["FECHA / HORA","08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30", "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00", "19:15", "19:30", "19:45", "20:00", "20:15", "20:30", "20:45", "21:00", "21:15", "21:30", "21:45", "22:00", "22:15", "22:30", "22:45", "23:00", "23:15", "23:30", "23:45", "00:00", "00:15", "00:30", "00:45", "01:00", "01:15", "01:30", "01:45", "02:00"]
-    fechas   = []
-    dias     = []
-    reservas = []
+    def finalizar_dibujo(self, event):
+        self.dibujando = False
 
-    def obtener_reservas():
-        conn = sqlite3.connect("Balines_mojados.db")
-        cursor = conn.cursor()
-        cursor.execute("PRAGMA foreign_keys = ON;")
-        cursor.execute("SELECT * FROM reservas WHERE id_cancha = ?;", (id_cancha,))
-        reservas = cursor.fetchall()
-        return reservas
-    
+    def limpiar_lienzo(self):
+        self.lienzo.delete("all")
 
-    def nombre_dia(numero_dia):
-        dias_de_semana = ["   Lunes   ","  Martes  "," Miercoles","  Jueves  "," Viernes  ","  Sabado  "," Domingo "]
-        return dias_de_semana[numero_dia]
-    
-    fecha_hoy = datetime.datetime.now().date()
-    # Crea la fecha y el numero del dia.
-    for x in range(31):
-        fechas.append(fecha_hoy + timedelta(days = x))
-        dias.append(nombre_dia(fechas[x].weekday()))
-        fechas[x]   = str(fechas[x].strftime("%d/%m/%Y"))
-        dias[x]     = str(dias[x])
+    def seleccionar_color(self):
+        color_seleccionado = colorchooser.askcolor()[1]
+        if color_seleccionado:
+            self.color = color_seleccionado
+
+    def cambiar_grosor(self, nuevo_grosor):
+        try:
+            self.grosor = int(nuevo_grosor)  # Asegúrate de convertir a entero
+        except ValueError:
+            self.grosor = 2  # Valor por defecto en caso de error
+
+# Crear la ventana principal
+if __name__ == "__main__":
+    ctk.set_appearance_mode("dark")  # Modo oscuro
+    ctk.set_default_color_theme("blue")  # Tema azul
+
+    ventana = ctk.CTk()
+    app = AplicacionDibujo(ventana)
+    ventana.mainloop()

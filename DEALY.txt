@@ -346,3 +346,9 @@ Ya está voy a hacer el codigo modular y ya, osea que sea todo visualmente igual
 
 00:26 23/9/2024:
 Acabo de encontrar customtkinter, esto voy a usarlo para sorprender a olaso, en cuanto termine el programa voy a actualizar todo el codigo de tkinter a customtkinter, aunque parezca mucho, no lo es, es solo cambiar la forma en que se declaran, la logica sigue siendo lo mismo pero con mas customizacion y capaz mas simple, asi que nada, sigo
+
+18:12 28/9/2024:
+sigo
+
+11:35 1/10/2024:
+Bueno, decidi dejar este proyecto hasta aca, se que no esta terminado pero hasta ahi quedo, tengo mas proyectos este ya esta por la mitad asi que lo decido dejarlo hasta ahora y seguir con el proyecto final de redes y de galletitas
